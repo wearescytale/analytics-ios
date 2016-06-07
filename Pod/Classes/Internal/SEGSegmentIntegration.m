@@ -73,6 +73,7 @@ static BOOL GetAdTrackingEnabled()
 @property (nonatomic, strong) NSMutableDictionary *traits;
 @property (nonatomic, assign) SEGAnalytics *analytics;
 @property (nonatomic, assign) SEGAnalyticsConfiguration *configuration;
+@property (nonatomic, strong) dispatch_source_t writeToDiskSource;
 
 @end
 
@@ -103,6 +104,16 @@ static BOOL GetAdTrackingEnabled()
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:SEGTraitsKey];
             }
         }];
+        self.writeToDiskSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_DATA_ADD, 0, 0, self.serialQueue);
+        __weak SEGSegmentIntegration *this = self;
+        dispatch_source_set_event_handler(self.writeToDiskSource, ^{
+            NSLog(@"Will Write to Disk and Flush queueLength=%d", this.queue.count);
+            [[this.queue copy] writeToURL:[this queueURL] atomically:YES];
+            [this flushQueueByLength];
+        });
+        
+        dispatch_resume(self.writeToDiskSource);
+    
     }
     return self;
 }
@@ -418,9 +429,7 @@ static CTTelephonyNetworkInfo* _telephonyNetworkInfo;
 {
     @try {
         [self.queue addObject:payload];
-        [[self.queue copy] writeToURL:[self queueURL] atomically:YES];
-        [self flushQueueByLength];
-
+        dispatch_source_merge_data(self.writeToDiskSource, 1);
     }
     @catch (NSException *exception) {
         SEGLog(@"%@ Error writing payload: %@", self, exception);
@@ -530,17 +539,18 @@ static CTTelephonyNetworkInfo* _telephonyNetworkInfo;
     [urlRequest setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setHTTPBody:[data gzippedData]];
+    NSData *zippedData = [data gzippedData];
+    [urlRequest setHTTPBody:zippedData];
 
-    SEGLog(@"%@ Sending batch API request.", self);
+    NSLog(@"Sending batch API request. queue %ld batch: %ld len: %ld", self.queue.count, self.batch.count, zippedData.length);
     self.request = [SEGAnalyticsRequest startWithURLRequest:urlRequest
                                                  completion:^{
                                                      [self dispatchBackground:^{
                                                          if (self.request.error) {
-                                                             SEGLog(@"%@ API request had an error: %@", self, self.request.error);
+                                                             NSLog(@"%@ API request had an error: %@", self, self.request.error);
                                                              [self notifyForName:SEGSegmentRequestDidFailNotification userInfo:self.batch];
                                                          } else {
-                                                             SEGLog(@"%@ API request success 200", self);
+                                                             NSLog(@"%@ API request success 200", self);
                                                              [self.queue removeObjectsInArray:self.batch];
                                                              [[self.queue copy] writeToURL:[self queueURL] atomically:YES];
                                                              [self notifyForName:SEGSegmentRequestDidSucceedNotification userInfo:self.batch];
@@ -549,6 +559,7 @@ static CTTelephonyNetworkInfo* _telephonyNetworkInfo;
                                                          self.batch = nil;
                                                          self.request = nil;
                                                          [self endBackgroundTask];
+                                                         [self flush];
                                                      }];
                                                  }];
     [self notifyForName:SEGSegmentDidSendRequestNotification userInfo:self.batch];
