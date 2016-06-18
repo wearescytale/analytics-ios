@@ -1,0 +1,334 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EAB16EE61D15D50C001221B5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EAB16EE81D15D50C001221B5 /* libAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAB16F301D15D597001221B5 /* SEGAliasPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGAliasPayload.h; sourceTree = "<group>"; };
+		EAB16F311D15D597001221B5 /* SEGAliasPayload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGAliasPayload.m; sourceTree = "<group>"; };
+		EAB16F321D15D597001221B5 /* SEGGroupPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGGroupPayload.h; sourceTree = "<group>"; };
+		EAB16F331D15D597001221B5 /* SEGGroupPayload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGGroupPayload.m; sourceTree = "<group>"; };
+		EAB16F341D15D597001221B5 /* SEGIdentifyPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGIdentifyPayload.h; sourceTree = "<group>"; };
+		EAB16F351D15D597001221B5 /* SEGIdentifyPayload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGIdentifyPayload.m; sourceTree = "<group>"; };
+		EAB16F361D15D597001221B5 /* SEGIntegration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGIntegration.h; sourceTree = "<group>"; };
+		EAB16F371D15D597001221B5 /* SEGIntegrationFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationFactory.h; sourceTree = "<group>"; };
+		EAB16F381D15D597001221B5 /* SEGPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGPayload.h; sourceTree = "<group>"; };
+		EAB16F391D15D597001221B5 /* SEGPayload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGPayload.m; sourceTree = "<group>"; };
+		EAB16F3A1D15D597001221B5 /* SEGScreenPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGScreenPayload.h; sourceTree = "<group>"; };
+		EAB16F3B1D15D597001221B5 /* SEGScreenPayload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGScreenPayload.m; sourceTree = "<group>"; };
+		EAB16F3C1D15D597001221B5 /* SEGTrackPayload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGTrackPayload.h; sourceTree = "<group>"; };
+		EAB16F3D1D15D597001221B5 /* SEGTrackPayload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGTrackPayload.m; sourceTree = "<group>"; };
+		EAB16F3F1D15D597001221B5 /* NSData+GZIP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+GZIP.h"; sourceTree = "<group>"; };
+		EAB16F401D15D597001221B5 /* NSData+GZIP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+GZIP.m"; sourceTree = "<group>"; };
+		EAB16F411D15D597001221B5 /* SEGAnalyticsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGAnalyticsRequest.h; sourceTree = "<group>"; };
+		EAB16F421D15D597001221B5 /* SEGAnalyticsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGAnalyticsRequest.m; sourceTree = "<group>"; };
+		EAB16F431D15D597001221B5 /* SEGAnalyticsUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGAnalyticsUtils.h; sourceTree = "<group>"; };
+		EAB16F441D15D597001221B5 /* SEGAnalyticsUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGAnalyticsUtils.m; sourceTree = "<group>"; };
+		EAB16F451D15D597001221B5 /* SEGBluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGBluetooth.h; sourceTree = "<group>"; };
+		EAB16F461D15D597001221B5 /* SEGBluetooth.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGBluetooth.m; sourceTree = "<group>"; };
+		EAB16F471D15D597001221B5 /* SEGLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGLocation.h; sourceTree = "<group>"; };
+		EAB16F481D15D597001221B5 /* SEGLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGLocation.m; sourceTree = "<group>"; };
+		EAB16F491D15D597001221B5 /* SEGReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGReachability.h; sourceTree = "<group>"; };
+		EAB16F4A1D15D597001221B5 /* SEGReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGReachability.m; sourceTree = "<group>"; };
+		EAB16F4B1D15D597001221B5 /* SEGSegmentIntegration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGSegmentIntegration.h; sourceTree = "<group>"; };
+		EAB16F4C1D15D597001221B5 /* SEGSegmentIntegration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGSegmentIntegration.m; sourceTree = "<group>"; };
+		EAB16F4D1D15D597001221B5 /* SEGSegmentIntegrationFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGSegmentIntegrationFactory.h; sourceTree = "<group>"; };
+		EAB16F4E1D15D597001221B5 /* SEGSegmentIntegrationFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGSegmentIntegrationFactory.m; sourceTree = "<group>"; };
+		EAB16F4F1D15D597001221B5 /* SEGStoreKitTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGStoreKitTracker.h; sourceTree = "<group>"; };
+		EAB16F501D15D597001221B5 /* SEGStoreKitTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGStoreKitTracker.m; sourceTree = "<group>"; };
+		EAB16F511D15D597001221B5 /* UIViewController+SEGScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SEGScreen.h"; sourceTree = "<group>"; };
+		EAB16F521D15D597001221B5 /* UIViewController+SEGScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+SEGScreen.m"; sourceTree = "<group>"; };
+		EAB16F531D15D597001221B5 /* SEGAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGAnalytics.h; sourceTree = "<group>"; };
+		EAB16F541D15D597001221B5 /* SEGAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEGAnalytics.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EAB16EE51D15D50C001221B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EAB16EDF1D15D50C001221B5 = {
+			isa = PBXGroup;
+			children = (
+				EAB16F2D1D15D597001221B5 /* Classes */,
+				EAB16EE91D15D50C001221B5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EAB16EE91D15D50C001221B5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EAB16EE81D15D50C001221B5 /* libAnalytics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EAB16F2D1D15D597001221B5 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				EAB16F2F1D15D597001221B5 /* Integrations */,
+				EAB16F3E1D15D597001221B5 /* Internal */,
+				EAB16F531D15D597001221B5 /* SEGAnalytics.h */,
+				EAB16F541D15D597001221B5 /* SEGAnalytics.m */,
+			);
+			name = Classes;
+			path = Analytics/Classes;
+			sourceTree = "<group>";
+		};
+		EAB16F2F1D15D597001221B5 /* Integrations */ = {
+			isa = PBXGroup;
+			children = (
+				EAB16F301D15D597001221B5 /* SEGAliasPayload.h */,
+				EAB16F311D15D597001221B5 /* SEGAliasPayload.m */,
+				EAB16F321D15D597001221B5 /* SEGGroupPayload.h */,
+				EAB16F331D15D597001221B5 /* SEGGroupPayload.m */,
+				EAB16F341D15D597001221B5 /* SEGIdentifyPayload.h */,
+				EAB16F351D15D597001221B5 /* SEGIdentifyPayload.m */,
+				EAB16F361D15D597001221B5 /* SEGIntegration.h */,
+				EAB16F371D15D597001221B5 /* SEGIntegrationFactory.h */,
+				EAB16F381D15D597001221B5 /* SEGPayload.h */,
+				EAB16F391D15D597001221B5 /* SEGPayload.m */,
+				EAB16F3A1D15D597001221B5 /* SEGScreenPayload.h */,
+				EAB16F3B1D15D597001221B5 /* SEGScreenPayload.m */,
+				EAB16F3C1D15D597001221B5 /* SEGTrackPayload.h */,
+				EAB16F3D1D15D597001221B5 /* SEGTrackPayload.m */,
+			);
+			path = Integrations;
+			sourceTree = "<group>";
+		};
+		EAB16F3E1D15D597001221B5 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				EAB16F3F1D15D597001221B5 /* NSData+GZIP.h */,
+				EAB16F401D15D597001221B5 /* NSData+GZIP.m */,
+				EAB16F411D15D597001221B5 /* SEGAnalyticsRequest.h */,
+				EAB16F421D15D597001221B5 /* SEGAnalyticsRequest.m */,
+				EAB16F431D15D597001221B5 /* SEGAnalyticsUtils.h */,
+				EAB16F441D15D597001221B5 /* SEGAnalyticsUtils.m */,
+				EAB16F451D15D597001221B5 /* SEGBluetooth.h */,
+				EAB16F461D15D597001221B5 /* SEGBluetooth.m */,
+				EAB16F471D15D597001221B5 /* SEGLocation.h */,
+				EAB16F481D15D597001221B5 /* SEGLocation.m */,
+				EAB16F491D15D597001221B5 /* SEGReachability.h */,
+				EAB16F4A1D15D597001221B5 /* SEGReachability.m */,
+				EAB16F4B1D15D597001221B5 /* SEGSegmentIntegration.h */,
+				EAB16F4C1D15D597001221B5 /* SEGSegmentIntegration.m */,
+				EAB16F4D1D15D597001221B5 /* SEGSegmentIntegrationFactory.h */,
+				EAB16F4E1D15D597001221B5 /* SEGSegmentIntegrationFactory.m */,
+				EAB16F4F1D15D597001221B5 /* SEGStoreKitTracker.h */,
+				EAB16F501D15D597001221B5 /* SEGStoreKitTracker.m */,
+				EAB16F511D15D597001221B5 /* UIViewController+SEGScreen.h */,
+				EAB16F521D15D597001221B5 /* UIViewController+SEGScreen.m */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EAB16EE71D15D50C001221B5 /* Analytics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAB16EF11D15D50C001221B5 /* Build configuration list for PBXNativeTarget "Analytics" */;
+			buildPhases = (
+				EAB16EE41D15D50C001221B5 /* Sources */,
+				EAB16EE51D15D50C001221B5 /* Frameworks */,
+				EAB16EE61D15D50C001221B5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Analytics;
+			productName = Analytics;
+			productReference = EAB16EE81D15D50C001221B5 /* libAnalytics.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EAB16EE01D15D50C001221B5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = Segment;
+				TargetAttributes = {
+					EAB16EE71D15D50C001221B5 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = EAB16EE31D15D50C001221B5 /* Build configuration list for PBXProject "Analytics" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EAB16EDF1D15D50C001221B5;
+			productRefGroup = EAB16EE91D15D50C001221B5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EAB16EE71D15D50C001221B5 /* Analytics */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EAB16EE41D15D50C001221B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EAB16EEF1D15D50C001221B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EAB16EF01D15D50C001221B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EAB16EF21D15D50C001221B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EAB16EF31D15D50C001221B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EAB16EE31D15D50C001221B5 /* Build configuration list for PBXProject "Analytics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAB16EEF1D15D50C001221B5 /* Debug */,
+				EAB16EF01D15D50C001221B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EAB16EF11D15D50C001221B5 /* Build configuration list for PBXNativeTarget "Analytics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EAB16EF21D15D50C001221B5 /* Debug */,
+				EAB16EF31D15D50C001221B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EAB16EE01D15D50C001221B5 /* Project object */;
+}
