@@ -13,54 +13,6 @@ static SEGAnalytics *__sharedInstance = nil;
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
 
 
-@interface SEGAnalyticsConfiguration ()
-
-@property (nonatomic, copy, readwrite) NSString *writeKey;
-@property (nonatomic, strong, readonly) NSMutableArray *factories;
-
-@end
-
-
-@implementation SEGAnalyticsConfiguration
-
-+ (instancetype)configurationWithWriteKey:(NSString *)writeKey
-{
-    return [[SEGAnalyticsConfiguration alloc] initWithWriteKey:writeKey];
-}
-
-- (instancetype)initWithWriteKey:(NSString *)writeKey
-{
-    if (self = [self init]) {
-        self.writeKey = writeKey;
-    }
-    return self;
-}
-
-- (instancetype)init
-{
-    if (self = [super init]) {
-        self.shouldUseLocationServices = NO;
-        self.enableAdvertisingTracking = YES;
-        self.flushAt = 20;
-        _factories = [NSMutableArray array];
-        [_factories addObject:[SEGSegmentIntegrationFactory instance]];
-    }
-    return self;
-}
-
-- (void)use:(id<SEGIntegrationFactory>)factory
-{
-    [self.factories addObject:factory];
-}
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%p:%@, %@>", self, self.class, [self dictionaryWithValuesForKeys:@[ @"writeKey", @"shouldUseLocationServices", @"flushAt" ]]];
-}
-
-@end
-
-
 @interface SEGAnalytics ()
 
 @property (nonatomic, strong) NSDictionary *cachedSettings;

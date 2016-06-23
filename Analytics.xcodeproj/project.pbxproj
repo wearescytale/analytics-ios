@@ -25,6 +25,7 @@
 		EAAC786B1D1C4B65009E3AFC /* SEGSegmentIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78591D1C4B65009E3AFC /* SEGSegmentIntegration.m */; };
 		EAAC786C1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC785B1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m */; };
 		EAAC786F1D1C7C29009E3AFC /* SEGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */; };
+		EAAC78751D1C9957009E3AFC /* SEGAnalyticsConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -78,6 +79,8 @@
 		EAAC785B1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGSegmentIntegrationFactory.m; sourceTree = "<group>"; };
 		EAAC786D1D1C7C29009E3AFC /* SEGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGUtils.h; sourceTree = "<group>"; };
 		EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGUtils.m; sourceTree = "<group>"; };
+		EAAC78731D1C9957009E3AFC /* SEGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAnalyticsConfiguration.h; sourceTree = "<group>"; };
+		EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAnalyticsConfiguration.m; sourceTree = "<group>"; };
 		EAB16EE81D15D50C001221B5 /* libAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -101,6 +104,8 @@
 				EAAC78341D1C4B65009E3AFC /* Integrations */,
 				EAAC78561D1C4B65009E3AFC /* SEGAnalytics.h */,
 				EAAC78571D1C4B65009E3AFC /* SEGAnalytics.m */,
+				EAAC78731D1C9957009E3AFC /* SEGAnalyticsConfiguration.h */,
+				EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */,
 				EAAC78581D1C4B65009E3AFC /* SEGSegmentIntegration.h */,
 				EAAC78591D1C4B65009E3AFC /* SEGSegmentIntegration.m */,
 				EAAC785A1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.h */,
@@ -260,6 +265,7 @@
 				EAAC786C1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m in Sources */,
 				EAAC786A1D1C4B65009E3AFC /* SEGAnalytics.m in Sources */,
 				EAAC78641D1C4B65009E3AFC /* SEGAliasPayload.m in Sources */,
+				EAAC78751D1C9957009E3AFC /* SEGAnalyticsConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
