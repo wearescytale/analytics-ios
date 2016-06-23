@@ -1,8 +1,7 @@
-#include <sys/sysctl.h>
-
 #import <UIKit/UIKit.h>
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import "SEGUtils.h"
 #import "SEGAnalytics.h"
 #import "SEGAnalyticsUtils.h"
 #import "SEGAnalyticsRequest.h"
@@ -11,7 +10,6 @@
 #import "SEGReachability.h"
 #import "SEGLocation.h"
 #import "NSData+GZIP.h"
-#import <iAd/iAd.h>
 
 NSString *const SEGSegmentDidSendRequestNotification = @"SegmentDidSendRequest";
 NSString *const SEGSegmentRequestDidSucceedNotification = @"SegmentRequestDidSucceed";
@@ -24,36 +22,6 @@ NSString *const SEGUserIdKey = @"SEGUserId";
 NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 NSString *const SEGQueueKey = @"SEGQueue";
 NSString *const SEGTraitsKey = @"SEGTraits";
-
-static NSString *GenerateUUIDString()
-{
-    CFUUIDRef theUUID = CFUUIDCreate(NULL);
-    NSString *UUIDString = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, theUUID);
-    CFRelease(theUUID);
-    return UUIDString;
-}
-
-static NSString *GetDeviceModel()
-{
-    size_t size;
-    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-    char result[size];
-    sysctlbyname("hw.machine", result, &size, NULL, 0);
-    NSString *results = [NSString stringWithCString:result encoding:NSUTF8StringEncoding];
-    return results;
-}
-
-static BOOL GetAdTrackingEnabled()
-{
-    BOOL result = NO;
-    Class advertisingManager = NSClassFromString(SEGAdvertisingClassIdentifier);
-    SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
-    id sharedManager = ((id (*)(id, SEL))[advertisingManager methodForSelector:sharedManagerSelector])(advertisingManager, sharedManagerSelector);
-    SEL adTrackingEnabledSEL = NSSelectorFromString(@"isAdvertisingTrackingEnabled");
-    result = ((BOOL (*)(id, SEL))[sharedManager methodForSelector:adTrackingEnabledSEL])(sharedManager, adTrackingEnabledSEL);
-    return result;
-}
-
 
 @interface SEGSegmentIntegration ()
 
@@ -140,10 +108,10 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     dict[@"device"] = ({
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         dict[@"manufacturer"] = @"Apple";
-        dict[@"model"] = GetDeviceModel();
+        dict[@"model"] = [SEGUtils getDeviceModel];
         dict[@"id"] = [[device identifierForVendor] UUIDString];
         if (NSClassFromString(SEGAdvertisingClassIdentifier)) {
-            dict[@"adTrackingEnabled"] = @(GetAdTrackingEnabled());
+            dict[@"adTrackingEnabled"] = @([SEGUtils getAdTrackingEnabled]);
         }
         if (self.configuration.enableAdvertisingTracking) {
             NSString *idfa = SEGIDFA();
@@ -385,7 +353,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     // and the timestamp will be more accurate.
     payload[@"type"] = action;
     payload[@"timestamp"] = iso8601FormattedString([NSDate date]);
-    payload[@"messageId"] = GenerateUUIDString();
+    payload[@"messageId"] = [SEGUtils generateUUIDString];
     
     [self dispatchBackground:^{
         // attach userId and anonymousId inside the dispatch_async in case
@@ -618,7 +586,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     NSURL *url = self.anonymousIDURL;
     NSString *anonymousId = [[NSUserDefaults standardUserDefaults] valueForKey:SEGAnonymousIdKey] ?: [[NSString alloc] initWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
     if (!anonymousId || reset) {
-        anonymousId = GenerateUUIDString();
+        anonymousId = [SEGUtils generateUUIDString];
         SEGLog(@"New anonymousId: %@", anonymousId);
         [[NSUserDefaults standardUserDefaults] setObject:anonymousId forKey:SEGAnonymousIdKey];
         [anonymousId writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:NULL];

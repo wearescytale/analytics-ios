@@ -24,6 +24,7 @@
 		EAAC786A1D1C4B65009E3AFC /* SEGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78571D1C4B65009E3AFC /* SEGAnalytics.m */; };
 		EAAC786B1D1C4B65009E3AFC /* SEGSegmentIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78591D1C4B65009E3AFC /* SEGSegmentIntegration.m */; };
 		EAAC786C1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC785B1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m */; };
+		EAAC786F1D1C7C29009E3AFC /* SEGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -75,6 +76,8 @@
 		EAAC78591D1C4B65009E3AFC /* SEGSegmentIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGSegmentIntegration.m; sourceTree = "<group>"; };
 		EAAC785A1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGSegmentIntegrationFactory.h; sourceTree = "<group>"; };
 		EAAC785B1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGSegmentIntegrationFactory.m; sourceTree = "<group>"; };
+		EAAC786D1D1C7C29009E3AFC /* SEGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGUtils.h; sourceTree = "<group>"; };
+		EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGUtils.m; sourceTree = "<group>"; };
 		EAB16EE81D15D50C001221B5 /* libAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -127,6 +130,8 @@
 				EAAC783D1D1C4B65009E3AFC /* SEGAnalyticsUtils.m */,
 				EAAC783E1D1C4B65009E3AFC /* SEGReachability.h */,
 				EAAC783F1D1C4B65009E3AFC /* SEGReachability.m */,
+				EAAC786D1D1C7C29009E3AFC /* SEGUtils.h */,
+				EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -246,6 +251,7 @@
 				EAAC78681D1C4B65009E3AFC /* SEGScreenPayload.m in Sources */,
 				EAAC785C1D1C4B65009E3AFC /* NSData+GZIP.m in Sources */,
 				EAAC786B1D1C4B65009E3AFC /* SEGSegmentIntegration.m in Sources */,
+				EAAC786F1D1C7C29009E3AFC /* SEGUtils.m in Sources */,
 				EAAC785E1D1C4B65009E3AFC /* SEGAnalyticsUtils.m in Sources */,
 				EAAC78601D1C4B65009E3AFC /* SEGBluetooth.m in Sources */,
 				EAAC78631D1C4B65009E3AFC /* UIViewController+SEGScreen.m in Sources */,
