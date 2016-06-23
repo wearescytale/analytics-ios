@@ -122,8 +122,8 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  
  */
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options;
-- (void)identify:(NSString *)userId;
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits;
+- (void)identify:(NSString *)userId;
 
 
 /*!
@@ -142,9 +142,9 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When a user performs an action in your app, you'll want to track that action for later analysis. Use the event name to say what the user did, and properties to specify any interesting details of the action.
  
  */
-- (void)track:(NSString *)event;
-- (void)track:(NSString *)event properties:(NSDictionary *)properties;
 - (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options;
+- (void)track:(NSString *)event properties:(NSDictionary *)properties;
+- (void)track:(NSString *)event;
 
 /*!
  @method
@@ -162,9 +162,9 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When a user views a screen in your app, you'll want to record that here. For some tools like Google Analytics and Flurry, screen views are treated specially, and are different from "events" kind of like "page views" on the web. For services that don't treat "screen views" specially, we map "screen" straight to "track" with the same parameters. For example, Mixpanel doesn't treat "screen views" any differently. So a call to "screen" will be tracked as a normal event in Mixpanel, but get sent to Google Analytics and Flurry as a "screen".
  
  */
-- (void)screen:(NSString *)screenTitle;
-- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties;
 - (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options;
+- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties;
+- (void)screen:(NSString *)screenTitle;
 
 /*!
  @method
@@ -179,9 +179,9 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When you learn more about who the group is, you can record that information with group.
  
  */
-- (void)group:(NSString *)groupId;
-- (void)group:(NSString *)groupId traits:(NSDictionary *)traits;
 - (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options;
+- (void)group:(NSString *)groupId traits:(NSDictionary *)traits;
+- (void)group:(NSString *)groupId;
 
 /*!
  @method
@@ -197,8 +197,8 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When you learn more about who the group is, you can record that information with group.
  
  */
-- (void)alias:(NSString *)newId;
 - (void)alias:(NSString *)newId options:(NSDictionary *)options;
+- (void)alias:(NSString *)newId;
 
 // todo: docs
 - (void)receivedRemoteNotification:(NSDictionary *)userInfo;
