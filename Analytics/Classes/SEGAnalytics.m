@@ -2,7 +2,6 @@
 #import "SEGAnalyticsUtils.h"
 #import "SEGAnalyticsRequest.h"
 #import "SEGAnalytics.h"
-#import "SEGIntegrationFactory.h"
 #import "SEGIntegration.h"
 #import "SEGSegmentIntegrationFactory.h"
 #import "UIViewController+SEGScreen.h"

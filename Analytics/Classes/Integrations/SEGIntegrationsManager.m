@@ -12,7 +12,7 @@
 #import "SEGAnalyticsRequest.h"
 #import "SEGAnalyticsConfiguration.h"
 #import "SEGIntegrationsManager.h"
-#import "SEGIntegrationFactory.h"
+#import "SEGIntegration.h"
 
 @interface SEGIntegrationsManager ()
 
