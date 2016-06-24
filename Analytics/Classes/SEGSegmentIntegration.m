@@ -10,6 +10,7 @@
 #import "SEGReachability.h"
 #import "SEGLocation.h"
 #import "NSData+GZIP.h"
+#import "SEGNetworkTransporter.h"
 
 NSString *const SEGSegmentDidSendRequestNotification = @"SegmentDidSendRequest";
 NSString *const SEGSegmentRequestDidSucceedNotification = @"SegmentRequestDidSucceed";
@@ -25,29 +26,25 @@ NSString *const SEGTraitsKey = @"SEGTraits";
 
 @interface SEGSegmentIntegration ()
 
-@property (nonatomic, strong) NSMutableArray *queue;
 @property (nonatomic, strong) NSDictionary *context;
-@property (nonatomic, strong) NSArray *batch;
-@property (nonatomic, strong) SEGAnalyticsRequest *request;
-@property (nonatomic, assign) UIBackgroundTaskIdentifier flushTaskID;
 @property (nonatomic, strong) SEGBluetooth *bluetooth;
 @property (nonatomic, strong) SEGReachability *reachability;
 @property (nonatomic, strong) SEGLocation *location;
-@property (nonatomic, strong) NSTimer *flushTimer;
 @property (nonatomic, strong) dispatch_queue_t serialQueue;
 @property (nonatomic, strong) NSMutableDictionary *traits;
 @property (nonatomic, assign) SEGAnalytics *analytics;
 @property (nonatomic, assign) SEGAnalyticsConfiguration *configuration;
+@property (nonatomic, strong) SEGNetworkTransporter *transporter;
 
 @end
 
 
 @implementation SEGSegmentIntegration
 
-- (id)initWithAnalytics:(SEGAnalytics *)analytics
-{
+- (id)initWithAnalytics:(SEGAnalytics *)analytics {
     if (self = [super init]) {
         self.configuration = [analytics configuration];
+        _transporter = [[SEGNetworkTransporter alloc] initWithConfiguration:_configuration];
         self.apiURL = [NSURL URLWithString:@"https://api.segment.io/v1/import"];
         self.anonymousId = [self getAnonymousId:NO];
         self.userId = [self getUserId];
@@ -55,9 +52,7 @@ NSString *const SEGTraitsKey = @"SEGTraits";
         self.reachability = [SEGReachability reachabilityWithHostname:@"google.com"];
         [self.reachability startNotifier];
         self.context = [self staticContext];
-        self.flushTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(flush) userInfo:nil repeats:YES];
         self.serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics.segmentio", DISPATCH_QUEUE_SERIAL);
-        self.flushTaskID = UIBackgroundTaskInvalid;
         self.analytics = analytics;
         // Check for previous queue/track data in NSUserDefaults and remove if present
         [self dispatchBackground:^{
@@ -83,8 +78,7 @@ NSString *const SEGTraitsKey = @"SEGTraits";
 
 static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
 
-- (NSDictionary *)staticContext
-{
+- (NSDictionary *)staticContext {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
     dict[@"library"] = @{
@@ -163,8 +157,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     return dict;
 }
 
-- (NSDictionary *)liveContext
-{
+- (NSDictionary *)liveContext {
     NSMutableDictionary *context = [[NSMutableDictionary alloc] init];
     
     [context addEntriesFromDictionary:self.context];
@@ -207,50 +200,26 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     return [context copy];
 }
 
-- (void)dispatchBackground:(void (^)(void))block
-{
+- (void)dispatchBackground:(void (^)(void))block {
     seg_dispatch_specific_async(_serialQueue, block);
 }
 
-- (void)dispatchBackgroundAndWait:(void (^)(void))block
-{
+- (void)dispatchBackgroundAndWait:(void (^)(void))block {
     seg_dispatch_specific_sync(_serialQueue, block);
 }
 
-- (void)beginBackgroundTask
-{
-    [self endBackgroundTask];
-    
-    self.flushTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [self endBackgroundTask];
-    }];
-}
-
-- (void)endBackgroundTask
-{
-    [self dispatchBackgroundAndWait:^{
-        if (self.flushTaskID != UIBackgroundTaskInvalid) {
-            [[UIApplication sharedApplication] endBackgroundTask:self.flushTaskID];
-            self.flushTaskID = UIBackgroundTaskInvalid;
-        }
-    }];
-}
-
-- (NSString *)description
-{
+- (NSString *)description {
     return [NSString stringWithFormat:@"<%p:%@, %@>", self, self.class, self.configuration.writeKey];
 }
 
-- (void)saveUserId:(NSString *)userId
-{
+- (void)saveUserId:(NSString *)userId {
     [self dispatchBackground:^{
         self.userId = userId;
         [self.userId writeToURL:self.userIDURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     }];
 }
 
-- (void)saveAnonymousId:(NSString *)anonymousId
-{
+- (void)saveAnonymousId:(NSString *)anonymousId {
     [self dispatchBackground:^{
         self.anonymousId = anonymousId;
         [[NSUserDefaults standardUserDefaults] setValue:anonymousId forKey:SEGAnonymousIdKey];
@@ -258,8 +227,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     }];
 }
 
-- (void)addTraits:(NSDictionary *)traits
-{
+- (void)addTraits:(NSDictionary *)traits {
     [self dispatchBackground:^{
         [self.traits addEntriesFromDictionary:traits];
         [[self.traits copy] writeToURL:self.traitsURL atomically:YES];
@@ -268,8 +236,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
 
 #pragma mark - Analytics API
 
-- (void)identify:(SEGIdentifyPayload *)payload
-{
+- (void)identify:(SEGIdentifyPayload *)payload {
     [self dispatchBackground:^{
         [self saveUserId:payload.userId];
         [self addTraits:payload.traits];
@@ -284,8 +251,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     [self enqueueAction:@"identify" dictionary:dictionary context:payload.context integrations:payload.integrations];
 }
 
-- (void)track:(SEGTrackPayload *)payload
-{
+- (void)track:(SEGTrackPayload *)payload {
     SEGLog(@"segment integration received payload %@", payload);
     
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
@@ -294,8 +260,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     [self enqueueAction:@"track" dictionary:dictionary context:payload.context integrations:payload.integrations];
 }
 
-- (void)screen:(SEGScreenPayload *)payload
-{
+- (void)screen:(SEGScreenPayload *)payload {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:payload.name forKey:@"name"];
     [dictionary setValue:payload.properties forKey:@"properties"];
@@ -303,8 +268,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     [self enqueueAction:@"screen" dictionary:dictionary context:payload.context integrations:payload.integrations];
 }
 
-- (void)group:(SEGGroupPayload *)payload
-{
+- (void)group:(SEGGroupPayload *)payload {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:payload.groupId forKey:@"groupId"];
     [dictionary setValue:payload.traits forKey:@"traits"];
@@ -312,8 +276,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     [self enqueueAction:@"group" dictionary:dictionary context:payload.context integrations:payload.integrations];
 }
 
-- (void)alias:(SEGAliasPayload *)payload
-{
+- (void)alias:(SEGAliasPayload *)payload {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:payload.theNewId forKey:@"userId"];
     [dictionary setValue:self.userId ?: self.anonymousId forKey:@"previousId"];
@@ -321,8 +284,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     [self enqueueAction:@"alias" dictionary:dictionary context:payload.context integrations:payload.integrations];
 }
 
-- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSCParameterAssert(deviceToken != nil);
     
     const unsigned char *buffer = (const unsigned char *)[deviceToken bytes];
@@ -338,8 +300,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
 
 #pragma mark - Queueing
 
-- (NSDictionary *)integrationsDictionary:(NSDictionary *)integrations
-{
+- (NSDictionary *)integrationsDictionary:(NSDictionary *)integrations {
     NSMutableDictionary *dict = [integrations ?: @{} mutableCopy];
     for (NSString *integration in self.analytics.bundledIntegrations) {
         dict[integration] = @NO;
@@ -347,8 +308,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     return [dict copy];
 }
 
-- (void)enqueueAction:(NSString *)action dictionary:(NSMutableDictionary *)payload context:(NSDictionary *)context integrations:(NSDictionary *)integrations
-{
+- (void)enqueueAction:(NSString *)action dictionary:(NSMutableDictionary *)payload context:(NSDictionary *)context integrations:(NSDictionary *)integrations {
     // attach these parts of the payload outside since they are all synchronous
     // and the timestamp will be more accurate.
     payload[@"type"] = action;
@@ -375,211 +335,49 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
         [payload setValue:[context copy] forKey:@"context"];
         
         SEGLog(@"%@ Enqueueing action: %@", self, payload);
-        [self queuePayload:[payload copy]];
+        [self.transporter queuePayload:payload];
     }];
 }
 
-- (void)queuePayload:(NSDictionary *)payload
-{
-    @try {
-        [self.queue addObject:payload];
-        [[self.queue copy] writeToURL:[self queueURL] atomically:YES];
-        [self flushQueueByLength];
-        
-    }
-    @catch (NSException *exception) {
-        SEGLog(@"%@ Error writing payload: %@", self, exception);
-    }
+- (void)flush {
+    [self.transporter flush];
 }
 
-- (void)queuePayloadFromArray:(NSArray *)payloadArray
-{
-    @try {
-        [self.queue addObjectsFromArray:payloadArray];
-        [[self.queue copy] writeToURL:[self queueURL] atomically:YES];
-        [self flushQueueByLength];
-        
-    }
-    @catch (NSException *exception) {
-        SEGLog(@"%@ Error writing payload: %@", self, exception);
-    }
-}
-
-- (void)flush
-{
-    [self flushWithMaxSize:self.maxBatchSize];
-}
-
-- (void)flushWithMaxSize:(NSUInteger)maxBatchSize
-{
-    [self dispatchBackground:^{
-        if ([self.queue count] == 0) {
-            SEGLog(@"%@ No queued API calls to flush.", self);
-            return;
-        } else if (self.request != nil) {
-            SEGLog(@"%@ API request already in progress, not flushing again.", self);
-            return;
-        } else if ([self.queue count] >= maxBatchSize) {
-            self.batch = [self.queue subarrayWithRange:NSMakeRange(0, maxBatchSize)];
-        } else {
-            self.batch = [NSArray arrayWithArray:self.queue];
-        }
-        
-        SEGLog(@"%@ Flushing %lu of %lu queued API calls.", self, (unsigned long)self.batch.count, (unsigned long)self.queue.count);
-        
-        NSMutableDictionary *payloadDictionary = [[NSMutableDictionary alloc] init];
-        [payloadDictionary setObject:self.configuration.writeKey forKey:@"writeKey"];
-        [payloadDictionary setObject:iso8601FormattedString([NSDate date]) forKey:@"sentAt"];
-        [payloadDictionary setObject:self.context forKey:@"context"];
-        [payloadDictionary setObject:self.batch forKey:@"batch"];
-        
-        SEGLog(@"Flushing payload %@", payloadDictionary);
-        
-        NSError *error = nil;
-        NSException *exception = nil;
-        NSData *payload = nil;
-        @try {
-            payload = [NSJSONSerialization dataWithJSONObject:payloadDictionary options:0 error:&error];
-        }
-        @catch (NSException *exc) {
-            exception = exc;
-        }
-        if (error || exception) {
-            SEGLog(@"%@ Error serializing JSON: %@", self, error);
-        } else {
-            [self sendData:payload];
-        }
-    }];
-}
-
-- (void)flushQueueByLength
-{
-    [self dispatchBackground:^{
-        SEGLog(@"%@ Length is %lu.", self, (unsigned long)self.queue.count);
-        
-        if (self.request == nil && [self.queue count] >= self.configuration.flushAt) {
-            [self flush];
-        }
-    }];
-}
-
-- (void)reset
-{
+- (void)reset {
     [self dispatchBackgroundAndWait:^{
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:SEGUserIdKey];
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:SEGAnonymousIdKey];
         [[NSFileManager defaultManager] removeItemAtURL:self.userIDURL error:NULL];
         [[NSFileManager defaultManager] removeItemAtURL:self.traitsURL error:NULL];
-        [[NSFileManager defaultManager] removeItemAtURL:self.queueURL error:NULL];
         self.userId = nil;
         self.traits = [NSMutableDictionary dictionary];
-        self.queue = [NSMutableArray array];
         self.anonymousId = [self getAnonymousId:YES];
-        self.request.completion = nil;
-        self.request = nil;
-    }];
-}
-
-- (void)notifyForName:(NSString *)name userInfo:(id)userInfo
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];
-        SEGLog(@"sent notification %@", name);
-    });
-}
-
-- (void)sendData:(NSData *)data
-{
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:self.apiURL];
-    [urlRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-    [urlRequest setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
-    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setHTTPBody:[data seg_gzippedData]];
-    
-    SEGLog(@"%@ Sending batch API request.", self);
-    self.request = [SEGAnalyticsRequest startWithURLRequest:urlRequest
-                                                 completion:^{
-                                                     [self dispatchBackground:^{
-                                                         if (self.request.error) {
-                                                             SEGLog(@"%@ API request had an error: %@", self, self.request.error);
-                                                             [self notifyForName:SEGSegmentRequestDidFailNotification userInfo:self.batch];
-                                                         } else {
-                                                             SEGLog(@"%@ API request success 200", self);
-                                                             [self.queue removeObjectsInArray:self.batch];
-                                                             [[self.queue copy] writeToURL:[self queueURL] atomically:YES];
-                                                             [self notifyForName:SEGSegmentRequestDidSucceedNotification userInfo:self.batch];
-                                                         }
-                                                         
-                                                         self.batch = nil;
-                                                         self.request = nil;
-                                                         [self endBackgroundTask];
-                                                     }];
-                                                 }];
-    [self notifyForName:SEGSegmentDidSendRequestNotification userInfo:self.batch];
-}
-
-- (void)applicationDidEnterBackground
-{
-    [self beginBackgroundTask];
-    // We are gonna try to flush as much as we reasonably can when we enter background
-    // since there is a chance that the user will never launch the app again.
-    [self flush];
-}
-
-- (void)applicationWillTerminate
-{
-    [self dispatchBackgroundAndWait:^{
-        if (self.queue.count)
-            [[self.queue copy] writeToURL:self.queueURL atomically:YES];
+        [self.transporter reset];
     }];
 }
 
 #pragma mark - Private
 
-- (NSMutableArray *)queue
-{
-    if (!_queue) {
-        _queue = [NSMutableArray arrayWithContentsOfURL:self.queueURL] ?: [[NSMutableArray alloc] init];
-    }
-    return _queue;
-}
-
-- (NSMutableDictionary *)traits
-{
+- (NSMutableDictionary *)traits {
     if (!_traits) {
         _traits = [NSMutableDictionary dictionaryWithContentsOfURL:self.traitsURL] ?: [[NSMutableDictionary alloc] init];
     }
     return _traits;
 }
 
-- (NSUInteger)maxBatchSize
-{
-    return 100;
-}
-
-- (NSURL *)userIDURL
-{
+- (NSURL *)userIDURL {
     return SEGAnalyticsURLForFilename(@"segmentio.userId");
 }
 
-- (NSURL *)anonymousIDURL
-{
+- (NSURL *)anonymousIDURL {
     return SEGAnalyticsURLForFilename(@"segment.anonymousId");
 }
 
-- (NSURL *)queueURL
-{
-    return SEGAnalyticsURLForFilename(@"segmentio.queue.plist");
-}
-
-- (NSURL *)traitsURL
-{
+- (NSURL *)traitsURL {
     return SEGAnalyticsURLForFilename(@"segmentio.traits.plist");
 }
 
-- (NSString *)getAnonymousId:(BOOL)reset
-{
+- (NSString *)getAnonymousId:(BOOL)reset {
     // We've chosen to generate a UUID rather than use the UDID (deprecated in iOS 5),
     // identifierForVendor (iOS6 and later, can't be changed on logout),
     // or MAC address (blocked in iOS 7). For more info see https://segment.io/libraries/ios#ids
@@ -594,8 +392,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     return anonymousId;
 }
 
-- (NSString *)getUserId
-{
+- (NSString *)getUserId {
     return [[NSUserDefaults standardUserDefaults] valueForKey:SEGUserIdKey] ?: [[NSString alloc] initWithContentsOfURL:self.userIDURL encoding:NSUTF8StringEncoding error:NULL];
 }
 

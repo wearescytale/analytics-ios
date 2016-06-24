@@ -37,11 +37,14 @@
         _flushTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(flush) userInfo:nil repeats:YES];
         _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics.segmentio", DISPATCH_QUEUE_SERIAL);
         _flushTaskID = UIBackgroundTaskInvalid;
-        // Refresh setings upon entering foreground
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(flushInBackground)
-                                                     name:UIApplicationWillEnterForegroundNotification
-                                                   object:nil];
+        // Flush task when we enter background
+        // TODO: Figure
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(flushInBackground)
+                   name:UIApplicationWillEnterForegroundNotification object:nil];
+        [nc addObserver:self selector:@selector(applicationWillTerminate)
+                   name:UIApplicationWillTerminateNotification object:nil];
+
     }
     return self;
 }
@@ -90,10 +93,6 @@
     }
 }
 
-- (void)flushInBackground {
-    [self beginBackgroundTask];
-    [self flush];
-}
 
 - (void)flush {
     [self flushWithMaxSize:self.maxBatchSize];
@@ -128,8 +127,7 @@
         NSData *payload = nil;
         @try {
             payload = [NSJSONSerialization dataWithJSONObject:payloadDictionary options:0 error:&error];
-        }
-        @catch (NSException *exc) {
+        } @catch (NSException *exc) {
             exception = exc;
         }
         if (error || exception) {
@@ -198,5 +196,18 @@
 - (NSUInteger)maxBatchSize {
     return 100;
 }
+
+- (void)flushInBackground {
+    [self beginBackgroundTask];
+    [self flush];
+}
+
+- (void)applicationWillTerminate {
+    [self dispatchBackgroundAndWait:^{
+        if (self.queue.count)
+            [[self.queue copy] writeToURL:self.queueURL atomically:YES];
+    }];
+}
+
 
 @end

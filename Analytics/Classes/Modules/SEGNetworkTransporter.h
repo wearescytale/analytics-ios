@@ -15,4 +15,8 @@
 
 - (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
 
+- (void)queuePayload:(NSDictionary *)payload;
+- (void)flush;
+- (void)reset;
+
 @end
