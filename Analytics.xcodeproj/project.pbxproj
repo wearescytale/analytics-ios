@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */; };
 		EAAC785C1D1C4B65009E3AFC /* NSData+GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78391D1C4B65009E3AFC /* NSData+GZIP.m */; };
 		EAAC785D1D1C4B65009E3AFC /* SEGAnalyticsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783B1D1C4B65009E3AFC /* SEGAnalyticsRequest.m */; };
 		EAAC785E1D1C4B65009E3AFC /* SEGAnalyticsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783D1D1C4B65009E3AFC /* SEGAnalyticsUtils.m */; };
@@ -42,6 +43,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationsManager.h; sourceTree = "<group>"; };
+		EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGIntegrationsManager.m; sourceTree = "<group>"; };
 		EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegration.h; sourceTree = "<group>"; };
 		EAAC78361D1C4B65009E3AFC /* SEGIntegrationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationFactory.h; sourceTree = "<group>"; };
 		EAAC78381D1C4B65009E3AFC /* NSData+GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+GZIP.h"; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */,
+				EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */,
+				EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */,
 				EAAC78361D1C4B65009E3AFC /* SEGIntegrationFactory.h */,
 			);
 			path = Integrations;
@@ -264,6 +269,7 @@
 				EAAC78661D1C4B65009E3AFC /* SEGIdentifyPayload.m in Sources */,
 				EAAC78691D1C4B65009E3AFC /* SEGTrackPayload.m in Sources */,
 				EAAC785D1D1C4B65009E3AFC /* SEGAnalyticsRequest.m in Sources */,
+				EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */,
 				EAAC78611D1C4B65009E3AFC /* SEGLocation.m in Sources */,
 				EAAC78671D1C4B65009E3AFC /* SEGPayload.m in Sources */,
 				EAAC78AC1D1CA71C009E3AFC /* Analytics.m in Sources */,
