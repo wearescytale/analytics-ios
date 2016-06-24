@@ -179,16 +179,24 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
 
 @implementation SEGIntegrationsManager (SEGIntegration)
 
-- (void)identify:(SEGIdentifyPayload *)payload {
+- (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options {
+    SEGIdentifyPayload *payload = [[SEGIdentifyPayload alloc] initWithUserId:userId
+                                                                 anonymousId:[options objectForKey:@"anonymousId"]
+                                                                      traits:SEGCoerceDictionary(traits)
+                                                                     context:SEGCoerceDictionary([options objectForKey:@"context"])
+                                                                integrations:[options objectForKey:@"integrations"]];
     [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
         if ([self isIntegration:key enabledInOptions:payload.integrations forSelector:@selector(identify:)]) {
             [integration identify:payload];
         }
     }];
-    
 }
 
-- (void)track:(SEGTrackPayload *)payload {
+- (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options {
+    SEGTrackPayload *payload = [[SEGTrackPayload alloc] initWithEvent:event
+                                                           properties:SEGCoerceDictionary(properties)
+                                                              context:SEGCoerceDictionary([options objectForKey:@"context"])
+                                                         integrations:[options objectForKey:@"integrations"]];
     [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
         if ([self isIntegration:key enabledInOptions:payload.integrations forSelector:@selector(track:)]) {
             if ([self isTrackEvent:payload.event enabledForIntegration:key inPlan:self.cachedSettings[@"plan"]]) {
@@ -198,25 +206,44 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     }];
 }
 
-//
-//- (void)screen:(SEGScreenPayload *)payload {
-//    [self eachIntegration:^(id<SEGIntegration> integration) {
-//        [integration screen:payload];
-//    }];
-//}
-//
-//- (void)group:(SEGGroupPayload *)payload {
-//    [self eachIntegration:^(id<SEGIntegration> integration) {
-//        [integration group:payload];
-//    }];
-//}
-//
-//- (void)alias:(SEGAliasPayload *)payload {
-//    [self eachIntegration:^(id<SEGIntegration> integration) {
-//        [integration alias:payload];
-//    }];
-//}
-//
+- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options {
+    SEGScreenPayload *payload = [[SEGScreenPayload alloc] initWithName:screenTitle
+                                                            properties:SEGCoerceDictionary(properties)
+                                                               context:SEGCoerceDictionary([options objectForKey:@"context"])
+                                                          integrations:[options objectForKey:@"integrations"]];
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([self isIntegration:key enabledInOptions:payload.integrations forSelector:@selector(screen:)]) {
+            // TODO: Respect the tracking plan here
+            [integration screen:payload];
+        }
+    }];
+}
+
+- (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options {
+    SEGGroupPayload *payload = [[SEGGroupPayload alloc] initWithGroupId:groupId
+                                                                 traits:SEGCoerceDictionary(traits)
+                                                                context:SEGCoerceDictionary([options objectForKey:@"context"])
+                                                           integrations:[options objectForKey:@"integrations"]];
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([self isIntegration:key enabledInOptions:payload.integrations forSelector:@selector(group:)]) {
+            // TODO: Respect the tracking plan here
+            [integration group:payload];
+        }
+    }];
+}
+
+- (void)alias:(NSString *)newId options:(NSDictionary *)options {
+    SEGAliasPayload *payload = [[SEGAliasPayload alloc] initWithNewId:newId
+                                                              context:SEGCoerceDictionary([options objectForKey:@"context"])
+                                                         integrations:[options objectForKey:@"integrations"]];
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([self isIntegration:key enabledInOptions:payload.integrations forSelector:@selector(alias:)]) {
+            // TODO: Respect the tracking plan here
+            [integration alias:payload];
+        }
+    }];
+}
+
 //- (void)reset {
 //    [self eachIntegration:^(id<SEGIntegration> integration) {
 //        [integration reset];
