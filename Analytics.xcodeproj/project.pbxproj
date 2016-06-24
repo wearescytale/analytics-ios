@@ -26,6 +26,7 @@
 		EAAC786C1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC785B1D1C4B65009E3AFC /* SEGSegmentIntegrationFactory.m */; };
 		EAAC786F1D1C7C29009E3AFC /* SEGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */; };
 		EAAC78751D1C9957009E3AFC /* SEGAnalyticsConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */; };
+		EAAC78AC1D1CA71C009E3AFC /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC787B1D1CA71C009E3AFC /* Analytics.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,6 +82,8 @@
 		EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGUtils.m; sourceTree = "<group>"; };
 		EAAC78731D1C9957009E3AFC /* SEGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAnalyticsConfiguration.h; sourceTree = "<group>"; };
 		EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAnalyticsConfiguration.m; sourceTree = "<group>"; };
+		EAAC787A1D1CA71C009E3AFC /* Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
+		EAAC787B1D1CA71C009E3AFC /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		EAB16EE81D15D50C001221B5 /* libAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -175,9 +178,19 @@
 			path = Payloads;
 			sourceTree = "<group>";
 		};
+		EAAC78791D1CA71C009E3AFC /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				EAAC787A1D1CA71C009E3AFC /* Analytics.h */,
+				EAAC787B1D1CA71C009E3AFC /* Analytics.m */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		EAB16EDF1D15D50C001221B5 = {
 			isa = PBXGroup;
 			children = (
+				EAAC78791D1CA71C009E3AFC /* Analytics */,
 				EAAC78321D1C4B65009E3AFC /* Classes */,
 				EAB16EE91D15D50C001221B5 /* Products */,
 			);
@@ -253,6 +266,7 @@
 				EAAC785D1D1C4B65009E3AFC /* SEGAnalyticsRequest.m in Sources */,
 				EAAC78611D1C4B65009E3AFC /* SEGLocation.m in Sources */,
 				EAAC78671D1C4B65009E3AFC /* SEGPayload.m in Sources */,
+				EAAC78AC1D1CA71C009E3AFC /* Analytics.m in Sources */,
 				EAAC78681D1C4B65009E3AFC /* SEGScreenPayload.m in Sources */,
 				EAAC785C1D1C4B65009E3AFC /* NSData+GZIP.m in Sources */,
 				EAAC786B1D1C4B65009E3AFC /* SEGSegmentIntegration.m in Sources */,
