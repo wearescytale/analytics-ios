@@ -6,6 +6,7 @@
 //  Copyright © 2016 Segment. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "SEGAnalytics.h"
 #import "SEGAnalyticsUtils.h"
 #import "SEGAnalyticsRequest.h"
@@ -27,7 +28,7 @@
 
 @end
 
-typedef void (^IntegrationBlock)(id<SEGIntegration> integration);
+typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _Nonnull integration);
 
 @implementation SEGIntegrationsManager
 
@@ -42,8 +43,18 @@ typedef void (^IntegrationBlock)(id<SEGIntegration> integration);
         _registeredIntegrations = [NSMutableDictionary dictionaryWithCapacity:self.factories.count];
         _messageQueue = [[NSMutableArray alloc] init];
         _serialQueue = seg_dispatch_queue_create_specific("com.segment.analytics.integrations", DISPATCH_QUEUE_SERIAL);
+        
+        // Refresh setings upon entering foreground
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refreshSettings)
+                                                     name:UIApplicationWillEnterForegroundNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (NSURL *)settingsURL {
@@ -122,8 +133,8 @@ typedef void (^IntegrationBlock)(id<SEGIntegration> integration);
 - (void)flushMessageQueue {
     if (self.messageQueue.count > 0) {
         for (IntegrationBlock block in self.messageQueue) {
-            for (id<SEGIntegration> integration in self.integrations.allValues) {
-                block(integration);
+            for (NSString *key in self.integrations) {
+                block(key, self.integrations[key]);
             }
         }
         [self.messageQueue removeAllObjects];
@@ -131,59 +142,90 @@ typedef void (^IntegrationBlock)(id<SEGIntegration> integration);
 }
 
 - (void)eachIntegration:(IntegrationBlock _Nonnull)block {
-    for (id<SEGIntegration> integration in self.integrations.allValues) {
+    for (NSString *key in self.integrations) {
         if (self.initialized) {
-            block(integration);
+            block(key, self.integrations[key]);
         } else {
             [self.messageQueue addObject:[block copy]];
         }
     }
 }
 
+- (BOOL)isIntegration:(NSString *)key enabledInOptions:(NSDictionary *)options forSelector:(SEL)selector {
+    if (![self.integrations[@"key"] respondsToSelector:selector]) {
+        return NO;
+    }
+    if (options[key]) {
+        return [options[key] boolValue];
+    } else if (options[@"All"]) {
+        return [options[@"All"] boolValue];
+    } else if (options[@"all"]) {
+        return [options[@"all"] boolValue];
+    }
+    return YES;
+}
+
+- (BOOL)isTrackEvent:(NSString *)event enabledForIntegration:(NSString *)key inPlan:(NSDictionary *)plan {
+    // TODO: Implement tracking plan filtering for events sent to Segment as well
+    if (plan[@"track"][event]) {
+        return [plan[@"track"][event][@"enabled"] boolValue];
+    }
+    return YES;
+}
+
 @end
+
 
 @implementation SEGIntegrationsManager (SEGIntegration)
 
 - (void)identify:(SEGIdentifyPayload *)payload {
-    [self eachIntegration:^(id<SEGIntegration> integration) {
-        [integration identify:payload];
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([self isIntegration:key enabledInOptions:payload.integrations forSelector:@selector(identify:)]) {
+            [integration identify:payload];
+        }
     }];
+    
 }
 
 - (void)track:(SEGTrackPayload *)payload {
-    [self eachIntegration:^(id<SEGIntegration> integration) {
-        [integration track:payload];
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([self isIntegration:key enabledInOptions:payload.integrations forSelector:@selector(track:)]) {
+            if ([self isTrackEvent:payload.event enabledForIntegration:key inPlan:self.cachedSettings[@"plan"]]) {
+                [integration track:payload];
+            }
+        }
     }];
 }
 
-- (void)screen:(SEGScreenPayload *)payload {
-    [self eachIntegration:^(id<SEGIntegration> integration) {
-        [integration screen:payload];
-    }];
-}
-
-- (void)group:(SEGGroupPayload *)payload {
-    [self eachIntegration:^(id<SEGIntegration> integration) {
-        [integration group:payload];
-    }];
-}
-
-- (void)alias:(SEGAliasPayload *)payload {
-    [self eachIntegration:^(id<SEGIntegration> integration) {
-        [integration alias:payload];
-    }];
-}
-
-- (void)reset {
-    [self eachIntegration:^(id<SEGIntegration> integration) {
-        [integration reset];
-    }];
-}
-
-- (void)flush {
-    [self eachIntegration:^(id<SEGIntegration> integration) {
-        [integration flush];
-    }];
-}
+//
+//- (void)screen:(SEGScreenPayload *)payload {
+//    [self eachIntegration:^(id<SEGIntegration> integration) {
+//        [integration screen:payload];
+//    }];
+//}
+//
+//- (void)group:(SEGGroupPayload *)payload {
+//    [self eachIntegration:^(id<SEGIntegration> integration) {
+//        [integration group:payload];
+//    }];
+//}
+//
+//- (void)alias:(SEGAliasPayload *)payload {
+//    [self eachIntegration:^(id<SEGIntegration> integration) {
+//        [integration alias:payload];
+//    }];
+//}
+//
+//- (void)reset {
+//    [self eachIntegration:^(id<SEGIntegration> integration) {
+//        [integration reset];
+//    }];
+//}
+//
+//- (void)flush {
+//    [self eachIntegration:^(id<SEGIntegration> integration) {
+//        [integration flush];
+//    }];
+//}
 
 @end

@@ -8,6 +8,6 @@
 
 #import "Analytics.h"
 
-@implementation Analytics
-
-@end
+//@implementation Analytics
+//
+//@end
