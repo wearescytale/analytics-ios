@@ -49,6 +49,7 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
                                                  selector:@selector(refreshSettings)
                                                      name:UIApplicationWillEnterForegroundNotification
                                                    object:nil];
+        [self refreshSettings];
     }
     return self;
 }

@@ -16,6 +16,7 @@
 @property (nonatomic, weak) SEGAnalytics *analytics;
 @property (nonatomic, readonly) NSDictionary *cachedSettings;
 @property (nonatomic, readonly) NSMutableDictionary *integrations;
+@property (nonatomic, readonly) NSMutableDictionary *registeredIntegrations;
 
 - (instancetype)initWithAnalytics:(SEGAnalytics *)analytics;
 
