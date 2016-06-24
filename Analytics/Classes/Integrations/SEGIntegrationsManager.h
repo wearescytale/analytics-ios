@@ -10,11 +10,14 @@
 #import "SEGIntegration.h"
 
 @class SEGAnalytics;
+
 @interface SEGIntegrationsManager : NSObject
 
 @property (nonatomic, weak) SEGAnalytics *analytics;
-@property (nonatomic, strong) NSDictionary *integrationsByKey;
-@property (nonatomic, strong) NSDictionary *settings;
+@property (nonatomic, readonly) NSDictionary *cachedSettings;
+@property (nonatomic, readonly) NSMutableDictionary *integrations;
+
+- (instancetype)initWithAnalytics:(SEGAnalytics *)analytics;
 
 @end
 
