@@ -5,7 +5,7 @@ extern NSString *const SEGSegmentDidSendRequestNotification;
 extern NSString *const SEGSegmentRequestDidSucceedNotification;
 extern NSString *const SEGSegmentRequestDidFailNotification;
 
-
+@class SEGAnalytics;
 @interface SEGSegmentIntegration : NSObject <SEGIntegration>
 
 @property (nonatomic, copy) NSString *anonymousId;

@@ -68,8 +68,7 @@ static NSString *const SEGBuildKey = @"SEGBuildKey";
 //    });
 }
 
-
-- (void)trackApplicationLaunch {
+- (void)trackApplicationLifecycleEvents {
     NSString *previousVersion = [[NSUserDefaults standardUserDefaults] stringForKey:SEGVersionKey];
     NSString *currentVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
     
