@@ -14,5 +14,9 @@
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 
 - (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
+- (NSDictionary *)liveContext;
+- (NSDictionary *)staticContext;
+- (void)addTraits:(NSDictionary *)traits;
+- (void)reset;
 
 @end
