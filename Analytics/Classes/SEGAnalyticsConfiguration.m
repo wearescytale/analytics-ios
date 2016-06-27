@@ -7,7 +7,6 @@
 //
 
 #import "SEGAnalyticsConfiguration.h"
-#import "SEGSegmentIntegrationFactory.h"
 
 @interface SEGAnalyticsConfiguration ()
 
@@ -31,7 +30,6 @@
         self.enableAdvertisingTracking = YES;
         self.flushAt = 20;
         _factories = [NSMutableArray array];
-        [_factories addObject:[SEGSegmentIntegrationFactory instance]];
     }
     return self;
 }

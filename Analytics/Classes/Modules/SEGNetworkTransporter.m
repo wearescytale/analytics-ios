@@ -13,7 +13,11 @@
 #import "SEGAnalyticsRequest.h"
 #import "SEGNetworkTransporter.h"
 #import "SEGAnalyticsConfiguration.h"
-#import "SEGSegmentIntegration.h"
+
+
+NSString *const SEGSegmentDidSendRequestNotification = @"SegmentDidSendRequest";
+NSString *const SEGSegmentRequestDidSucceedNotification = @"SegmentRequestDidSucceed";
+NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 @interface SEGNetworkTransporter ()
 
