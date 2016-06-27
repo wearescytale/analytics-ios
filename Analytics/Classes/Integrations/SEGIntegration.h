@@ -1,11 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "SEGIdentifyPayload.h"
-#import "SEGTrackPayload.h"
-#import "SEGScreenPayload.h"
-#import "SEGAliasPayload.h"
-#import "SEGIdentifyPayload.h"
-#import "SEGGroupPayload.h"
-
+#import "SEGPayload.h"
 
 @protocol SEGIntegration <NSObject>
 
