@@ -176,7 +176,6 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
 
 @end
 
-
 @implementation SEGIntegrationsManager (SEGIntegration)
 
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options {
@@ -244,16 +243,25 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     }];
 }
 
-//- (void)reset {
-//    [self eachIntegration:^(id<SEGIntegration> integration) {
-//        [integration reset];
-//    }];
-//}
-//
-//- (void)flush {
-//    [self eachIntegration:^(id<SEGIntegration> integration) {
-//        [integration flush];
-//    }];
-//}
+- (void)reset {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(reset)]) {
+            [integration reset];
+        }
+    }];
+}
+
+// TODO: Implement me
+- (void)flush {}
+- (void)receivedRemoteNotification:(NSDictionary *)userInfo {}
+- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error {}
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {}
+- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo {}
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {}
+- (void)applicationDidEnterBackground {}
+- (void)applicationWillEnterForeground {}
+- (void)applicationWillTerminate {}
+- (void)applicationWillResignActive {}
+- (void)applicationDidBecomeActive {}
 
 @end
