@@ -17,6 +17,7 @@
 		EA7E7DCA1D20F0560002889C /* SEGScreenPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DC01D20F0560002889C /* SEGScreenPayload.m */; };
 		EA7E7DCB1D20F0560002889C /* SEGAliasPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DC31D20F0560002889C /* SEGAliasPayload.m */; };
 		EA7E7DCC1D20F0560002889C /* SEGPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DC51D20F0560002889C /* SEGPayload.m */; };
+		EA7E7DD21D20F1020002889C /* SEGMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DD11D20F1020002889C /* SEGMigration.m */; };
 		EAAC785C1D1C4B65009E3AFC /* NSData+GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78391D1C4B65009E3AFC /* NSData+GZIP.m */; };
 		EAAC785D1D1C4B65009E3AFC /* SEGAnalyticsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783B1D1C4B65009E3AFC /* SEGAnalyticsRequest.m */; };
 		EAAC785E1D1C4B65009E3AFC /* SEGAnalyticsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783D1D1C4B65009E3AFC /* SEGAnalyticsUtils.m */; };
@@ -64,6 +65,8 @@
 		EA7E7DC41D20F0560002889C /* SEGAliasPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAliasPayload.h; sourceTree = "<group>"; };
 		EA7E7DC51D20F0560002889C /* SEGPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGPayload.m; sourceTree = "<group>"; };
 		EA7E7DC61D20F0560002889C /* SEGPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGPayload.h; sourceTree = "<group>"; };
+		EA7E7DD01D20F1020002889C /* SEGMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGMigration.h; sourceTree = "<group>"; };
+		EA7E7DD11D20F1020002889C /* SEGMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGMigration.m; sourceTree = "<group>"; };
 		EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegration.h; sourceTree = "<group>"; };
 		EAAC78381D1C4B65009E3AFC /* NSData+GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+GZIP.h"; sourceTree = "<group>"; };
 		EAAC78391D1C4B65009E3AFC /* NSData+GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+GZIP.m"; sourceTree = "<group>"; };
@@ -121,6 +124,11 @@
 		EAAC78341D1C4B65009E3AFC /* Integrations */ = {
 			isa = PBXGroup;
 			children = (
+				EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */,
+				EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */,
+				EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */,
+				EA7E7DC51D20F0560002889C /* SEGPayload.m */,
+				EA7E7DC61D20F0560002889C /* SEGPayload.h */,
 				EA7E7DBB1D20F0560002889C /* SEGIdentifyPayload.m */,
 				EA7E7DBC1D20F0560002889C /* SEGIdentifyPayload.h */,
 				EA7E7DBD1D20F0560002889C /* SEGScreenPayload.h */,
@@ -131,11 +139,6 @@
 				EA7E7DC21D20F0560002889C /* SEGTrackPayload.h */,
 				EA7E7DC31D20F0560002889C /* SEGAliasPayload.m */,
 				EA7E7DC41D20F0560002889C /* SEGAliasPayload.h */,
-				EA7E7DC51D20F0560002889C /* SEGPayload.m */,
-				EA7E7DC61D20F0560002889C /* SEGPayload.h */,
-				EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */,
-				EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */,
-				EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */,
 			);
 			path = Integrations;
 			sourceTree = "<group>";
@@ -174,6 +177,8 @@
 				EAAC78461D1C4B65009E3AFC /* SEGStoreKitTracker.m */,
 				EAAC78471D1C4B65009E3AFC /* UIViewController+SEGScreen.h */,
 				EAAC78481D1C4B65009E3AFC /* UIViewController+SEGScreen.m */,
+				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
+				EA7E7DD11D20F1020002889C /* SEGMigration.m */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -265,6 +270,7 @@
 				EA7E7DA51D1D96A30002889C /* SEGNetworkTransporter.m in Sources */,
 				EA7E7DC81D20F0560002889C /* SEGGroupPayload.m in Sources */,
 				EAAC785D1D1C4B65009E3AFC /* SEGAnalyticsRequest.m in Sources */,
+				EA7E7DD21D20F1020002889C /* SEGMigration.m in Sources */,
 				EA7E7DCB1D20F0560002889C /* SEGAliasPayload.m in Sources */,
 				EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */,
 				EAAC78611D1C4B65009E3AFC /* SEGLocation.m in Sources */,

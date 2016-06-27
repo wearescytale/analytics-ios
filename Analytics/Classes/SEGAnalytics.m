@@ -11,6 +11,7 @@
 #import "SEGContext.h"
 #import "SEGUtils.h"
 #import <objc/runtime.h>
+#import "SEGMigration.h"
 
 static SEGAnalytics *__sharedInstance = nil;
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
@@ -34,8 +35,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 
 NSString *const SEGUserIdKey = @"SEGUserId";
 NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
-NSString *const SEGQueueKey = @"SEGQueue";
-NSString *const SEGTraitsKey = @"SEGTraits";
 
 @implementation SEGAnalytics
 
@@ -73,12 +72,7 @@ NSString *const SEGTraitsKey = @"SEGTraits";
         }
         // Check for previous queue/track data in NSUserDefaults and remove if present
         [self dispatchBackground:^{
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:SEGQueueKey]) {
-                [[NSUserDefaults standardUserDefaults] removeObjectForKey:SEGQueueKey];
-            }
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:SEGTraitsKey]) {
-                [[NSUserDefaults standardUserDefaults] removeObjectForKey:SEGTraitsKey];
-            }
+            [SEGMigration migrateToLatest];
         }];
     }
     return self;
