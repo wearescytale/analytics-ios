@@ -10,6 +10,7 @@
 
 @interface SEGUtils : NSObject
 
++ (NSString *)convertPushTokenToString:(NSData *)pushToken;
 + (NSString *)generateUUIDString;
 + (NSString *)getDeviceModel;
 + (BOOL)getAdTrackingEnabled;

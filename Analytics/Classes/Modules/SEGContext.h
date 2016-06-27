@@ -16,6 +16,7 @@
 - (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
 - (NSDictionary *)liveContext;
 - (NSDictionary *)staticContext;
+- (void)addPushTokenToContext:(NSString *)pushToken;
 - (void)addTraits:(NSDictionary *)traits;
 - (void)reset;
 

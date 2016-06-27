@@ -139,16 +139,7 @@ NSString *const SEGTraitsKey = @"SEGTraits";
 
 - (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSCParameterAssert(deviceToken != nil);
-    
-    const unsigned char *buffer = (const unsigned char *)[deviceToken bytes];
-    if (!buffer) {
-        return;
-    }
-    NSMutableString *token = [NSMutableString stringWithCapacity:(deviceToken.length * 2)];
-    for (NSUInteger i = 0; i < deviceToken.length; i++) {
-        [token appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)buffer[i]]];
-    }
-//    [self.context[@"device"] setObject:[token copy] forKey:@"token"];
+    [self.ctx addPushTokenToContext:[SEGUtils convertPushTokenToString:deviceToken]];
 }
 
 #pragma mark - Queueing

@@ -61,10 +61,10 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
     dict[@"library"] = @{
-                         @"name" : @"analytics-ios",
-                         @"version" : [SEGAnalytics version]
-                         };
-    
+        @"name" : @"analytics-ios",
+        @"version" : [SEGAnalytics version]
+    };
+
     NSMutableDictionary *infoDictionary = [[[NSBundle mainBundle] infoDictionary] mutableCopy];
     [infoDictionary addEntriesFromDictionary:[[NSBundle mainBundle] localizedInfoDictionary]];
     if (infoDictionary.count) {
@@ -178,6 +178,11 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     });
     
     return [context copy];
+}
+
+- (void)addPushTokenToContext:(NSString *)pushToken {
+    // TODO: This is not clear / type safe. Re-think better way.
+    [self.context[@"device"] setObject:pushToken forKey:@"token"];
 }
 
 - (void)addTraits:(NSDictionary *)traits {

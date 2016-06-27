@@ -11,6 +11,18 @@
 
 @implementation SEGUtils
 
++ (NSString *)convertPushTokenToString:(NSData *)pushToken {
+    const unsigned char *buffer = (const unsigned char *)[pushToken bytes];
+    if (!buffer) {
+        return nil;
+    }
+    NSMutableString *token = [NSMutableString stringWithCapacity:(pushToken.length * 2)];
+    for (NSUInteger i = 0; i < pushToken.length; i++) {
+        [token appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)buffer[i]]];
+    }
+    return token;
+}
+
 + (NSString *)generateUUIDString {
     CFUUIDRef theUUID = CFUUIDCreate(NULL);
     NSString *UUIDString = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, theUUID);
