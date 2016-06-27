@@ -1,7 +1,5 @@
-#import <UIKit/UIKit.h>
 #import "SEGAnalyticsUtils.h"
 #import "SEGAnalyticsRequest.h"
-#import "SEGAnalytics.h"
 #import "SEGIntegration.h"
 #import "UIViewController+SEGScreen.h"
 #import "SEGStoreKitTracker.h"
@@ -9,32 +7,30 @@
 #import "SEGLifecycleTracker.h"
 #import "SEGNetworkTransporter.h"
 #import "SEGContext.h"
-#import "SEGUtils.h"
-#import <objc/runtime.h>
 #import "SEGMigration.h"
+#import "SEGUtils.h"
+#import "SEGAnalytics.h"
 
 static SEGAnalytics *__sharedInstance = nil;
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
-
+NSString *const SEGUserIdKey = @"SEGUserId";
+NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 
 @interface SEGAnalytics ()
 
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 @property (nonatomic, strong) dispatch_queue_t serialQueue;
 @property (nonatomic, assign) BOOL enabled;
-@property (nonatomic, strong) SEGStoreKitTracker *storeKitTracker;
-@property (nonatomic, strong) SEGIntegrationsManager *integrations;
-@property (nonatomic, strong) SEGLifecycleTracker *lifecycle;
 @property (nonatomic, strong) SEGNetworkTransporter *transporter;
+@property (nonatomic, strong) SEGStoreKitTracker *storeKitTracker;
+@property (nonatomic, strong) SEGLifecycleTracker *lifecycle;
 @property (nonatomic, strong) SEGContext *ctx;
+@property (nonatomic, strong) SEGIntegrationsManager *integrations;
 
 @property (nonatomic, copy) NSString *anonymousId;
 @property (nonatomic, copy) NSString *userId;
 
 @end
-
-NSString *const SEGUserIdKey = @"SEGUserId";
-NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 
 @implementation SEGAnalytics
 
@@ -121,11 +117,11 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 }
 
 - (void)dispatchBackground:(void (^)(void))block {
-    seg_dispatch_specific_async(_serialQueue, block);
+    seg_dispatch_specific_async(self.serialQueue, block);
 }
 
 - (void)dispatchBackgroundAndWait:(void (^)(void))block {
-    seg_dispatch_specific_sync(_serialQueue, block);
+    seg_dispatch_specific_sync(self.serialQueue, block);
 }
 
 - (NSString *)description {

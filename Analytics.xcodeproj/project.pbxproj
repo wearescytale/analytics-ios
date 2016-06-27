@@ -163,6 +163,8 @@
 		EAAC78401D1C4B65009E3AFC /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
+				EA7E7DD11D20F1020002889C /* SEGMigration.m */,
 				EA7E7DA61D1DE6F80002889C /* SEGContext.h */,
 				EA7E7DA71D1DE6F80002889C /* SEGContext.m */,
 				EA7E7DA31D1D96A30002889C /* SEGNetworkTransporter.h */,
@@ -177,8 +179,6 @@
 				EAAC78461D1C4B65009E3AFC /* SEGStoreKitTracker.m */,
 				EAAC78471D1C4B65009E3AFC /* UIViewController+SEGScreen.h */,
 				EAAC78481D1C4B65009E3AFC /* UIViewController+SEGScreen.m */,
-				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
-				EA7E7DD11D20F1020002889C /* SEGMigration.m */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
