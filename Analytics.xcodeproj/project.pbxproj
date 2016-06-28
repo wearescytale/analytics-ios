@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA08DBAF1D22414A00A2B68A /* AnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */; };
+		EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB16EE81D15D50C001221B5 /* libAnalytics.a */; };
 		EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */; };
 		EA7E7D9F1D1D19DA0002889C /* SEGLifecycleTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */; };
 		EA7E7DA51D1D96A30002889C /* SEGNetworkTransporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */; };
@@ -26,6 +28,16 @@
 		EAAC78751D1C9957009E3AFC /* SEGAnalyticsConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EA08DBB21D22414A00A2B68A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAB16EE01D15D50C001221B5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EAB16EE71D15D50C001221B5;
+			remoteInfo = Analytics;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		EAB16EE61D15D50C001221B5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -39,6 +51,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EA08DBAC1D22414A00A2B68A /* AnalyticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnalyticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTest.m; sourceTree = "<group>"; };
+		EA08DBB01D22414A00A2B68A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationsManager.h; sourceTree = "<group>"; };
 		EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGIntegrationsManager.m; sourceTree = "<group>"; };
 		EA7E7D9D1D1D19DA0002889C /* SEGLifecycleTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGLifecycleTracker.h; sourceTree = "<group>"; };
@@ -78,6 +93,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EA08DBA91D22414A00A2B68A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EAB16EE51D15D50C001221B5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -88,6 +111,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA08DBAD1D22414A00A2B68A /* AnalyticsTest */ = {
+			isa = PBXGroup;
+			children = (
+				EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */,
+				EA08DBB01D22414A00A2B68A /* Info.plist */,
+			);
+			path = AnalyticsTest;
+			sourceTree = "<group>";
+		};
 		EAAC78321D1C4B65009E3AFC /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				EAAC78321D1C4B65009E3AFC /* Classes */,
+				EA08DBAD1D22414A00A2B68A /* AnalyticsTest */,
 				EAB16EE91D15D50C001221B5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -167,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				EAB16EE81D15D50C001221B5 /* libAnalytics.a */,
+				EA08DBAC1D22414A00A2B68A /* AnalyticsTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -174,6 +208,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EA08DBAB1D22414A00A2B68A /* AnalyticsTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA08DBB61D22414A00A2B68A /* Build configuration list for PBXNativeTarget "AnalyticsTest" */;
+			buildPhases = (
+				EA08DBA81D22414A00A2B68A /* Sources */,
+				EA08DBA91D22414A00A2B68A /* Frameworks */,
+				EA08DBAA1D22414A00A2B68A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA08DBB31D22414A00A2B68A /* PBXTargetDependency */,
+			);
+			name = AnalyticsTest;
+			productName = AnalyticsTest;
+			productReference = EA08DBAC1D22414A00A2B68A /* AnalyticsTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		EAB16EE71D15D50C001221B5 /* Analytics */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EAB16EF11D15D50C001221B5 /* Build configuration list for PBXNativeTarget "Analytics" */;
@@ -200,6 +252,9 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Segment;
 				TargetAttributes = {
+					EA08DBAB1D22414A00A2B68A = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					EAB16EE71D15D50C001221B5 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -218,11 +273,30 @@
 			projectRoot = "";
 			targets = (
 				EAB16EE71D15D50C001221B5 /* Analytics */,
+				EA08DBAB1D22414A00A2B68A /* AnalyticsTest */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		EA08DBAA1D22414A00A2B68A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		EA08DBA81D22414A00A2B68A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA08DBAF1D22414A00A2B68A /* AnalyticsTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EAB16EE41D15D50C001221B5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,7 +323,37 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		EA08DBB31D22414A00A2B68A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EAB16EE71D15D50C001221B5 /* Analytics */;
+			targetProxy = EA08DBB21D22414A00A2B68A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		EA08DBB41D22414A00A2B68A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = AnalyticsTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.segment.AnalyticsTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EA08DBB51D22414A00A2B68A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = AnalyticsTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.segment.AnalyticsTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		EAB16EEF1D15D50C001221B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -353,6 +457,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EA08DBB61D22414A00A2B68A /* Build configuration list for PBXNativeTarget "AnalyticsTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA08DBB41D22414A00A2B68A /* Debug */,
+				EA08DBB51D22414A00A2B68A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		EAB16EE31D15D50C001221B5 /* Build configuration list for PBXProject "Analytics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

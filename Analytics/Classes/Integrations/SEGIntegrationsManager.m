@@ -80,11 +80,11 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        [self updateIntegrationsWithSettings:settings[@"integrations"]];
+        [self updateIntegrationsWithSettings:settings[@"integrations"] callback:nil];
     });
 }
 
-- (void)updateIntegrationsWithSettings:(NSDictionary *)projectSettings {
+- (void)updateIntegrationsWithSettings:(NSDictionary *)projectSettings callback:(void (^)(void))block {
     for (id<SEGIntegrationFactory> factory in self.factories) {
         NSString *key = [factory key];
         NSDictionary *integrationSettings = [projectSettings objectForKey:key];
@@ -103,6 +103,7 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     seg_dispatch_specific_async(_serialQueue, ^{
         [self flushMessageQueue];
         self.initialized = true;
+        if (block) { block(); }
     });
 }
 
