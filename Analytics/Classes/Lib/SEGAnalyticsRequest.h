@@ -2,7 +2,6 @@
 
 typedef void (^SEGAnalyticsRequestCompletionBlock)(void);
 
-
 @interface SEGAnalyticsRequest : NSObject
 
 @property (nonatomic, copy) SEGAnalyticsRequestCompletionBlock completion;
