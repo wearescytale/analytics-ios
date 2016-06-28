@@ -23,8 +23,8 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 @property (nonnull, nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 @property (nonnull, nonatomic, strong) NSMutableArray *queue;
-@property (nonnull, nonatomic, strong) NSArray *batch;
-@property (nonnull, nonatomic, strong) SEGAnalyticsRequest *request;
+@property (nonatomic, strong) NSArray *batch;
+@property (nonatomic, strong) SEGAnalyticsRequest *request;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier flushTaskID;
 @property (nonnull, nonatomic, strong) NSTimer *flushTimer;
 @property (nonnull, nonatomic, strong) dispatch_queue_t serialQueue;

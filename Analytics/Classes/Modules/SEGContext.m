@@ -24,7 +24,6 @@ static NSString *const SEGADClientClass = @"ADClient";
 
 @interface SEGContext ()
 
-@property (nonatomic, strong) NSDictionary *context;
 @property (nonatomic, strong) SEGBluetooth *bluetooth;
 @property (nonatomic, strong) SEGReachability *reachability;
 @property (nonatomic, strong) SEGLocation *location;
@@ -39,7 +38,6 @@ static NSString *const SEGADClientClass = @"ADClient";
         _bluetooth = [[SEGBluetooth alloc] init];
         _reachability = [SEGReachability reachabilityWithHostname:@"google.com"];
         [_reachability startNotifier];
-        _context = [self staticContext];
     }
     return self;
 }
@@ -89,6 +87,10 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
             NSString *idfa = SEGIDFA();
             if (idfa.length) dict[@"advertisingId"] = idfa;
         }
+        // TODO: This is not exactly static...
+        if (self.pushToken) {
+            dict[@"token"] = self.pushToken;
+        }
         dict;
     });
     
@@ -137,12 +139,9 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
 
 
 - (NSDictionary *)contextForTraits:(NSDictionary *)traits {
-    NSMutableDictionary *context = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *context = [[self staticContext] mutableCopy];
     
-    [context addEntriesFromDictionary:self.context];
-    
-    context[@"locale"] = [NSString stringWithFormat:
-                          @"%@-%@",
+    context[@"locale"] = [NSString stringWithFormat:@"%@-%@",
                           [NSLocale.currentLocale objectForKey:NSLocaleLanguageCode],
                           [NSLocale.currentLocale objectForKey:NSLocaleCountryCode]];
     
@@ -178,12 +177,5 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     
     return [context copy];
 }
-
-- (void)addPushTokenToContext:(NSString *)pushToken {
-    // TODO: This is not clear / type safe. Re-think better way.
-    [self.context[@"device"] setObject:pushToken forKey:@"token"];
-}
-
-
 
 @end

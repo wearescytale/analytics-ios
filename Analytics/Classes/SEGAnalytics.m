@@ -261,7 +261,8 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 - (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     if (!self.enabled) { return; }
     NSParameterAssert(deviceToken != nil);
-    [self.ctx addPushTokenToContext:[SEGUtils convertPushTokenToString:deviceToken]];
+    self.ctx.pushToken = [SEGUtils convertPushTokenToString:deviceToken];
+    self.transporter.batchContext = [self.ctx staticContext];
     [self.integrations registeredForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 

@@ -12,11 +12,11 @@
 @interface SEGContext : NSObject
 
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
+@property (nonatomic, strong) NSString *pushToken;
 
 - (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
 
 - (NSDictionary *)staticContext;
 - (NSDictionary *)contextForTraits:(NSDictionary *)traits;
-- (void)addPushTokenToContext:(NSString *)pushToken;
 
 @end

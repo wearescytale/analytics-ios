@@ -192,9 +192,6 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  */
 - (NSDictionary *)bundledIntegrations;
 
-/** Returns the configuration used to create the analytics client. */
-- (SEGAnalyticsConfiguration *)configuration;
-
 @end
 
 /*
