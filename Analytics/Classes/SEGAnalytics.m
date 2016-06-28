@@ -87,6 +87,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 #pragma mark - Analytics API
 
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options {
+    if (!self.enabled) { return; }
     NSCParameterAssert(userId.length > 0 || traits.count > 0);
     [self dispatchBackground:^{
         NSString *anonymousId = [options objectForKey:@"anonymousId"];
@@ -106,6 +107,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 }
 
 - (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options {
+    if (!self.enabled) { return; }
     NSCParameterAssert(event.length > 0);
     [self enqueueAction:@"track"
              dictionary:@{
@@ -118,6 +120,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 }
 
 - (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options {
+    if (!self.enabled) { return; }
     NSCParameterAssert(screenTitle.length > 0);
     [self enqueueAction:@"screen"
              dictionary:@{
@@ -130,6 +133,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 }
 
 - (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options {
+    if (!self.enabled) { return; }
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:groupId forKey:@"groupId"];
     [dictionary setValue:SEGCoerceDictionary(traits) forKey:@"traits"];
@@ -140,6 +144,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 }
 
 - (void)alias:(NSString *)newId options:(NSDictionary *)options {
+    if (!self.enabled) { return; }
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:newId forKey:@"userId"];
     [dictionary setValue:self.user.userId ?: self.user.anonymousId forKey:@"previousId"];
@@ -151,6 +156,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 }
 
 - (void)reset {
+    if (!self.enabled) { return; }
     [self dispatchBackgroundAndWait:^{
         [self.user reset];
         [self.transporter reset];
@@ -237,44 +243,54 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 @implementation SEGAnalytics (Advanced)
 
 - (void)receivedRemoteNotification:(NSDictionary *)userInfo {
+    if (!self.enabled) { return; }
     [self.integrations receivedRemoteNotification:userInfo];
 }
 
 - (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    if (!self.enabled) { return; }
     [self.integrations failedToRegisterForRemoteNotificationsWithError:error];
 }
 
 - (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    if (!self.enabled) { return; }
     NSParameterAssert(deviceToken != nil);
     [self.ctx addPushTokenToContext:[SEGUtils convertPushTokenToString:deviceToken]];
     [self.integrations registeredForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo {
+    if (!self.enabled) { return; }
     [self.integrations handleActionWithIdentifier:identifier forRemoteNotification:userInfo];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    if (!self.enabled) { return; }
     [self.integrations applicationDidFinishLaunching:notification];
 }
 
 - (void)applicationWillEnterForeground {
+    if (!self.enabled) { return; }
     [self.integrations applicationWillEnterForeground];
 }
 
 - (void)applicationDidBecomeActive {
+    if (!self.enabled) { return; }
     [self.integrations applicationDidBecomeActive];
 }
 
 - (void)applicationWillResignActive {
+    if (!self.enabled) { return; }
     [self.integrations applicationWillResignActive];
 }
 
 - (void)applicationDidEnterBackground {
+    if (!self.enabled) { return; }
     [self.integrations applicationDidEnterBackground];
 }
 
 - (void)applicationWillTerminate {
+    if (!self.enabled) { return; }
     [self.integrations applicationWillTerminate];
 }
 
