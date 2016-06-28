@@ -49,7 +49,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         _user = [[SEGUser alloc] init];
         
         _transporter = [[SEGNetworkTransporter alloc] initWithConfiguration:_configuration];
-        _transporter.batchContext = [_ctx staticContext];
         _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics", DISPATCH_QUEUE_SERIAL);
         
         if (configuration.recordScreenViews) {
@@ -262,7 +261,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     if (!self.enabled) { return; }
     NSParameterAssert(deviceToken != nil);
     self.ctx.pushToken = [SEGUtils convertPushTokenToString:deviceToken];
-    self.transporter.batchContext = [self.ctx staticContext];
     [self.integrations registeredForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 

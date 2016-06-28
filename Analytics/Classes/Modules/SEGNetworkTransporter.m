@@ -126,7 +126,6 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         NSMutableDictionary *payloadDictionary = [[NSMutableDictionary alloc] init];
         [payloadDictionary setObject:self.configuration.writeKey forKey:@"writeKey"];
         [payloadDictionary setObject:iso8601FormattedString([NSDate date]) forKey:@"sentAt"];
-        [payloadDictionary setObject:self.batchContext forKey:@"context"];
         [payloadDictionary setObject:self.batch forKey:@"batch"];
         
         SEGLog(@"Flushing payload %@", payloadDictionary);
