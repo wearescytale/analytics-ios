@@ -30,6 +30,7 @@
 
 typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _Nonnull integration);
 
+
 @implementation SEGIntegrationsManager
 
 @synthesize cachedSettings = _cachedSettings;
@@ -143,6 +144,14 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     }
 }
 
+- (void)filterIntegrations:(SEL)selector block:(void(^)(id<SEGIntegration> _Nonnull integration))block {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:selector]) {
+            block(integration);
+        }
+    }];
+}
+
 - (void)eachIntegration:(IntegrationBlock _Nonnull)block {
     for (NSString *key in self.integrations) {
         if (self.initialized) {
@@ -252,17 +261,92 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     }];
 }
 
-// TODO: Implement me
-- (void)flush {}
-- (void)receivedRemoteNotification:(NSDictionary *)userInfo {}
-- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error {}
-- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {}
-- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo {}
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {}
-- (void)applicationDidEnterBackground {}
-- (void)applicationWillEnterForeground {}
-- (void)applicationWillTerminate {}
-- (void)applicationWillResignActive {}
-- (void)applicationDidBecomeActive {}
+- (void)flush {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(flush)]) {
+            [integration flush];
+        }
+    }];
+}
+
+- (void)receivedRemoteNotification:(NSDictionary *)userInfo {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(receivedRemoteNotification:)]) {
+            [integration receivedRemoteNotification:userInfo];
+        }
+    }];
+}
+
+- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(failedToRegisterForRemoteNotificationsWithError:)]) {
+            [integration failedToRegisterForRemoteNotificationsWithError:error];
+        }
+    }];
+}
+
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(registeredForRemoteNotificationsWithDeviceToken:)]) {
+            [integration registeredForRemoteNotificationsWithDeviceToken:deviceToken];
+        }
+    }];
+}
+
+- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(handleActionWithIdentifier:forRemoteNotification:)]) {
+            [integration handleActionWithIdentifier:identifier forRemoteNotification:userInfo];
+        }
+    }];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(applicationDidFinishLaunching:)]) {
+            [integration applicationDidFinishLaunching:notification];
+        }
+    }];
+}
+
+- (void)applicationDidEnterBackground {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(applicationDidEnterBackground)]) {
+            [integration applicationDidEnterBackground];
+        }
+    }];
+}
+
+- (void)applicationWillEnterForeground {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(applicationWillEnterForeground)]) {
+            [integration applicationWillEnterForeground];
+        }
+    }];
+}
+
+- (void)applicationWillTerminate {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(applicationWillTerminate)]) {
+            [integration applicationWillTerminate];
+        }
+    }];
+}
+
+- (void)applicationWillResignActive {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(applicationWillResignActive)]) {
+            [integration applicationWillResignActive];
+        }
+    }];
+}
+
+- (void)applicationDidBecomeActive {
+    [self eachIntegration:^(NSString * _Nonnull key, id<SEGIntegration>  _Nonnull integration) {
+        if ([integration respondsToSelector:@selector(applicationDidBecomeActive)]) {
+            [integration applicationDidBecomeActive];
+        }
+    }];
+}
 
 @end

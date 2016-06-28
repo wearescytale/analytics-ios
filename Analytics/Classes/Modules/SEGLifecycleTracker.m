@@ -11,6 +11,7 @@
 #import "SEGAnalyticsUtils.h"
 #import "SEGLifecycleTracker.h"
 #import "SEGAnalytics.h"
+#import "SEGAnalytics+Advanced.h"
 
 static NSString *const SEGVersionKey = @"SEGVersionKey";
 static NSString *const SEGBuildKey = @"SEGBuildKey";
@@ -26,46 +27,26 @@ static NSString *const SEGBuildKey = @"SEGBuildKey";
 - (instancetype)initWithAnalytics:(SEGAnalytics *)analytics {
     if (self = [super init]) {
         _analytics = analytics;
-        
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        
-        // Pass through for application state change events
-        for (NSString *name in @[ UIApplicationDidEnterBackgroundNotification,
-                                  UIApplicationDidFinishLaunchingNotification,
-                                  UIApplicationWillEnterForegroundNotification,
-                                  UIApplicationWillTerminateNotification,
-                                  UIApplicationWillResignActiveNotification,
-                                  UIApplicationDidBecomeActiveNotification ]) {
-            [nc addObserver:self selector:@selector(handleAppStateNotification:) name:name object:nil];
-        }
+        [self setupNotifications];
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.analytics];
 }
 
-- (void)handleAppStateNotification:(NSNotification *)note {
-    SEGLog(@"Application state change notification: %@", note.name);
-//    static NSDictionary *selectorMapping;
-//    static dispatch_once_t selectorMappingOnce;
-//    dispatch_once(&selectorMappingOnce, ^{
-//        selectorMapping = @{
-//        UIApplicationDidFinishLaunchingNotification:
-//            NSStringFromSelector(@selector(applicationDidFinishLaunching:)),
-//        UIApplicationDidEnterBackgroundNotification:
-//            NSStringFromSelector(@selector(applicationDidEnterBackground)),
-//        UIApplicationWillEnterForegroundNotification:
-//            NSStringFromSelector(@selector(applicationWillEnterForeground)),
-//        UIApplicationWillTerminateNotification:
-//            NSStringFromSelector(@selector(applicationWillTerminate)),
-//        UIApplicationWillResignActiveNotification:
-//            NSStringFromSelector(@selector(applicationWillResignActive)),
-//        UIApplicationDidBecomeActiveNotification:
-//            NSStringFromSelector(@selector(applicationDidBecomeActive))
-//        };
-//    });
+- (void)setupNotification:(NSString *)name selector:(SEL)selector {
+    [[NSNotificationCenter defaultCenter] addObserver:self.analytics selector:selector name:name object:nil];
+}
+
+- (void)setupNotifications {
+    [self setupNotification:UIApplicationDidFinishLaunchingNotification selector:@selector(applicationDidFinishLaunching:)];
+    [self setupNotification:UIApplicationWillEnterForegroundNotification selector:@selector(applicationWillEnterForeground)];
+    [self setupNotification:UIApplicationDidBecomeActiveNotification selector:@selector(applicationDidBecomeActive)];
+    [self setupNotification:UIApplicationWillResignActiveNotification selector:@selector(applicationWillResignActive)];
+    [self setupNotification:UIApplicationDidEnterBackgroundNotification selector:@selector(applicationDidEnterBackground)];
+    [self setupNotification:UIApplicationWillTerminateNotification selector:@selector(applicationWillTerminate)];
 }
 
 - (void)trackApplicationLifecycleEvents {

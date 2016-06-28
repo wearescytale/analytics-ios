@@ -141,12 +141,6 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
 - (void)alias:(NSString *)newId options:(NSDictionary *)options;
 - (void)alias:(NSString *)newId;
 
-// todo: docs
-- (void)receivedRemoteNotification:(NSDictionary *)userInfo;
-- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error;
-- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
-- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo;
-
 /*!
  @method
  

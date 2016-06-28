@@ -10,6 +10,7 @@
 #import "SEGMigration.h"
 #import "SEGUtils.h"
 #import "SEGAnalytics.h"
+#import "SEGAnalytics+Advanced.h"
 
 static SEGAnalytics *__sharedInstance = nil;
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
@@ -230,23 +231,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     [self.integrations alias:newId options:options];
 }
 
-- (void)receivedRemoteNotification:(NSDictionary *)userInfo {
-
-}
-
-- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error {
-
-}
-
-- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSParameterAssert(deviceToken != nil);
-    [self.ctx addPushTokenToContext:[SEGUtils convertPushTokenToString:deviceToken]];
-    [self.integrations registeredForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo {
-}
-
 - (void)reset {
     [self dispatchBackgroundAndWait:^{
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:SEGUserIdKey];
@@ -334,6 +318,52 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 
 - (NSDictionary *)bundledIntegrations {
     return [self.integrations.registeredIntegrations copy];
+}
+
+@end
+
+@implementation SEGAnalytics (Advanced)
+
+- (void)receivedRemoteNotification:(NSDictionary *)userInfo {
+    [self.integrations receivedRemoteNotification:userInfo];
+}
+
+- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    [self.integrations failedToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSParameterAssert(deviceToken != nil);
+    [self.ctx addPushTokenToContext:[SEGUtils convertPushTokenToString:deviceToken]];
+    [self.integrations registeredForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo {
+    [self.integrations handleActionWithIdentifier:identifier forRemoteNotification:userInfo];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    [self.integrations applicationDidFinishLaunching:notification];
+}
+
+- (void)applicationWillEnterForeground {
+    [self.integrations applicationWillEnterForeground];
+}
+
+- (void)applicationDidBecomeActive {
+    [self.integrations applicationDidBecomeActive];
+}
+
+- (void)applicationWillResignActive {
+    [self.integrations applicationWillResignActive];
+}
+
+- (void)applicationDidEnterBackground {
+    [self.integrations applicationDidEnterBackground];
+}
+
+- (void)applicationWillTerminate {
+    [self.integrations applicationWillTerminate];
 }
 
 @end
