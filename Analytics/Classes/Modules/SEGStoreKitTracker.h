@@ -1,9 +1,7 @@
 #import <Foundation/Foundation.h>
-#import <StoreKit/StoreKit.h>
 #import "Analytics.h"
 
-
-@interface SEGStoreKitTracker : NSObject <SKPaymentTransactionObserver, SKProductsRequestDelegate>
+@interface SEGStoreKitTracker : NSObject
 
 + (instancetype)trackTransactionsForAnalytics:(SEGAnalytics *)analytics;
 
