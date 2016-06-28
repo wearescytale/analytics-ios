@@ -28,7 +28,6 @@ static NSString *const SEGADClientClass = @"ADClient";
 @property (nonatomic, strong) SEGBluetooth *bluetooth;
 @property (nonatomic, strong) SEGReachability *reachability;
 @property (nonatomic, strong) SEGLocation *location;
-@property (nonatomic, strong) NSMutableDictionary *traits;
 
 @end
 
@@ -137,7 +136,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
 }
 
 
-- (NSDictionary *)liveContext {
+- (NSDictionary *)contextForTraits:(NSDictionary *)traits {
     NSMutableDictionary *context = [[NSMutableDictionary alloc] init];
     
     [context addEntriesFromDictionary:self.context];
@@ -169,12 +168,12 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
         context[@"location"] = self.location.locationDictionary;
     
     context[@"traits"] = ({
-        NSMutableDictionary *traits = [[NSMutableDictionary alloc] initWithDictionary:[self traits]];
+        NSMutableDictionary *mutableTraits = [[NSMutableDictionary alloc] initWithDictionary:traits];
         
         if (self.location.hasKnownLocation)
-            traits[@"address"] = self.location.addressDictionary;
+            mutableTraits[@"address"] = self.location.addressDictionary;
         
-        traits;
+        mutableTraits;
     });
     
     return [context copy];
@@ -185,30 +184,6 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     [self.context[@"device"] setObject:pushToken forKey:@"token"];
 }
 
-- (void)addTraits:(NSDictionary *)traits {
-    // TODO: Do we need a serial queue here?
-//    [self dispatchBackground:^{
-        [self.traits addEntriesFromDictionary:traits];
-        [[self.traits copy] writeToURL:self.traitsURL atomically:YES];
-//    }];
-}
-
-- (void)reset {
-    // TODO: Do we need a serial queue here?
-    [[NSFileManager defaultManager] removeItemAtURL:self.traitsURL error:NULL];
-    self.traits = [NSMutableDictionary dictionary];
-}
-
-- (NSMutableDictionary *)traits {
-    if (!_traits) {
-        _traits = [NSMutableDictionary dictionaryWithContentsOfURL:self.traitsURL] ?: [[NSMutableDictionary alloc] init];
-    }
-    return _traits;
-}
-
-- (NSURL *)traitsURL {
-    return SEGAnalyticsURLForFilename(@"segmentio.traits.plist");
-}
 
 
 @end

@@ -9,6 +9,7 @@
 #import "SEGContext.h"
 #import "SEGMigration.h"
 #import "SEGUtils.h"
+#import "SEGUser.h"
 #import "SEGAnalytics.h"
 #import "SEGAnalytics+Advanced.h"
 
@@ -22,14 +23,12 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 @property (nonatomic, strong) dispatch_queue_t serialQueue;
 @property (nonatomic, assign) BOOL enabled;
-@property (nonatomic, strong) SEGNetworkTransporter *transporter;
-@property (nonatomic, strong) SEGStoreKitTracker *storeKitTracker;
-@property (nonatomic, strong) SEGLifecycleTracker *lifecycle;
+@property (nonatomic, strong) SEGUser *user;
 @property (nonatomic, strong) SEGContext *ctx;
+@property (nonatomic, strong) SEGNetworkTransporter *transporter;
+@property (nonatomic, strong) SEGLifecycleTracker *lifecycle;
 @property (nonatomic, strong) SEGIntegrationsManager *integrations;
-
-@property (nonatomic, copy) NSString *anonymousId;
-@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, strong) SEGStoreKitTracker *storeKitTracker;
 
 @end
 
@@ -49,8 +48,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
         _configuration = configuration;
         _enabled = YES;
         _ctx = [[SEGContext alloc] initWithConfiguration:_configuration];
-        self.anonymousId = [self getAnonymousId:NO];
-        self.userId = [self getUserId];
+        _user = [[SEGUser alloc] init];
         
         _transporter = [[SEGNetworkTransporter alloc] initWithConfiguration:_configuration];
         _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics", DISPATCH_QUEUE_SERIAL);
@@ -73,48 +71,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
         }];
     }
     return self;
-}
-
-- (NSString *)getAnonymousId:(BOOL)reset {
-    // We've chosen to generate a UUID rather than use the UDID (deprecated in iOS 5),
-    // identifierForVendor (iOS6 and later, can't be changed on logout),
-    // or MAC address (blocked in iOS 7). For more info see https://segment.io/libraries/ios#ids
-    NSURL *url = self.anonymousIDURL;
-    NSString *anonymousId = [[NSUserDefaults standardUserDefaults] valueForKey:SEGAnonymousIdKey] ?: [[NSString alloc] initWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
-    if (!anonymousId || reset) {
-        anonymousId = [SEGUtils generateUUIDString];
-        SEGLog(@"New anonymousId: %@", anonymousId);
-        [[NSUserDefaults standardUserDefaults] setObject:anonymousId forKey:SEGAnonymousIdKey];
-        [anonymousId writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-    }
-    return anonymousId;
-}
-
-- (NSString *)getUserId {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:SEGUserIdKey] ?: [[NSString alloc] initWithContentsOfURL:self.userIDURL encoding:NSUTF8StringEncoding error:NULL];
-}
-
-- (void)saveUserId:(NSString *)userId {
-    [self dispatchBackground:^{
-        self.userId = userId;
-        [self.userId writeToURL:self.userIDURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-    }];
-}
-
-- (void)saveAnonymousId:(NSString *)anonymousId {
-    [self dispatchBackground:^{
-        self.anonymousId = anonymousId;
-        [[NSUserDefaults standardUserDefaults] setValue:anonymousId forKey:SEGAnonymousIdKey];
-        [self.anonymousId writeToURL:self.anonymousIDURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-    }];
-}
-
-- (NSURL *)userIDURL {
-    return SEGAnalyticsURLForFilename(@"segmentio.userId");
-}
-
-- (NSURL *)anonymousIDURL {
-    return SEGAnalyticsURLForFilename(@"segment.anonymousId");
 }
 
 - (void)dispatchBackground:(void (^)(void))block {
@@ -143,10 +99,10 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     NSCParameterAssert(userId.length > 0 || traits.count > 0);
     [self dispatchBackground:^{
         NSString *anonymousId = [options objectForKey:@"anonymousId"];
-        [self saveUserId:userId];
-        [self.ctx addTraits:traits];
+        self.user.userId = userId;
+        [self.user addTraits:traits];
         if (anonymousId) {
-            [self saveAnonymousId:anonymousId];
+            self.user.anonymousId = anonymousId;
         }
     }];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
@@ -223,7 +179,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 - (void)alias:(NSString *)newId options:(NSDictionary *)options {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:newId forKey:@"userId"];
-    [dictionary setValue:self.userId ?: self.anonymousId forKey:@"previousId"];
+    [dictionary setValue:self.user.userId ?: self.user.anonymousId forKey:@"previousId"];
     NSDictionary *context = SEGCoerceDictionary([options objectForKey:@"context"]);
     NSDictionary *integrations = [options objectForKey:@"integrations"];
     
@@ -233,12 +189,7 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 
 - (void)reset {
     [self dispatchBackgroundAndWait:^{
-        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:SEGUserIdKey];
-        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:SEGAnonymousIdKey];
-        [[NSFileManager defaultManager] removeItemAtURL:self.userIDURL error:NULL];
-        self.userId = nil;
-        [self.ctx reset];
-        self.anonymousId = [self getAnonymousId:YES];
+        [self.user reset];
         [self.transporter reset];
         [self.integrations reset];
     }];
@@ -281,13 +232,13 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
         
         // Do not override the userId for an 'alias' action. This value is set in [alias:] already.
         if (![action isEqualToString:@"alias"]) {
-            [payload setValue:self.userId forKey:@"userId"];
+            [payload setValue:self.user.userId forKey:@"userId"];
         }
-        [payload setValue:self.anonymousId forKey:@"anonymousId"];
+        [payload setValue:self.user.anonymousId forKey:@"anonymousId"];
         
         [payload setValue:[self integrationsDictionary:integrations] forKey:@"integrations"];
         
-        NSDictionary *defaultContext = [self.ctx liveContext];
+        NSDictionary *defaultContext = [self.ctx contextForTraits:self.user.traits];
         NSDictionary *customContext = context;
         NSMutableDictionary *context = [NSMutableDictionary dictionaryWithCapacity:customContext.count + defaultContext.count];
         [context addEntriesFromDictionary:defaultContext];
@@ -298,8 +249,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
         [self.transporter queuePayload:payload];
     }];
 }
-
-
 
 #pragma mark - Class Methods
 

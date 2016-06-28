@@ -11,6 +11,7 @@
 		EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB16EE81D15D50C001221B5 /* libAnalytics.a */; };
 		EA08DBBC1D2246B000A2B68A /* NSData+GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBB91D2246B000A2B68A /* NSData+GZIP.m */; };
 		EA08DBBD1D2246B000A2B68A /* SEGReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBBB1D2246B000A2B68A /* SEGReachability.m */; };
+		EA08DBC21D22565100A2B68A /* SEGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBC11D22565100A2B68A /* SEGUser.m */; };
 		EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */; };
 		EA7E7D9F1D1D19DA0002889C /* SEGLifecycleTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */; };
 		EA7E7DA51D1D96A30002889C /* SEGNetworkTransporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */; };
@@ -59,6 +60,8 @@
 		EA08DBBA1D2246B000A2B68A /* SEGReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGReachability.h; sourceTree = "<group>"; };
 		EA08DBBB1D2246B000A2B68A /* SEGReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGReachability.m; sourceTree = "<group>"; };
 		EA08DBBF1D22498F00A2B68A /* SEGAnalytics+Advanced.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SEGAnalytics+Advanced.h"; sourceTree = "<group>"; };
+		EA08DBC01D22565100A2B68A /* SEGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGUser.h; sourceTree = "<group>"; };
+		EA08DBC11D22565100A2B68A /* SEGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGUser.m; sourceTree = "<group>"; };
 		EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationsManager.h; sourceTree = "<group>"; };
 		EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGIntegrationsManager.m; sourceTree = "<group>"; };
 		EA7E7D9D1D1D19DA0002889C /* SEGLifecycleTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGLifecycleTracker.h; sourceTree = "<group>"; };
@@ -179,6 +182,8 @@
 			children = (
 				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
 				EA7E7DD11D20F1020002889C /* SEGMigration.m */,
+				EA08DBC01D22565100A2B68A /* SEGUser.h */,
+				EA08DBC11D22565100A2B68A /* SEGUser.m */,
 				EA7E7DA61D1DE6F80002889C /* SEGContext.h */,
 				EA7E7DA71D1DE6F80002889C /* SEGContext.m */,
 				EA7E7DA31D1D96A30002889C /* SEGNetworkTransporter.h */,
@@ -317,6 +322,7 @@
 				EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */,
 				EAAC78611D1C4B65009E3AFC /* SEGLocation.m in Sources */,
 				EA7E7DA81D1DE6F80002889C /* SEGContext.m in Sources */,
+				EA08DBC21D22565100A2B68A /* SEGUser.m in Sources */,
 				EA7E7D9F1D1D19DA0002889C /* SEGLifecycleTracker.m in Sources */,
 				EAAC786F1D1C7C29009E3AFC /* SEGUtils.m in Sources */,
 				EA08DBBC1D2246B000A2B68A /* NSData+GZIP.m in Sources */,
