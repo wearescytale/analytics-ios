@@ -10,8 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "SEGAnalyticsUtils.h"
 #import "SEGLifecycleTracker.h"
-#import "SEGAnalytics.h"
-#import "SEGAnalytics+Advanced.h"
+#import "Analytics.h"
 
 static NSString *const SEGVersionKey = @"SEGVersionKey";
 static NSString *const SEGBuildKey = @"SEGBuildKey";

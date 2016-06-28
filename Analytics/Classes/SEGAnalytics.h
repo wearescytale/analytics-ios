@@ -63,8 +63,6 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  
  */
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options;
-- (void)identify:(NSString *)userId traits:(NSDictionary *)traits;
-- (void)identify:(NSString *)userId;
 
 
 /*!
@@ -84,8 +82,6 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  
  */
 - (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options;
-- (void)track:(NSString *)event properties:(NSDictionary *)properties;
-- (void)track:(NSString *)event;
 
 /*!
  @method
@@ -104,8 +100,6 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  
  */
 - (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options;
-- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties;
-- (void)screen:(NSString *)screenTitle;
 
 /*!
  @method
@@ -121,8 +115,6 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  
  */
 - (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options;
-- (void)group:(NSString *)groupId traits:(NSDictionary *)traits;
-- (void)group:(NSString *)groupId;
 
 /*!
  @method
@@ -139,7 +131,6 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  
  */
 - (void)alias:(NSString *)newId options:(NSDictionary *)options;
-- (void)alias:(NSString *)newId;
 
 /*!
  @method
@@ -206,3 +197,28 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
 
 @end
 
+/*
+ * Typically one would use the automatic tracking mode. However if for some reason you would like to avoid method swizzling
+ * used by automatic tracking mode, you can disable via SEGAnalyticsConfiguration, but then it would be your responsibility
+ * to ensure the following methods are correctly called manually
+ */
+@interface SEGAnalytics (Advanced)
+
+// Callbacks for notifications changes.
+// ------------------------------------
+- (void)receivedRemoteNotification:(NSDictionary *)userInfo;
+- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error;
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
+- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo;
+
+// Callbacks for app state changes
+// -------------------------------
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)applicationDidEnterBackground;
+- (void)applicationWillEnterForeground;
+- (void)applicationWillTerminate;
+- (void)applicationWillResignActive;
+- (void)applicationDidBecomeActive;
+
+@end

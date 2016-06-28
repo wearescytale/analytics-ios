@@ -10,8 +10,7 @@
 #import "SEGMigration.h"
 #import "SEGUtils.h"
 #import "SEGUser.h"
-#import "SEGAnalytics.h"
-#import "SEGAnalytics+Advanced.h"
+#import "Analytics.h"
 
 static SEGAnalytics *__sharedInstance = nil;
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
@@ -87,14 +86,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 
 #pragma mark - Analytics API
 
-- (void)identify:(NSString *)userId {
-    [self identify:userId traits:nil options:nil];
-}
-
-- (void)identify:(NSString *)userId traits:(NSDictionary *)traits {
-    [self identify:userId traits:traits options:nil];
-}
-
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options {
     NSCParameterAssert(userId.length > 0 || traits.count > 0);
     [self dispatchBackground:^{
@@ -114,14 +105,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     [self.integrations identify:userId traits:traits options:options];
 }
 
-- (void)track:(NSString *)event {
-    [self track:event properties:nil options:nil];
-}
-
-- (void)track:(NSString *)event properties:(NSDictionary *)properties {
-    [self track:event properties:properties options:nil];
-}
-
 - (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options {
     NSCParameterAssert(event.length > 0);
     [self enqueueAction:@"track"
@@ -132,14 +115,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
                 context:SEGCoerceDictionary([options objectForKey:@"context"])
            integrations:[options objectForKey:@"integrations"]];
     [self.integrations track:event properties:properties options:options];
-}
-
-- (void)screen:(NSString *)screenTitle {
-    [self screen:screenTitle properties:nil options:nil];
-}
-
-- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties {
-    [self screen:screenTitle properties:properties options:nil];
 }
 
 - (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options {
@@ -154,14 +129,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     [self.integrations screen:screenTitle properties:properties options:options];
 }
 
-- (void)group:(NSString *)groupId {
-    [self group:groupId traits:nil options:nil];
-}
-
-- (void)group:(NSString *)groupId traits:(NSDictionary *)traits {
-    [self group:groupId traits:traits options:nil];
-}
-
 - (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:groupId forKey:@"groupId"];
@@ -170,10 +137,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     NSDictionary *integrations = [options objectForKey:@"integrations"];
     [self enqueueAction:@"group" dictionary:dictionary context:context integrations:integrations];
     [self.integrations group:groupId traits:traits options:options];
-}
-
-- (void)alias:(NSString *)newId {
-    [self alias:newId options:nil];
 }
 
 - (void)alias:(NSString *)newId options:(NSDictionary *)options {
