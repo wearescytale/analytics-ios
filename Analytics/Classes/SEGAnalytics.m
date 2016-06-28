@@ -14,8 +14,6 @@
 
 static SEGAnalytics *__sharedInstance = nil;
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
-NSString *const SEGUserIdKey = @"SEGUserId";
-NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 
 @interface SEGAnalytics ()
 
