@@ -12,6 +12,7 @@
 @interface SEGNetworkTransporter : NSObject
 
 @property (nonatomic, strong) NSURL *apiURL;
+@property (nonatomic, strong) NSDictionary *batchContext;
 
 - (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
 

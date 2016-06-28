@@ -21,14 +21,13 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 @interface SEGNetworkTransporter ()
 
-@property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
-@property (nonatomic, strong) NSMutableArray *queue;
-@property (nonatomic, strong) NSDictionary *context;
-@property (nonatomic, strong) NSArray *batch;
-@property (nonatomic, strong) SEGAnalyticsRequest *request;
+@property (nonnull, nonatomic, strong) SEGAnalyticsConfiguration *configuration;
+@property (nonnull, nonatomic, strong) NSMutableArray *queue;
+@property (nonnull, nonatomic, strong) NSArray *batch;
+@property (nonnull, nonatomic, strong) SEGAnalyticsRequest *request;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier flushTaskID;
-@property (nonatomic, strong) NSTimer *flushTimer;
-@property (nonatomic, strong) dispatch_queue_t serialQueue;
+@property (nonnull, nonatomic, strong) NSTimer *flushTimer;
+@property (nonnull, nonatomic, strong) dispatch_queue_t serialQueue;
 
 @end
 
@@ -82,6 +81,13 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
     }];
 }
 
+- (NSMutableArray *)queue {
+    if (!_queue) {
+        _queue = [NSMutableArray arrayWithContentsOfURL:self.queueURL] ?: [[NSMutableArray alloc] init];
+    }
+    return _queue;
+}
+
 - (NSURL *)queueURL {
     return SEGAnalyticsURLForFilename(@"segmentio.queue.plist");
 }
@@ -96,7 +102,6 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         SEGLog(@"%@ Error writing payload: %@", self, exception);
     }
 }
-
 
 - (void)flush {
     [self flushWithMaxSize:self.maxBatchSize];
@@ -121,7 +126,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         NSMutableDictionary *payloadDictionary = [[NSMutableDictionary alloc] init];
         [payloadDictionary setObject:self.configuration.writeKey forKey:@"writeKey"];
         [payloadDictionary setObject:iso8601FormattedString([NSDate date]) forKey:@"sentAt"];
-        [payloadDictionary setObject:self.context forKey:@"context"];
+        [payloadDictionary setObject:self.batchContext forKey:@"context"];
         [payloadDictionary setObject:self.batch forKey:@"batch"];
         
         SEGLog(@"Flushing payload %@", payloadDictionary);

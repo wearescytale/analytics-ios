@@ -20,6 +20,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 @property (nonatomic, strong) dispatch_queue_t serialQueue;
 @property (nonatomic, assign) BOOL enabled;
+@property (nonatomic, assign) BOOL debugMode;
 @property (nonatomic, strong) SEGUser *user;
 @property (nonatomic, strong) SEGContext *ctx;
 @property (nonatomic, strong) SEGNetworkTransporter *transporter;
@@ -48,6 +49,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         _user = [[SEGUser alloc] init];
         
         _transporter = [[SEGNetworkTransporter alloc] initWithConfiguration:_configuration];
+        _transporter.batchContext = [_ctx staticContext];
         _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics", DISPATCH_QUEUE_SERIAL);
         
         if (configuration.recordScreenViews) {
@@ -163,8 +165,10 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 }
 
 - (void)flush {
-    [self.transporter flush];
-    [self.integrations flush];
+    [self dispatchBackground:^{
+        [self.transporter flush];
+        [self.integrations flush];
+    }];
 }
 
 - (void)enable {
@@ -215,6 +219,9 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         SEGLog(@"%@ Enqueueing action: %@", self, payload);
         [self.transporter queuePayload:payload];
     }];
+    if (self.debugMode) {
+        [self flush];
+    }
 }
 
 #pragma mark - Class Methods
@@ -225,6 +232,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 }
 
 + (void)debug:(BOOL)showDebugLogs {
+    [SEGAnalytics sharedAnalytics].debugMode = showDebugLogs;
     SEGSetShowDebugLogs(showDebugLogs);
 }
 
