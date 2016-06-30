@@ -13,6 +13,8 @@
 
 @interface SEGAnalytics (Convenience)
 
+- (instancetype _Nonnull)initWithWriteKey:(NSString * _Nonnull)writeKey;
+
 - (void)identify:(NSString * _Nonnull)userId traits:(JSON_DICT _Nullable)traits;
 - (void)identify:(NSString * _Nonnull)userId;
 
@@ -26,6 +28,22 @@
 - (void)group:(NSString * _Nonnull)groupId;
 
 - (void)alias:(NSString * _Nonnull)newId;
+
+/* 
+ The following class methods simply call equivalent instance methods on `[SEGAnalytics sharedAnalytics]`
+ So once you do `[SEGAnalytics setupWithWriteKey:@"YOUR_SEGMENT_WRITE_KEY"];`
+ You can write `[SEGAnalytics track:@"Item Purchased"]`
+ Which is just a shorthand for `[[SEGAnalytics sharedAnalytics] track:@"Item Purchased"]`
+ If you are using Segment from swift, we recommend simply creating a global Analytics singleton
+ ```
+ let Analytics = SEGAnalytics(writeKey: "YOUR_SEGMENT_WRITE_KEY")
+ 
+ // elsewhere in your app
+ func doSomething() {
+    Analytics.track("Item Purchased")
+ }
+ ```
+ */
 
 + (void)identify:(NSString * _Nonnull)userId traits:(JSON_DICT _Nullable)traits;
 + (void)identify:(NSString * _Nonnull)userId;
@@ -61,6 +79,6 @@
  *
  * @see -setupWithConfiguration:
  */
-+ (instancetype _Nonnull)sharedAnalytics;
++ (instancetype _Null_unspecified)sharedAnalytics;
 
 @end

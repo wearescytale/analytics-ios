@@ -12,6 +12,10 @@ static SEGAnalytics *__sharedAnalytics = nil;
 
 @implementation SEGAnalytics (Convenience)
 
+- (instancetype)initWithWriteKey:(NSString *)writeKey {
+    return [self initWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:writeKey]];
+}
+
 - (void)identify:(NSString *)userId {
     [self identify:userId traits:nil options:nil];
 }
