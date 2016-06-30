@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B71E00D7667D1D1A6A4E4D60 /* Pods_AnalyticsTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122BFB58C2BE7BAF71545586 /* Pods_AnalyticsTest.framework */; };
+		EA04DE211D25DA2500DB4B89 /* TransporterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA04DE201D25DA2500DB4B89 /* TransporterTest.swift */; };
 		EA08DBAF1D22414A00A2B68A /* AnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */; };
 		EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB16EE81D15D50C001221B5 /* libAnalytics.a */; };
 		EA08DBBC1D2246B000A2B68A /* NSData+GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBB91D2246B000A2B68A /* NSData+GZIP.m */; };
@@ -91,6 +92,8 @@
 		0D7980CC201F7578995A4353 /* Pods-AnalyticsTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnalyticsTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-AnalyticsTest/Pods-AnalyticsTest.release.xcconfig"; sourceTree = "<group>"; };
 		11BC2851CD54DFDBD15C0094 /* Pods-AnalyticsTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnalyticsTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AnalyticsTest/Pods-AnalyticsTest.debug.xcconfig"; sourceTree = "<group>"; };
 		122BFB58C2BE7BAF71545586 /* Pods_AnalyticsTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnalyticsTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA04DE1F1D25DA2500DB4B89 /* AnalyticsTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AnalyticsTest-Bridging-Header.h"; sourceTree = "<group>"; };
+		EA04DE201D25DA2500DB4B89 /* TransporterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransporterTest.swift; sourceTree = "<group>"; };
 		EA08DBAC1D22414A00A2B68A /* AnalyticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnalyticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTest.m; sourceTree = "<group>"; };
 		EA08DBB01D22414A00A2B68A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -187,7 +190,9 @@
 		EA08DBAD1D22414A00A2B68A /* AnalyticsTest */ = {
 			isa = PBXGroup;
 			children = (
+				EA04DE1F1D25DA2500DB4B89 /* AnalyticsTest-Bridging-Header.h */,
 				EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */,
+				EA04DE201D25DA2500DB4B89 /* TransporterTest.swift */,
 				EA08DBB01D22414A00A2B68A /* Info.plist */,
 			);
 			path = AnalyticsTest;
@@ -482,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA04DE211D25DA2500DB4B89 /* TransporterTest.swift in Sources */,
 				EA08DBAF1D22414A00A2B68A /* AnalyticsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,11 +564,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 11BC2851CD54DFDBD15C0094 /* Pods-AnalyticsTest.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = AnalyticsTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.segment.AnalyticsTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AnalyticsTest/AnalyticsTest-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -570,11 +583,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0D7980CC201F7578995A4353 /* Pods-AnalyticsTest.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = AnalyticsTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.segment.AnalyticsTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AnalyticsTest/AnalyticsTest-Bridging-Header.h";
 			};
 			name = Release;
 		};
