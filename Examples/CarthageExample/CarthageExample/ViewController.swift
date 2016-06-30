@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        Analytics.track("Carthage Main View Did Load")
+        Analytics.flush()
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +22,10 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func fireEvent(sender: AnyObject) {
+        Analytics.track("Carthage Button Pressed")
+        Analytics.flush()
+    }
 
 }
 

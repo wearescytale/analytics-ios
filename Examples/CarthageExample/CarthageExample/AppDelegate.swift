@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Analytics
+
+let Analytics = SEGAnalytics(writeKey: "XMTBm9QGhfkLKaevI50GYdD4mOcVDD83") // Use your own writekey people :)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        Analytics.track("Carthage Example Launched")
+        Analytics.flush()
+        
         return true
     }
 
