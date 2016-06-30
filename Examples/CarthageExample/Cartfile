@@ -1,0 +1,2 @@
+# Use a local project
+git "file:///Users/Tony/Code/segment/analytics-ios/" "redux"
