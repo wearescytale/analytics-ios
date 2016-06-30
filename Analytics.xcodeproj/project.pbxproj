@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EA08DBAF1D22414A00A2B68A /* AnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */; };
-		EA08DBB11D22414A00A2B68A /* liblibAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB16EE81D15D50C001221B5 /* liblibAnalytics.a */; };
+		EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB16EE81D15D50C001221B5 /* libAnalytics.a */; };
 		EA08DBBC1D2246B000A2B68A /* NSData+GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBB91D2246B000A2B68A /* NSData+GZIP.m */; };
 		EA08DBBD1D2246B000A2B68A /* SEGReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBBB1D2246B000A2B68A /* SEGReachability.m */; };
 		EA08DBC21D22565100A2B68A /* SEGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBC11D22565100A2B68A /* SEGUser.m */; };
@@ -63,6 +63,13 @@
 			containerPortal = EAB16EE01D15D50C001221B5 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EAB16EE71D15D50C001221B5;
+			remoteInfo = Analytics;
+		};
+		EAACFE891D25C97700668199 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAB16EE01D15D50C001221B5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EAACFE261D25BCED00668199;
 			remoteInfo = Analytics;
 		};
 /* End PBXContainerItemProxy section */
@@ -126,7 +133,7 @@
 		EAACFE1E1D2595B400668199 /* SEGIntegrationFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationFactory.h; sourceTree = "<group>"; };
 		EAACFE271D25BCED00668199 /* Analytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Analytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAACFE2B1D25BCED00668199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EAB16EE81D15D50C001221B5 /* liblibAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAB16EE81D15D50C001221B5 /* libAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,7 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA08DBB11D22414A00A2B68A /* liblibAnalytics.a in Frameworks */,
+				EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +264,7 @@
 		EAB16EE91D15D50C001221B5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EAB16EE81D15D50C001221B5 /* liblibAnalytics.a */,
+				EAB16EE81D15D50C001221B5 /* libAnalytics.a */,
 				EA08DBAC1D22414A00A2B68A /* AnalyticsTest.xctest */,
 				EAACFE271D25BCED00668199 /* Analytics.framework */,
 			);
@@ -296,6 +303,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EAACFE8A1D25C97700668199 /* PBXTargetDependency */,
 				EA08DBB31D22414A00A2B68A /* PBXTargetDependency */,
 			);
 			name = AnalyticsTest;
@@ -335,7 +343,7 @@
 			);
 			name = libAnalytics;
 			productName = Analytics;
-			productReference = EAB16EE81D15D50C001221B5 /* liblibAnalytics.a */;
+			productReference = EAB16EE81D15D50C001221B5 /* libAnalytics.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -462,6 +470,11 @@
 			isa = PBXTargetDependency;
 			target = EAB16EE71D15D50C001221B5 /* libAnalytics */;
 			targetProxy = EA08DBB21D22414A00A2B68A /* PBXContainerItemProxy */;
+		};
+		EAACFE8A1D25C97700668199 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EAACFE261D25BCED00668199 /* Analytics */;
+			targetProxy = EAACFE891D25C97700668199 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -616,7 +629,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Analytics;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -625,7 +638,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Analytics;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
