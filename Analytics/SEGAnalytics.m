@@ -12,7 +12,6 @@
 #import "SEGUser.h"
 #import "Analytics.h"
 
-static SEGAnalytics *__sharedInstance = nil;
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
 
 @interface SEGAnalytics ()
@@ -31,13 +30,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 @end
 
 @implementation SEGAnalytics
-
-+ (void)setupWithConfiguration:(SEGAnalyticsConfiguration *)configuration {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __sharedInstance = [[self alloc] initWithConfiguration:configuration];
-    });
-}
 
 - (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration {
     NSCParameterAssert(configuration != nil);
@@ -224,11 +216,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 }
 
 #pragma mark - Class Methods
-
-+ (instancetype)sharedAnalytics {
-    NSCParameterAssert(__sharedInstance != nil);
-    return __sharedInstance;
-}
 
 + (void)debug:(BOOL)showDebugLogs {
     [SEGAnalytics sharedAnalytics].debugMode = showDebugLogs;

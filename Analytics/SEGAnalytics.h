@@ -25,27 +25,6 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
  */
 - (instancetype _Nonnull)initWithConfiguration:(SEGAnalyticsConfiguration * _Nonnull)configuration;
 
-/**
- * Setup the analytics client.
- *
- * @param configuration The configuration used to setup the client.
- */
-+ (void)setupWithConfiguration:(SEGAnalyticsConfiguration * _Nonnull)configuration;
-
-/**
- * Enabled/disables debug logging to trace your data going through the SDK.
- *
- * @param showDebugLogs `YES` to enable logging, `NO` otherwise. `NO` by default.
- */
-+ (void)debug:(BOOL)showDebugLogs;
-
-/**
- * Returns the shared analytics client.
- *
- * @see -setupWithConfiguration:
- */
-+ (instancetype _Nonnull)sharedAnalytics;
-
 /*!
  @method
  
@@ -187,6 +166,15 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
  * Version of the library.
  */
 + (NSString * _Nonnull)version;
+
+
+/**
+ * Enabled/disables debug logging to trace your data going through the SDK.
+ *
+ * @param showDebugLogs `YES` to enable logging, `NO` otherwise. `NO` by default.
+ */
++ (void)debug:(BOOL)showDebugLogs;
+
 
 /**
  * Returns a dictionary of integrations that are bundled. This is an internal Segment API, and may be removed at any time
