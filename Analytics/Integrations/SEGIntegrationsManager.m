@@ -11,8 +11,9 @@
 #import "SEGAnalyticsUtils.h"
 #import "SEGAnalyticsRequest.h"
 #import "SEGAnalyticsConfiguration.h"
-#import "SEGIntegrationsManager.h"
 #import "SEGIntegration.h"
+#import "SEGIntegrationFactory.h"
+#import "SEGIntegrationsManager.h"
 
 @interface SEGIntegrationsManager ()
 

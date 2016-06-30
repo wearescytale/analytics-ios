@@ -96,6 +96,7 @@
 		EAAC786E1D1C7C29009E3AFC /* SEGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGUtils.m; sourceTree = "<group>"; };
 		EAAC78731D1C9957009E3AFC /* SEGAnalyticsConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAnalyticsConfiguration.h; sourceTree = "<group>"; };
 		EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAnalyticsConfiguration.m; sourceTree = "<group>"; };
+		EAACFE1E1D2595B400668199 /* SEGIntegrationFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationFactory.h; sourceTree = "<group>"; };
 		EAB16EE81D15D50C001221B5 /* libAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -161,6 +162,7 @@
 			children = (
 				EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */,
 				EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */,
+				EAACFE1E1D2595B400668199 /* SEGIntegrationFactory.h */,
 				EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */,
 				EA7E7DC61D20F0560002889C /* SEGPayload.h */,
 				EA7E7DC51D20F0560002889C /* SEGPayload.m */,
