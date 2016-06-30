@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2FBF6FF867B676467411255C927B9FD8739B9AC2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2FBF6FF867B676467411255C927B9FD8739B9AC2" : 0,
+    "8D3BAB94137C749EC2347C9BF09C956722FAA5CD" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A352E2EC-76E9-4572-9F60-D779E961AC6C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2FBF6FF867B676467411255C927B9FD8739B9AC2" : "analytics-ios\/",
+    "8D3BAB94137C749EC2347C9BF09C956722FAA5CD" : "analytics-ios-integration-mixpanel\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CocoapodsExample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Examples\/CocoapodsExample\/CocoapodsExample.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:segmentio\/analytics-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2FBF6FF867B676467411255C927B9FD8739B9AC2"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:segment-integrations\/analytics-ios-integration-mixpanel.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8D3BAB94137C749EC2347C9BF09C956722FAA5CD"
+    }
+  ]
+}

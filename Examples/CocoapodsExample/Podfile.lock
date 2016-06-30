@@ -1,0 +1,27 @@
+PODS:
+  - Analytics (3.3.0)
+  - Mixpanel (2.9.9):
+    - Mixpanel/Mixpanel (= 2.9.9)
+  - Mixpanel/Mixpanel (2.9.9)
+  - Segment-Mixpanel (1.0.5):
+    - Analytics (~> 3.0)
+    - Mixpanel (~> 2.9.0)
+
+DEPENDENCIES:
+  - Analytics (from `../../`)
+  - Segment-Mixpanel (from `../../../analytics-ios-integration-mixpanel`)
+
+EXTERNAL SOURCES:
+  Analytics:
+    :path: "../../"
+  Segment-Mixpanel:
+    :path: "../../../analytics-ios-integration-mixpanel"
+
+SPEC CHECKSUMS:
+  Analytics: de640ed2395bcbbea328948e45a54491bdfc1966
+  Mixpanel: 818d1940c2d9402453b349545022a86968097f57
+  Segment-Mixpanel: 21fc11558b3af35c11a867e624ea9f73b9df5000
+
+PODFILE CHECKSUM: bfbd009d89431cead609900176443c41d6f46cd2
+
+COCOAPODS: 1.0.1
