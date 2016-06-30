@@ -3,3 +3,4 @@
 //
 
 #import "Analytics.h"
+#import "SEGNetworkTransporter.h"

@@ -10,9 +10,18 @@ import Foundation
 import XCTest
 
 class TransporterTest : XCTestCase {
+    var transporter : SEGNetworkTransporter!
+
+    override func setUp() {
+        let config = SEGAnalyticsConfiguration(writeKey: "XMTBm9QGhfkLKaevI50GYdD4mOcVDD83")
+        transporter = SEGNetworkTransporter(configuration: config)
+    }
     
-    func testAddition() {
-        let analytics = SEGAnalytics(writeKey: "")
-        XCTAssertNotNil(analytics)
+    override func tearDown() {
+        transporter = nil
+    }
+    
+    func testApiURLValid() {
+        XCTAssertEqual(transporter.apiURL.absoluteString, "https://api.segment.io/v1/import")
     }
 }
