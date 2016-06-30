@@ -559,7 +559,7 @@
 			baseConfigurationReference = 11BC2851CD54DFDBD15C0094 /* Pods-AnalyticsTest.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = AnalyticsTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.segment.AnalyticsTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -571,7 +571,7 @@
 			baseConfigurationReference = 0D7980CC201F7578995A4353 /* Pods-AnalyticsTest.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = AnalyticsTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.segment.AnalyticsTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
