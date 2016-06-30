@@ -22,6 +22,23 @@ pod "Analytics"
 ```
 github "segmentio/analytics-ios"
 ```
+* Make sure `-ObjC` is added to if not already `OTHER_LDFLAGS` build setting
+
+### Manual Installation
+* Clone this git repo
+* add `Analytics.xcodeproj` as a subproject to your project
+
+If you only need to support iOS 8+, 
+* Add `Analytics.framework` to *Target Dependencies* and *Embed Framework* build phase
+
+If you need to support iOS 7+
+* Add `libAnalytics.a` to *Target Dependencies* and *Link Binary with Libraries* build phase
+* Add `${PATH_TO_YOUR_DIRECTORY}/Analytics/**` to `HEADER_SEARCH_PATH` build setting
+
+Finally
+* Make sure `-ObjC` is added to if not already `OTHER_LDFLAGS` build setting
+
+As you can see, using either cocoapods / Carthage are quite a bit easier :)
 
 ## Quickstart
 
