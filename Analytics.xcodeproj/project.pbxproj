@@ -138,7 +138,7 @@
 			path = Vendor;
 			sourceTree = "<group>";
 		};
-		EAAC78321D1C4B65009E3AFC /* Classes */ = {
+		EAAC78321D1C4B65009E3AFC /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
 				EA08DBB71D2246B000A2B68A /* Vendor */,
@@ -153,8 +153,7 @@
 				EAAC78741D1C9957009E3AFC /* SEGAnalyticsConfiguration.m */,
 				EA08DBC81D22617700A2B68A /* Analytics.h */,
 			);
-			name = Classes;
-			path = Analytics/Classes;
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 		EAAC78341D1C4B65009E3AFC /* Integrations */ = {
@@ -210,7 +209,7 @@
 		EAB16EDF1D15D50C001221B5 = {
 			isa = PBXGroup;
 			children = (
-				EAAC78321D1C4B65009E3AFC /* Classes */,
+				EAAC78321D1C4B65009E3AFC /* Analytics */,
 				EA08DBAD1D22414A00A2B68A /* AnalyticsTest */,
 				EAB16EE91D15D50C001221B5 /* Products */,
 			);
@@ -486,6 +485,7 @@
 				EA08DBB51D22414A00A2B68A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EAB16EE31D15D50C001221B5 /* Build configuration list for PBXProject "Analytics" */ = {
 			isa = XCConfigurationList;
