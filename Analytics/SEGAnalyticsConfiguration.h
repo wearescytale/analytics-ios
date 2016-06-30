@@ -19,14 +19,14 @@
  *
  * @param writeKey Your project's write key from segment.io.
  */
-+ (instancetype)configurationWithWriteKey:(NSString *)writeKey;
++ (instancetype _Nonnull)configurationWithWriteKey:(NSString * _Nonnull)writeKey;
 
 /**
  * Your project's write key from segment.io.
  *
  * @see +configurationWithWriteKey:
  */
-@property (nonatomic, copy, readonly) NSString *writeKey;
+@property (nonnull, nonatomic, readonly) NSString *writeKey;
 
 /**
  * Whether the analytics client should use location services. If `YES` and the host app hasn't asked for permission to use location services then the user will be presented with an alert view asking to do so. `NO` by default.
@@ -62,11 +62,11 @@
 /**
  * Register a factory that can be used to create an integration.
  */
-- (void)use:(id<SEGIntegrationFactory>)factory;
+- (void)use:(id<SEGIntegrationFactory> _Nonnull)factory;
 
 /**
  * PRIVATE: Do not use
  */
-@property (nonatomic, strong, readonly) NSMutableArray *factories;
+@property (nonnull, nonatomic, strong, readonly) NSMutableArray *factories;
 
 @end

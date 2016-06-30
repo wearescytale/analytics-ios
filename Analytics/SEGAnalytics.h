@@ -4,7 +4,9 @@
 /**
  * NSNotification name, that is posted after integrations are loaded.
  */
-extern NSString *SEGAnalyticsIntegrationDidStart;
+extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
+
+#define JSON_DICT NSDictionary<NSString *, id> *
 
 /**
  * This object provides an API for recording analytics.
@@ -14,21 +16,21 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
 /**
  * Used by the analytics client to configure various options.
  */
-@property (nonatomic, strong, readonly) SEGAnalyticsConfiguration *configuration;
+@property (nonnull, nonatomic, readonly) SEGAnalyticsConfiguration *configuration;
 
 /**
  * Setup this analytics client instance.
  *
  * @param configuration The configuration used to setup the client.
  */
-- (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
+- (instancetype _Nonnull)initWithConfiguration:(SEGAnalyticsConfiguration * _Nonnull)configuration;
 
 /**
  * Setup the analytics client.
  *
  * @param configuration The configuration used to setup the client.
  */
-+ (void)setupWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
++ (void)setupWithConfiguration:(SEGAnalyticsConfiguration * _Nonnull)configuration;
 
 /**
  * Enabled/disables debug logging to trace your data going through the SDK.
@@ -42,7 +44,7 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  *
  * @see -setupWithConfiguration:
  */
-+ (instancetype)sharedAnalytics;
++ (instancetype _Nonnull)sharedAnalytics;
 
 /*!
  @method
@@ -62,7 +64,7 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When you learn more about who your user is, you can record that information with identify.
  
  */
-- (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options;
+- (void)identify:(NSString * _Nonnull)userId traits:(JSON_DICT _Nullable)traits options:(JSON_DICT _Nullable)options;
 
 
 /*!
@@ -81,7 +83,7 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When a user performs an action in your app, you'll want to track that action for later analysis. Use the event name to say what the user did, and properties to specify any interesting details of the action.
  
  */
-- (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options;
+- (void)track:(NSString * _Nonnull)event properties:(JSON_DICT _Nullable)properties options:(JSON_DICT _Nullable)options;
 
 /*!
  @method
@@ -99,7 +101,7 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When a user views a screen in your app, you'll want to record that here. For some tools like Google Analytics and Flurry, screen views are treated specially, and are different from "events" kind of like "page views" on the web. For services that don't treat "screen views" specially, we map "screen" straight to "track" with the same parameters. For example, Mixpanel doesn't treat "screen views" any differently. So a call to "screen" will be tracked as a normal event in Mixpanel, but get sent to Google Analytics and Flurry as a "screen".
  
  */
-- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options;
+- (void)screen:(NSString * _Nonnull)screenTitle properties:(JSON_DICT _Nullable)properties options:(JSON_DICT _Nullable)options;
 
 /*!
  @method
@@ -114,7 +116,7 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When you learn more about who the group is, you can record that information with group.
  
  */
-- (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options;
+- (void)group:(NSString * _Nonnull)groupId traits:(JSON_DICT _Nullable)traits options:(JSON_DICT _Nullable)options;
 
 /*!
  @method
@@ -130,7 +132,7 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
  When you learn more about who the group is, you can record that information with group.
  
  */
-- (void)alias:(NSString *)newId options:(NSDictionary *)options;
+- (void)alias:(NSString * _Nonnull)newId options:(JSON_DICT _Nullable)options;
 
 /*!
  @method
@@ -184,13 +186,13 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
 /**
  * Version of the library.
  */
-+ (NSString *)version;
++ (NSString * _Nonnull)version;
 
 /**
  * Returns a dictionary of integrations that are bundled. This is an internal Segment API, and may be removed at any time
  * without notice.
  */
-- (NSDictionary *)bundledIntegrations;
+- (NSDictionary<NSString *, NSNumber *> * _Nonnull)bundledIntegrations;
 
 @end
 
@@ -203,15 +205,15 @@ extern NSString *SEGAnalyticsIntegrationDidStart;
 
 // Callbacks for notifications changes.
 // ------------------------------------
-- (void)receivedRemoteNotification:(NSDictionary *)userInfo;
-- (void)failedToRegisterForRemoteNotificationsWithError:(NSError *)error;
-- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
-- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo;
+- (void)receivedRemoteNotification:(NSDictionary * _Nonnull)userInfo;
+- (void)failedToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)deviceToken;
+- (void)handleActionWithIdentifier:(NSString * _Nonnull)identifier forRemoteNotification:(NSDictionary * _Nonnull)userInfo;
 
 // Callbacks for app state changes
 // -------------------------------
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)applicationDidFinishLaunching:(NSNotification * _Nonnull)notification;
 - (void)applicationDidEnterBackground;
 - (void)applicationWillEnterForeground;
 - (void)applicationWillTerminate;
