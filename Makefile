@@ -23,6 +23,19 @@ clean:
 
 build:
 	xcodebuild $(XC_ARGS)
+	
+build-examples: build-cocoapods-example build-carthage-example build-manual-example
+	
+build-cocoapods-example:
+	pod install --project-directory=Examples/CocoapodsExample
+	xcodebuild -scheme CocoapodsExample -workspace Examples/CocoapodsExample/CocoapodsExample.xcworkspace -sdk $(SDK) -destination $(DESTINATION) ONLY_ACTIVE_ARCH=NO
+	
+build-carthage-example:
+	carthage update --project-directory ./Examples/CarthageExample
+	xcodebuild -scheme CarthageExample -project Examples/CarthageExample/CarthageExample.xcodeproj -sdk $(SDK) -destination $(DESTINATION) ONLY_ACTIVE_ARCH=NO
+
+build-manual-example:
+	xcodebuild -scheme ManualExample -project Examples/ManualExample/ManualExample.xcodeproj -sdk $(SDK) -destination $(DESTINATION) ONLY_ACTIVE_ARCH=NO
 
 test:
 	xcodebuild test $(XC_ARGS)
