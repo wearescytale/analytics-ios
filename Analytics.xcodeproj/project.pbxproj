@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B71E00D7667D1D1A6A4E4D60 /* Pods_AnalyticsTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122BFB58C2BE7BAF71545586 /* Pods_AnalyticsTest.framework */; };
 		EA08DBAF1D22414A00A2B68A /* AnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */; };
 		EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB16EE81D15D50C001221B5 /* libAnalytics.a */; };
 		EA08DBBC1D2246B000A2B68A /* NSData+GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBB91D2246B000A2B68A /* NSData+GZIP.m */; };
@@ -87,6 +88,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D7980CC201F7578995A4353 /* Pods-AnalyticsTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnalyticsTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-AnalyticsTest/Pods-AnalyticsTest.release.xcconfig"; sourceTree = "<group>"; };
+		11BC2851CD54DFDBD15C0094 /* Pods-AnalyticsTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnalyticsTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AnalyticsTest/Pods-AnalyticsTest.debug.xcconfig"; sourceTree = "<group>"; };
+		122BFB58C2BE7BAF71545586 /* Pods_AnalyticsTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnalyticsTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA08DBAC1D22414A00A2B68A /* AnalyticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnalyticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTest.m; sourceTree = "<group>"; };
 		EA08DBB01D22414A00A2B68A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA08DBB11D22414A00A2B68A /* libAnalytics.a in Frameworks */,
+				B71E00D7667D1D1A6A4E4D60 /* Pods_AnalyticsTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +167,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		821E9517A5D6A7AEFD50DB78 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				122BFB58C2BE7BAF71545586 /* Pods_AnalyticsTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF411D1358C415361FA58C93 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				11BC2851CD54DFDBD15C0094 /* Pods-AnalyticsTest.debug.xcconfig */,
+				0D7980CC201F7578995A4353 /* Pods-AnalyticsTest.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EA08DBAD1D22414A00A2B68A /* AnalyticsTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +280,8 @@
 				EAAC78321D1C4B65009E3AFC /* Analytics */,
 				EA08DBAD1D22414A00A2B68A /* AnalyticsTest */,
 				EAB16EE91D15D50C001221B5 /* Products */,
+				BF411D1358C415361FA58C93 /* Pods */,
+				821E9517A5D6A7AEFD50DB78 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -296,9 +320,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA08DBB61D22414A00A2B68A /* Build configuration list for PBXNativeTarget "AnalyticsTest" */;
 			buildPhases = (
+				804361A5AFD377D69680A2DA /* [CP] Check Pods Manifest.lock */,
 				EA08DBA81D22414A00A2B68A /* Sources */,
 				EA08DBA91D22414A00A2B68A /* Frameworks */,
 				EA08DBAA1D22414A00A2B68A /* Resources */,
+				6E41E2706B833C7F9AA79611 /* [CP] Embed Pods Frameworks */,
+				6008F701C77D3FC341DCA4C8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -402,6 +429,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6008F701C77D3FC341DCA4C8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnalyticsTest/Pods-AnalyticsTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E41E2706B833C7F9AA79611 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnalyticsTest/Pods-AnalyticsTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		804361A5AFD377D69680A2DA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EA08DBA81D22414A00A2B68A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -481,6 +556,7 @@
 /* Begin XCBuildConfiguration section */
 		EA08DBB41D22414A00A2B68A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11BC2851CD54DFDBD15C0094 /* Pods-AnalyticsTest.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = AnalyticsTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -492,6 +568,7 @@
 		};
 		EA08DBB51D22414A00A2B68A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D7980CC201F7578995A4353 /* Pods-AnalyticsTest.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = AnalyticsTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -662,6 +739,7 @@
 				EAACFE2E1D25BCED00668199 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EAB16EE31D15D50C001221B5 /* Build configuration list for PBXProject "Analytics" */ = {
 			isa = XCConfigurationList;

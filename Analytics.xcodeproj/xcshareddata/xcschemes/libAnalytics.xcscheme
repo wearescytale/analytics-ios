@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EAB16EE71D15D50C001221B5"
-               BuildableName = "liblibAnalytics.a"
+               BuildableName = "libAnalytics.a"
                BlueprintName = "libAnalytics"
                ReferencedContainer = "container:Analytics.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EAB16EE71D15D50C001221B5"
-            BuildableName = "liblibAnalytics.a"
+            BuildableName = "libAnalytics.a"
             BlueprintName = "libAnalytics"
             ReferencedContainer = "container:Analytics.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EAB16EE71D15D50C001221B5"
-            BuildableName = "liblibAnalytics.a"
+            BuildableName = "libAnalytics.a"
             BlueprintName = "libAnalytics"
             ReferencedContainer = "container:Analytics.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EAB16EE71D15D50C001221B5"
-            BuildableName = "liblibAnalytics.a"
+            BuildableName = "libAnalytics.a"
             BlueprintName = "libAnalytics"
             ReferencedContainer = "container:Analytics.xcodeproj">
          </BuildableReference>

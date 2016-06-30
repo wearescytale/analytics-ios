@@ -46,6 +46,5 @@ project.xcworkspace
 
 # CocoaPods recommends against ignoring the Pods directory. See
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control.
-# Additionally, we NEED to check it in for Carthage support.
-#
-# Pods/
+# However since we are using it for tests only it is probably ok not to check it in
+Pods/
