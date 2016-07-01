@@ -10,26 +10,26 @@ import Foundation
 import XCTest
 
 class TransporterTest : XCTestCase {
-    var transporter : SEGNetworkTransporter!
-
-    override func setUp() {
-        let config = SEGAnalyticsConfiguration(writeKey: "XMTBm9QGhfkLKaevI50GYdD4mOcVDD83")
-        transporter = SEGNetworkTransporter(configuration: config)
+  var transporter : SEGNetworkTransporter!
+  
+  override func setUp() {
+    let config = SEGAnalyticsConfiguration(writeKey: "XMTBm9QGhfkLKaevI50GYdD4mOcVDD83")
+    transporter = SEGNetworkTransporter(configuration: config)
+  }
+  
+  override func tearDown() {
+    transporter = nil
+  }
+  
+  func testApiURLValid() {
+    XCTAssertEqual(transporter.apiURL.absoluteString, "https://api.segment.io/v1/import")
+  }
+  
+  func testPerformanceExample() {
+    measureBlock {
+      for i in 1...100 {
+        self.transporter.queuePayload(["EXPENSIVE": "PAYLOAD" + String(i)])
+      }
     }
-    
-    override func tearDown() {
-        transporter = nil
-    }
-    
-    func testApiURLValid() {
-        XCTAssertEqual(transporter.apiURL.absoluteString, "https://api.segment.io/v1/import")
-    }
-    
-    func testPerformanceExample() {
-        measureBlock { 
-            for i in 1...100 {
-                self.transporter.queuePayload(["EXPENSIVE": "PAYLOAD" + String(i)])
-            }
-        }
-    }
+  }
 }
