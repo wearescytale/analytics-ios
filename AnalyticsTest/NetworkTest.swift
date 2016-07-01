@@ -14,14 +14,16 @@ class NetworkTest: QuickSpec {
         describe("request") {
             it("inits properly") {
                 var req : SEGAnalyticsRequest?
-                let exp = self.expectationWithDescription("Wait for me")
+                var responseData: NSData?
                 req = SEGAnalyticsRequest.startWithURLRequest(urlReq) {
                     print(req?.responseJSON)
-                    exp.fulfill()
+                    responseData = req?.responseData
                 }
                 expect(req) != nil
-                self.waitForExpectationsWithTimeout(1, handler: nil)
+                expect(responseData).toEventuallyNot(beNil())
+                expect(responseData?.length) > 0
             }
+            
         }
     }
 }
