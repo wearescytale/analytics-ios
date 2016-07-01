@@ -7,10 +7,3 @@
 //
 
 import Foundation
-import Nocilla
-
-extension NSDictionary : LSHTTPBody {
-  public func data() -> NSData! {
-    return try? NSJSONSerialization.dataWithJSONObject(self, options: [])
-  }
-}
