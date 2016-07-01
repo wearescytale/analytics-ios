@@ -24,4 +24,12 @@ class TransporterTest : XCTestCase {
     func testApiURLValid() {
         XCTAssertEqual(transporter.apiURL.absoluteString, "https://api.segment.io/v1/import")
     }
+    
+    func testPerformanceExample() {
+        measureBlock { 
+            for i in 1...100 {
+                self.transporter.queuePayload(["EXPENSIVE": "PAYLOAD" + String(i)])
+            }
+        }
+    }
 }

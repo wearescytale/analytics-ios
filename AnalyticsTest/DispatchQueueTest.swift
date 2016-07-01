@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+import Nimble
 
 class DispatchQueueTest : XCTestCase {
     var queue : SEGDispatchQueue!
@@ -21,24 +22,24 @@ class DispatchQueueTest : XCTestCase {
     }
     
     func testIsCurrentQueue() {
-        XCTAssertFalse(queue.isCurrentQueue(), "Should not be on dispatch queue")
-        queue.sync { 
-            XCTAssertTrue(self.queue.isCurrentQueue(), "Should be on dispatch queue")
+        expect(self.queue.isCurrentQueue()) == false
+        queue.sync {
+            expect(self.queue.isCurrentQueue()) == true
         }
     }
     
     func testShouldNotDeadlock() {
         let expectation = expectationWithDescription("Dispatch complete")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { 
-            XCTAssertFalse(self.queue.isCurrentQueue(), "Should not be on dispatch queue")
+            expect(self.queue.isCurrentQueue()) == false
             self.queue.sync {
-                XCTAssertTrue(self.queue.isCurrentQueue())
+                expect(self.queue.isCurrentQueue()) == true
                 self.queue.async {
-                    XCTAssertTrue(self.queue.isCurrentQueue())
+                    expect(self.queue.isCurrentQueue()) == true
                     self.queue.sync {
-                        XCTAssertTrue(self.queue.isCurrentQueue())
+                        expect(self.queue.isCurrentQueue()) == true
                         dispatch_async(dispatch_get_main_queue()) {
-                            XCTAssertFalse(self.queue.isCurrentQueue())
+                            expect(self.queue.isCurrentQueue()) == false
                             expectation.fulfill()
                         }
                     }
