@@ -17,9 +17,13 @@ class DispatchQueueSpec : QuickSpec {
     }
     it("reports isCurrentQueue correctly") {
       expect(queue.isCurrentQueue()) == false
+      
+      var isCurrentSync = false
       queue.sync {
-        expect(queue.isCurrentQueue()) == true
+        isCurrentSync = queue.isCurrentQueue()
       }
+      expect(isCurrentSync) == true
+      
       var isCurrentAsync = false
       queue.async {
         isCurrentAsync = queue.isCurrentQueue()

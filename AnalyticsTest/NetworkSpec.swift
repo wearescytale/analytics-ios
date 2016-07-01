@@ -8,24 +8,15 @@
 
 import Quick
 import Nimble
-import Nocilla
+import Mockingjay
 
 class NetworkSpec: QuickSpec {
   override func spec() {
     let urlReq = NSURLRequest(URL: NSURL(string: "http://google.com")!)
-    beforeSuite {
-      LSNocilla.sharedInstance().start()
-    }
-    beforeEach {
-      LSNocilla.sharedInstance().clearStubs()
-    }
-    afterSuite {
-      LSNocilla.sharedInstance().stop()
-    }
     it("inits properly") {
       var req : SEGAnalyticsRequest?
       var responseData: NSData?
-      stubRequest("GET", "http://google.com").andReturn(200).withBody("HelloGoogle")
+      self.stub(http(.GET, uri: "http://google.com"), builder: json([:]))
       req = SEGAnalyticsRequest.startWithURLRequest(urlReq) {
           print(req?.responseJSON)
           responseData = req?.responseData
@@ -35,7 +26,7 @@ class NetworkSpec: QuickSpec {
       expect(responseData?.length) > 0
     }
     it("parses json") {
-      stubRequest("GET", "http://google.com").andReturn(200).withBody(["hello": "world"])
+      self.stub(http(.GET, uri: "http://google.com"), builder: json(["hello": "world"]))
       let req = SEGAnalyticsRequest.startWithURLRequest(urlReq, completion: nil)
       expect(req.responseJSON).toEventuallyNot(beNil())
       expect(req.responseJSON?["hello"]) == "world"

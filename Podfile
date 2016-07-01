@@ -6,6 +6,7 @@ target 'AnalyticsTest' do
 
   pod 'Quick' # runner lib
   pod 'Nimble' # Matcher lib
-  pod 'Nocilla' # Http testing
+  pod 'Mockingjay' # Http mocking
+#  pod 'Nocilla' # Http testing // Seems to have issues with concurrent tests
 end
 

@@ -8,7 +8,7 @@
 
 import Quick
 import Nimble
-import Nocilla
+import Mockingjay
 
 class TransporterSpec : QuickSpec {
   override func spec() {
@@ -22,7 +22,7 @@ class TransporterSpec : QuickSpec {
     }
     
     it("performs well under load") {
-      stubRequest("POST", "https://api.segment.io/v1/import")
+      self.stub(http(.POST, uri: "https://api.segment.io/v1/import"), builder: http(200))
       self.measureBlock {
         for i in 1...1000 {
           transporter.queuePayload(["EXPENSIVE": "PAYLOAD" + String(i)])

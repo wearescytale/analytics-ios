@@ -8,7 +8,7 @@
 
 import Quick
 import Nimble
-import Nocilla
+import Mockingjay
 
 class IntegrationsSpec: QuickSpec {
   
@@ -32,17 +32,9 @@ class IntegrationsSpec: QuickSpec {
     var integrations: SEGIntegrationsManager!
     var mockIntegration: MockIntegration!
     
-    beforeSuite {
-      LSNocilla.sharedInstance().start()
-    }
-    afterSuite {
-      LSNocilla.sharedInstance().stop()
-    }
     beforeEach {
-      LSNocilla.sharedInstance().clearStubs()
-      stubRequest("GET", "https://cdn.segment.com/v1/projects/TEST_KEY/settings")
-        .andReturn(200)
-        .withBody(["integrations": ["mock": [:]]])
+      self.stub(http(.GET, uri: "https://cdn.segment.com/v1/projects/TEST_KEY/settings"),
+        builder: json(["integrations": ["mock": [:]]]))
       mockIntegration = MockIntegration()
       let config = SEGAnalyticsConfiguration(writeKey: "TEST_KEY")
       config.use(mockIntegration)
