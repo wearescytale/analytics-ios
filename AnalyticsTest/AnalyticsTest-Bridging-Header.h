@@ -4,3 +4,4 @@
 
 #import "Analytics.h"
 #import "SEGNetworkTransporter.h"
+#import "SEGDispatchQueue.h"
