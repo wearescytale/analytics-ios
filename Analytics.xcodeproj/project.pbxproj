@@ -17,9 +17,7 @@
 		EA08DBC21D22565100A2B68A /* SEGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBC11D22565100A2B68A /* SEGUser.m */; };
 		EA08DBC51D22608800A2B68A /* SEGAnalytics+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBC41D22608800A2B68A /* SEGAnalytics+Convenience.m */; };
 		EA5DF2C61D266580008E68FA /* IntegrationsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2C11D266580008E68FA /* IntegrationsSpec.swift */; };
-		EA5DF2C71D266580008E68FA /* DispatchQueueTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2C21D266580008E68FA /* DispatchQueueTest.swift */; };
 		EA5DF2C81D266580008E68FA /* NetworkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2C31D266580008E68FA /* NetworkSpec.swift */; };
-		EA5DF2C91D266580008E68FA /* TransporterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2C41D266580008E68FA /* TransporterTest.swift */; };
 		EA5DF2CA1D266580008E68FA /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2C51D266580008E68FA /* TestUtils.swift */; };
 		EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */; };
 		EA7E7D9F1D1D19DA0002889C /* SEGLifecycleTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */; };
@@ -27,6 +25,8 @@
 		EA7E7DA81D1DE6F80002889C /* SEGContext.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DA71D1DE6F80002889C /* SEGContext.m */; };
 		EA7E7DCC1D20F0560002889C /* SEGPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DC51D20F0560002889C /* SEGPayload.m */; };
 		EA7E7DD21D20F1020002889C /* SEGMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DD11D20F1020002889C /* SEGMigration.m */; };
+		EA9708401D27276400A1D38C /* DispatchQueueSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */; };
+		EA9708421D27298700A1D38C /* TransporterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9708411D27298700A1D38C /* TransporterSpec.swift */; };
 		EAAC785D1D1C4B65009E3AFC /* SEGAnalyticsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783B1D1C4B65009E3AFC /* SEGAnalyticsRequest.m */; };
 		EAAC785E1D1C4B65009E3AFC /* SEGAnalyticsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783D1D1C4B65009E3AFC /* SEGAnalyticsUtils.m */; };
 		EAAC78601D1C4B65009E3AFC /* SEGBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78421D1C4B65009E3AFC /* SEGBluetooth.m */; };
@@ -106,9 +106,7 @@
 		EA08DBC41D22608800A2B68A /* SEGAnalytics+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SEGAnalytics+Convenience.m"; sourceTree = "<group>"; };
 		EA08DBC81D22617700A2B68A /* Analytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
 		EA5DF2C11D266580008E68FA /* IntegrationsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationsSpec.swift; sourceTree = "<group>"; };
-		EA5DF2C21D266580008E68FA /* DispatchQueueTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueTest.swift; sourceTree = "<group>"; };
 		EA5DF2C31D266580008E68FA /* NetworkSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSpec.swift; sourceTree = "<group>"; };
-		EA5DF2C41D266580008E68FA /* TransporterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransporterTest.swift; sourceTree = "<group>"; };
 		EA5DF2C51D266580008E68FA /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationsManager.h; sourceTree = "<group>"; };
 		EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGIntegrationsManager.m; sourceTree = "<group>"; };
@@ -122,6 +120,8 @@
 		EA7E7DC61D20F0560002889C /* SEGPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGPayload.h; sourceTree = "<group>"; };
 		EA7E7DD01D20F1020002889C /* SEGMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGMigration.h; sourceTree = "<group>"; };
 		EA7E7DD11D20F1020002889C /* SEGMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGMigration.m; sourceTree = "<group>"; };
+		EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueSpec.swift; sourceTree = "<group>"; };
+		EA9708411D27298700A1D38C /* TransporterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransporterSpec.swift; sourceTree = "<group>"; };
 		EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegration.h; sourceTree = "<group>"; };
 		EAAC783A1D1C4B65009E3AFC /* SEGAnalyticsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAnalyticsRequest.h; sourceTree = "<group>"; };
 		EAAC783B1D1C4B65009E3AFC /* SEGAnalyticsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAnalyticsRequest.m; sourceTree = "<group>"; };
@@ -195,9 +195,9 @@
 			isa = PBXGroup;
 			children = (
 				EA5DF2C11D266580008E68FA /* IntegrationsSpec.swift */,
-				EA5DF2C21D266580008E68FA /* DispatchQueueTest.swift */,
 				EA5DF2C31D266580008E68FA /* NetworkSpec.swift */,
-				EA5DF2C41D266580008E68FA /* TransporterTest.swift */,
+				EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */,
+				EA9708411D27298700A1D38C /* TransporterSpec.swift */,
 				EA5DF2C51D266580008E68FA /* TestUtils.swift */,
 				EA04DE1F1D25DA2500DB4B89 /* AnalyticsTest-Bridging-Header.h */,
 				EA08DBB01D22414A00A2B68A /* Info.plist */,
@@ -498,10 +498,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA5DF2C91D266580008E68FA /* TransporterTest.swift in Sources */,
 				EA5DF2C61D266580008E68FA /* IntegrationsSpec.swift in Sources */,
-				EA5DF2C71D266580008E68FA /* DispatchQueueTest.swift in Sources */,
 				EA5DF2CA1D266580008E68FA /* TestUtils.swift in Sources */,
+				EA9708421D27298700A1D38C /* TransporterSpec.swift in Sources */,
+				EA9708401D27276400A1D38C /* DispatchQueueSpec.swift in Sources */,
 				EA5DF2C81D266580008E68FA /* NetworkSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

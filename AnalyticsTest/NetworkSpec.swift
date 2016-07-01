@@ -38,7 +38,7 @@ class NetworkSpec: QuickSpec {
       stubRequest("GET", "http://google.com").andReturn(200).withBody(["hello": "world"])
       let req = SEGAnalyticsRequest.startWithURLRequest(urlReq, completion: nil)
       expect(req.responseJSON).toEventuallyNot(beNil())
-      expect(req.responseJSON["hello"]) == "world"
+      expect(req.responseJSON?["hello"]) == "world"
     }
   }
 }
