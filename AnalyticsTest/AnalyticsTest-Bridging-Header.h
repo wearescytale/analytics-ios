@@ -6,3 +6,6 @@
 #import "SEGNetworkTransporter.h"
 #import "SEGDispatchQueue.h"
 #import "SEGAnalyticsRequest.h"
+#import "SEGIntegrationsManager.h"
+#import "SEGIntegration.h"
+#import "SEGIntegrationFactory.h"

@@ -103,8 +103,8 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     }
     
     seg_dispatch_specific_async(_serialQueue, ^{
-        [self flushMessageQueue];
         self.initialized = true;
+        [self flushMessageQueue];
         if (block) { block(); }
     });
 }
@@ -135,14 +135,16 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
 }
 
 - (void)flushMessageQueue {
-    if (self.messageQueue.count > 0) {
-        for (IntegrationBlock block in self.messageQueue) {
-            for (NSString *key in self.integrations) {
-                block(key, self.integrations[key]);
-            }
-        }
-        [self.messageQueue removeAllObjects];
+    if (!self.initialized) {
+        return;
     }
+    NSLog(@"Fluhing messag equeue %@", self.messageQueue);
+    for (IntegrationBlock block in self.messageQueue) {
+        for (NSString *key in self.integrations) {
+            block(key, self.integrations[key]);
+        }
+    }
+    [self.messageQueue removeAllObjects];
 }
 
 - (void)filterIntegrations:(SEL)selector block:(void(^)(id<SEGIntegration> _Nonnull integration))block {
@@ -154,17 +156,17 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
 }
 
 - (void)eachIntegration:(IntegrationBlock _Nonnull)block {
-    for (NSString *key in self.integrations) {
-        if (self.initialized) {
+    if (self.initialized) {
+        for (NSString *key in self.integrations) {
             block(key, self.integrations[key]);
-        } else {
-            [self.messageQueue addObject:[block copy]];
         }
+    } else {
+        [self.messageQueue addObject:[block copy]];
     }
 }
 
 - (BOOL)isIntegration:(NSString *)key enabledInOptions:(NSDictionary *)options forSelector:(SEL)selector {
-    if (![self.integrations[@"key"] respondsToSelector:selector]) {
+    if (![self.integrations[key] respondsToSelector:selector]) {
         return NO;
     }
     if (options[key]) {
