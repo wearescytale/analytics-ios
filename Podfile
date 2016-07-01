@@ -4,7 +4,8 @@
 target 'AnalyticsTest' do
   use_frameworks!
 
-  pod 'Quick'
-  pod 'Nimble'
+  pod 'Quick' # runner lib
+  pod 'Nimble' # Matcher lib
+  pod 'Nocilla' # Http testing
 end
 

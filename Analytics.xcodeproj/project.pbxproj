@@ -19,7 +19,7 @@
 		EA08DBBD1D2246B000A2B68A /* SEGReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBBB1D2246B000A2B68A /* SEGReachability.m */; };
 		EA08DBC21D22565100A2B68A /* SEGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBC11D22565100A2B68A /* SEGUser.m */; };
 		EA08DBC51D22608800A2B68A /* SEGAnalytics+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = EA08DBC41D22608800A2B68A /* SEGAnalytics+Convenience.m */; };
-		EA5DF2BC1D264BD8008E68FA /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2BB1D264BD8008E68FA /* NetworkTest.swift */; };
+		EA5DF2BC1D264BD8008E68FA /* NetworkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2BB1D264BD8008E68FA /* NetworkSpec.swift */; };
 		EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */; };
 		EA7E7D9F1D1D19DA0002889C /* SEGLifecycleTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */; };
 		EA7E7DA51D1D96A30002889C /* SEGNetworkTransporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */; };
@@ -114,7 +114,7 @@
 		EA08DBC31D22608800A2B68A /* SEGAnalytics+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SEGAnalytics+Convenience.h"; sourceTree = "<group>"; };
 		EA08DBC41D22608800A2B68A /* SEGAnalytics+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SEGAnalytics+Convenience.m"; sourceTree = "<group>"; };
 		EA08DBC81D22617700A2B68A /* Analytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
-		EA5DF2BB1D264BD8008E68FA /* NetworkTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
+		EA5DF2BB1D264BD8008E68FA /* NetworkSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NetworkSpec.swift; sourceTree = "<group>"; tabWidth = 2; };
 		EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationsManager.h; sourceTree = "<group>"; };
 		EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGIntegrationsManager.m; sourceTree = "<group>"; };
 		EA7E7D9D1D1D19DA0002889C /* SEGLifecycleTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGLifecycleTracker.h; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 				EA08DBAE1D22414A00A2B68A /* AnalyticsTest.m */,
 				EA04DE2E1D25EAF200DB4B89 /* DispatchQueueTest.swift */,
 				EA04DE201D25DA2500DB4B89 /* TransporterTest.swift */,
-				EA5DF2BB1D264BD8008E68FA /* NetworkTest.swift */,
+				EA5DF2BB1D264BD8008E68FA /* NetworkSpec.swift */,
 				EA08DBB01D22414A00A2B68A /* Info.plist */,
 			);
 			path = AnalyticsTest;
@@ -503,7 +503,7 @@
 			files = (
 				EA04DE211D25DA2500DB4B89 /* TransporterTest.swift in Sources */,
 				EA08DBAF1D22414A00A2B68A /* AnalyticsTest.m in Sources */,
-				EA5DF2BC1D264BD8008E68FA /* NetworkTest.swift in Sources */,
+				EA5DF2BC1D264BD8008E68FA /* NetworkSpec.swift in Sources */,
 				EA04DE2F1D25EAF200DB4B89 /* DispatchQueueTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
