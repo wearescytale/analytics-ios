@@ -40,10 +40,9 @@ class IntegrationsSpec: QuickSpec {
     }
     beforeEach {
       LSNocilla.sharedInstance().clearStubs()
-      let body = try? NSJSONSerialization.dataWithJSONObject(["integrations": ["mock": [:]]], options: [])
       stubRequest("GET", "https://cdn.segment.com/v1/projects/TEST_KEY/settings")
         .andReturn(200)
-        .withBody(body)
+        .withBody(["integrations": ["mock": [:]]])
       mockIntegration = MockIntegration()
       let config = SEGAnalyticsConfiguration(writeKey: "TEST_KEY")
       config.use(mockIntegration)
@@ -52,10 +51,8 @@ class IntegrationsSpec: QuickSpec {
     }
     
     it("calls track on integration") {
-      
       integrations.track("My Event", properties: nil, options: nil)
       expect(integrations) != nil
-//      expect(integrations.cachedSettings).toEventuallyNot(beNil())
       expect(mockIntegration.created).toEventually(beTrue())
       expect(mockIntegration.lastTrackedEvent).toEventually(equal("My Event"))
     }

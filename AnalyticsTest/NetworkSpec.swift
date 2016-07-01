@@ -35,8 +35,7 @@ class NetworkSpec: QuickSpec {
       expect(responseData?.length) > 0
     }
     it("parses json") {
-      let body = try? NSJSONSerialization.dataWithJSONObject(["hello": "world"], options: [])
-      stubRequest("GET", "http://google.com").andReturn(200).withBody(body)
+      stubRequest("GET", "http://google.com").andReturn(200).withBody(["hello": "world"])
       let req = SEGAnalyticsRequest.startWithURLRequest(urlReq, completion: nil)
       expect(req.responseJSON).toEventuallyNot(beNil())
       expect(req.responseJSON["hello"]) == "world"
