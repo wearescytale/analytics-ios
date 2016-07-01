@@ -27,7 +27,7 @@ class TransporterTest : XCTestCase {
   
   func testPerformanceExample() {
     measureBlock {
-      for i in 1...100 {
+      for i in 1...1000 {
         self.transporter.queuePayload(["EXPENSIVE": "PAYLOAD" + String(i)])
       }
     }

@@ -73,13 +73,6 @@
 			remoteGlobalIDString = EAB16EE71D15D50C001221B5;
 			remoteInfo = Analytics;
 		};
-		EAACFE891D25C97700668199 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EAB16EE01D15D50C001221B5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EAACFE261D25BCED00668199;
-			remoteInfo = Analytics;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -354,7 +347,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				EAACFE8A1D25C97700668199 /* PBXTargetDependency */,
 				EA08DBB31D22414A00A2B68A /* PBXTargetDependency */,
 			);
 			name = AnalyticsTest;
@@ -575,11 +567,6 @@
 			isa = PBXTargetDependency;
 			target = EAB16EE71D15D50C001221B5 /* libAnalytics */;
 			targetProxy = EA08DBB21D22414A00A2B68A /* PBXContainerItemProxy */;
-		};
-		EAACFE8A1D25C97700668199 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EAACFE261D25BCED00668199 /* Analytics */;
-			targetProxy = EAACFE891D25C97700668199 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

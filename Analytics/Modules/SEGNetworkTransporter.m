@@ -28,6 +28,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 @property (nonatomic, assign) UIBackgroundTaskIdentifier flushTaskID;
 @property (nonnull, nonatomic, strong) NSTimer *flushTimer;
 @property (nonnull, nonatomic, strong) dispatch_queue_t serialQueue;
+@property (nonnull, nonatomic, strong) dispatch_source_t writeToDiskSource;
 
 @end
 
@@ -40,6 +41,15 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         _flushTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(flush) userInfo:nil repeats:YES];
         _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics.segmentio", DISPATCH_QUEUE_SERIAL);
         _flushTaskID = UIBackgroundTaskInvalid;
+        _writeToDiskSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_DATA_ADD, 0, 0, _serialQueue);
+        __weak SEGNetworkTransporter *this = self;
+        dispatch_source_set_event_handler(_writeToDiskSource, ^{
+            SEGLog(@"Will Write to Disk and Flush queueLength=%ld", this.queue.count);
+            [[this.queue copy] writeToURL:[this queueURL] atomically:YES];
+            [this flushQueueByLength];
+        });
+        dispatch_resume(_writeToDiskSource);
+        
         // Flush task when we enter background
         // TODO: Figure
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -95,9 +105,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 - (void)queuePayload:(NSDictionary *)payload {
     @try {
         [self.queue addObject:payload];
-        [[self.queue copy] writeToURL:[self queueURL] atomically:YES];
-        [self flushQueueByLength];
-        
+        dispatch_source_merge_data(self.writeToDiskSource, 1);
     } @catch (NSException *exception) {
         SEGLog(@"%@ Error writing payload: %@", self, exception);
     }
@@ -180,6 +188,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
             self.batch = nil;
             self.request = nil;
             [self endBackgroundTask];
+            [self flush];
         }];
     }];
     [self notifyForName:SEGSegmentDidSendRequestNotification userInfo:self.batch];
