@@ -8,7 +8,6 @@
 
 #import "SEGUser.h"
 #import "SEGUtils.h"
-#import "SEGAnalyticsUtils.h"
 
 NSString *const SEGUserIdKey = @"SEGUserId";
 NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";

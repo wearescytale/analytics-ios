@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SEGAnalytics.h"
-#import "SEGAnalyticsUtils.h"
+#import "SEGUtils.h"
 #import "SEGHTTPRequest.h"
 #import "SEGAnalyticsConfiguration.h"
 #import "SEGIntegration.h"

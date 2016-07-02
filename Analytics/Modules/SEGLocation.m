@@ -1,5 +1,5 @@
 #import "SEGLocation.h"
-#import "SEGAnalyticsUtils.h"
+#import "SEGUtils.h"
 #import <CoreLocation/CoreLocation.h>
 
 #define LOCATION_STRING_PROPERTY(NAME, PLACEMARK_PROPERTY)     \

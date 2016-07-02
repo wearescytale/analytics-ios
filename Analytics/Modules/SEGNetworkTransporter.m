@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "NSData+GZIP.h"
 #import "SEGUtils.h"
-#import "SEGAnalyticsUtils.h"
 #import "SEGHTTPRequest.h"
 #import "SEGNetworkTransporter.h"
 #import "SEGAnalyticsConfiguration.h"
