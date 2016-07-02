@@ -1,15 +1,14 @@
-#import "SEGHTTPRequest.h"
-#import "SEGStoreKitTracker.h"
-#import "SEGIntegrationsManager.h"
-#import "UIViewController+SEGScreen.h"
-#import "SEGIntegration.h"
-#import "SEGLifecycleTracker.h"
-#import "SEGNetworkTransporter.h"
-#import "SEGContext.h"
-#import "SEGMigration.h"
-#import "SEGUtils.h"
-#import "SEGUser.h"
 #import "SEGDispatchQueue.h"
+#import "SEGMigration.h"
+#import "SEGContext.h"
+#import "SEGUser.h"
+#import "SEGNetworkTransporter.h"
+#import "SEGIntegrationsManager.h"
+#import "SEGStoreKitTracker.h"
+#import "SEGScreenTracker.h"
+#import "SEGLifecycleTracker.h"
+#import "SEGUtils.h"
+#import "SEGAnalytics.h"
 #import "Analytics.h"
 
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
@@ -26,6 +25,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 @property (nonatomic, strong) SEGLifecycleTracker *lifecycle;
 @property (nonatomic, strong) SEGIntegrationsManager *integrations;
 @property (nonatomic, strong) SEGStoreKitTracker *storeKitTracker;
+@property (nonatomic, strong) SEGScreenTracker *screenTracker;
 
 @end
 
@@ -44,7 +44,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.analytics"];
         
         if (configuration.recordScreenViews) {
-            [UIViewController seg_swizzleViewDidAppear];
+            _screenTracker = [[SEGScreenTracker alloc] initWithAnalytics:self];
         }
         if (configuration.trackInAppPurchases) {
             _storeKitTracker = [SEGStoreKitTracker trackTransactionsForAnalytics:self];
