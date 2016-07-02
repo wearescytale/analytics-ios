@@ -72,7 +72,10 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options {
     if (!self.enabled) { return; }
     NSCParameterAssert(userId.length > 0 || traits.count > 0);
+    traits = [SEGUtils coerceDictionary:traits];
     NSString *anonymousId = options[@"anonymousId"];
+    NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
+    NSDictionary *integrations = options[@"integrations"];
     [self.dispatchQueue async:^{
         self.user.userId = userId;
         [self.user addTraits:traits];
@@ -80,9 +83,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
             self.user.anonymousId = anonymousId;
         }
     }];
-    traits = [SEGUtils coerceDictionary:traits];
-    NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
-    NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"identify"
              dictionary:@{@"traits": traits}
                 context:context
@@ -97,7 +97,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
     NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"track"
-             dictionary:@{@"event": event, @"properties": properties}
+             dictionary:@{@"event": event ?: [NSNull null], @"properties": properties}
                 context:context
            integrations:integrations];
     [self.integrations track:event properties:properties context:context integrations:integrations];
@@ -110,7 +110,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
     NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"screen"
-             dictionary:@{@"name": screenTitle, @"properties": properties}
+             dictionary:@{@"name": screenTitle ?: [NSNull null], @"properties": properties}
                 context:context
            integrations:integrations];
     [self.integrations screen:screenTitle properties:properties context:context integrations:integrations];
@@ -122,7 +122,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
     NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"group"
-             dictionary:@{@"groupId": groupId, @"traits": traits}
+             dictionary:@{@"groupId": groupId ?: [NSNull null], @"traits": traits}
                 context:context
            integrations:integrations];
     [self.integrations group:groupId traits:traits context:context integrations:integrations];
@@ -134,7 +134,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
     NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"alias"
-             dictionary:@{@"userId": newId, @"previousId": previousId}
+             dictionary:@{@"userId": newId ?: [NSNull null], @"previousId": previousId}
                 context:context
            integrations:integrations];
     [self.integrations alias:newId context:context integrations:integrations];
@@ -166,14 +166,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 
 #pragma mark - Helpers
 
-- (NSDictionary *)integrationsDictionary:(NSDictionary *)integrations {
-    NSMutableDictionary *dict = [integrations ?: @{} mutableCopy];
-    for (NSString *integration in self.integrations.integrations) {
-        dict[integration] = @NO;
-    }
-    return dict;
-}
-
 - (void)enqueueAction:(NSString *)action dictionary:(NSDictionary *)origPayload context:(NSDictionary *)context integrations:(NSDictionary *)integrations {
     // attach these parts of the payload outside since they are all synchronous
     // and the timestamp will be more accurate.
@@ -192,14 +184,15 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         }
         [payload setValue:self.user.anonymousId forKey:@"anonymousId"];
         
-        [payload setValue:[self integrationsDictionary:integrations] forKey:@"integrations"];
+        NSMutableDictionary *combinedIntegrations = [integrations ?: @{} mutableCopy];
+        for (NSString *integration in self.integrations.integrations) {
+            combinedIntegrations[integration] = @NO;
+        }
+        [payload setValue:combinedIntegrations forKey:@"integrations"];
         
-        NSDictionary *defaultContext = [self.ctx contextForTraits:self.user.traits];
-        NSDictionary *customContext = context;
-        NSMutableDictionary *context = [NSMutableDictionary dictionaryWithCapacity:customContext.count + defaultContext.count];
-        [context addEntriesFromDictionary:defaultContext];
-        [context addEntriesFromDictionary:customContext]; // let the custom context override ours
-        [payload setValue:[context copy] forKey:@"context"];
+        NSMutableDictionary *combinedContext = [[self.ctx contextForTraits:self.user.traits] mutableCopy];
+        [combinedContext addEntriesFromDictionary:context];
+        [payload setValue:combinedContext forKey:@"context"];
         
         SEGLog(@"%@ Enqueueing action: %@", self, payload);
         [self.transporter queuePayload:payload];
