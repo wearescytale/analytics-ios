@@ -31,9 +31,12 @@ class ScreenTrackerSpec : QuickSpec {
     var swiftVC: SwiftViewController!
     beforeEach {
       analytics = MockAnalytics()
-      tracker = SEGScreenTracker(analytics: analytics)
       objcVC = ObjcViewController()
       swiftVC = SwiftViewController()
+      objcVC.viewDidAppear(true)
+      // sanity checks
+      expect(analytics.lastTrackedScreenName).to(beNil())
+      tracker = SEGScreenTracker(analytics: analytics)
       expect(tracker) != nil
       expect(analytics.lastTrackedScreenName).to(beNil())
     }
@@ -46,7 +49,7 @@ class ScreenTrackerSpec : QuickSpec {
       objcVC.viewDidAppear(true)
       expect(analytics.lastTrackedScreenName) == "Objc"
     }
-    it("tracks unknown screens as well") {
+    it("tracks unknown screens") {
       @objc(CrazyVC)
       class CrazyVC: UIViewController {
       }
@@ -54,6 +57,14 @@ class ScreenTrackerSpec : QuickSpec {
       crazyVC.viewDidAppear(true)
       expect(analytics.screenCalled) == true
       expect(analytics.lastTrackedScreenName) == "Unknown"
+    }
+    fit("works with multiple instances") {
+      let analytics2 = MockAnalytics()
+      let tracker2 = SEGScreenTracker(analytics: analytics2); tracker2 // surpress unused var warning
+      objcVC.beginAppearanceTransition(true, animated: true)
+      objcVC.endAppearanceTransition()
+      expect(analytics.lastTrackedScreenName) == "Objc"
+      expect(analytics2.lastTrackedScreenName) == "Objc"
     }
   }
 }
