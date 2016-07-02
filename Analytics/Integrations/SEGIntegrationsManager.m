@@ -24,7 +24,6 @@
 @property (nonatomic, strong) SEGHTTPRequest *settingsRequest;
 @property (nonatomic, strong) NSArray *factories;
 @property (nonatomic, strong) NSMutableDictionary *integrations;
-@property (nonatomic, strong) NSMutableDictionary *registeredIntegrations;
 @property (nonatomic, strong) SEGDispatchQueue *dispatchQueue;
 @property (nonatomic) volatile BOOL initialized;
 
@@ -43,7 +42,6 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
         _configuration = analytics.configuration;
         _factories = [self.configuration.factories copy];
         _integrations = [NSMutableDictionary dictionaryWithCapacity:self.factories.count];
-        _registeredIntegrations = [NSMutableDictionary dictionaryWithCapacity:self.factories.count];
         _messageQueue = [[NSMutableArray alloc] init];
         _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.analytics.integrations"];
         
@@ -94,8 +92,7 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
         if (integrationSettings) {
             id<SEGIntegration> integration = [factory createWithSettings:integrationSettings forAnalytics:self.analytics];
             if (integration != nil) {
-                self.integrations[key] = integration;
-                self.registeredIntegrations[key] = @NO;
+                _integrations[key] = integration;
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:SEGAnalyticsIntegrationDidStart object:key userInfo:nil];
         } else {

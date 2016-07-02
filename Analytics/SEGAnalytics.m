@@ -168,10 +168,10 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 
 - (NSDictionary *)integrationsDictionary:(NSDictionary *)integrations {
     NSMutableDictionary *dict = [integrations ?: @{} mutableCopy];
-    for (NSString *integration in self.bundledIntegrations) {
+    for (NSString *integration in self.integrations.integrations) {
         dict[integration] = @NO;
     }
-    return [dict copy];
+    return dict;
 }
 
 - (void)enqueueAction:(NSString *)action dictionary:(NSDictionary *)origPayload context:(NSDictionary *)context integrations:(NSDictionary *)integrations {
@@ -218,10 +218,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 
 + (NSString *)version {
     return @"3.3.0";
-}
-
-- (NSDictionary *)bundledIntegrations {
-    return [self.integrations.registeredIntegrations copy];
 }
 
 @end

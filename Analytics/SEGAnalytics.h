@@ -175,13 +175,6 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
  */
 + (void)debug:(BOOL)showDebugLogs;
 
-
-/**
- * Returns a dictionary of integrations that are bundled. This is an internal Segment API, and may be removed at any time
- * without notice.
- */
-- (NSDictionary<NSString *, NSNumber *> * _Nonnull)bundledIntegrations;
-
 @end
 
 /*
