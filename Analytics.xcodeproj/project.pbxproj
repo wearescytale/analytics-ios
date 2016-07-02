@@ -239,12 +239,12 @@
 		EAAC78341D1C4B65009E3AFC /* Integrations */ = {
 			isa = PBXGroup;
 			children = (
-				EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */,
-				EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */,
 				EAACFE1E1D2595B400668199 /* SEGIntegrationFactory.h */,
 				EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */,
 				EA7E7DC61D20F0560002889C /* SEGPayload.h */,
 				EA7E7DC51D20F0560002889C /* SEGPayload.m */,
+				EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */,
+				EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */,
 			);
 			path = Integrations;
 			sourceTree = "<group>";
@@ -265,20 +265,20 @@
 		EAAC78401D1C4B65009E3AFC /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EA7E7DA31D1D96A30002889C /* SEGNetworkTransporter.h */,
+				EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */,
 				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
 				EA7E7DD11D20F1020002889C /* SEGMigration.m */,
 				EA08DBC01D22565100A2B68A /* SEGUser.h */,
 				EA08DBC11D22565100A2B68A /* SEGUser.m */,
 				EA7E7DA61D1DE6F80002889C /* SEGContext.h */,
 				EA7E7DA71D1DE6F80002889C /* SEGContext.m */,
-				EA7E7DA31D1D96A30002889C /* SEGNetworkTransporter.h */,
-				EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */,
-				EA7E7D9D1D1D19DA0002889C /* SEGLifecycleTracker.h */,
-				EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */,
 				EAAC78411D1C4B65009E3AFC /* SEGBluetooth.h */,
 				EAAC78421D1C4B65009E3AFC /* SEGBluetooth.m */,
 				EAAC78431D1C4B65009E3AFC /* SEGLocation.h */,
 				EAAC78441D1C4B65009E3AFC /* SEGLocation.m */,
+				EA7E7D9D1D1D19DA0002889C /* SEGLifecycleTracker.h */,
+				EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */,
 				EAAC78451D1C4B65009E3AFC /* SEGStoreKitTracker.h */,
 				EAAC78461D1C4B65009E3AFC /* SEGStoreKitTracker.m */,
 				EAAC78471D1C4B65009E3AFC /* SEGScreenTracker.h */,

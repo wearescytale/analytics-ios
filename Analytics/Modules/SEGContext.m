@@ -136,7 +136,6 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
     return dict;
 }
 
-
 - (NSDictionary *)contextForTraits:(NSDictionary *)traits {
     NSMutableDictionary *context = [[self staticContext] mutableCopy];
     
