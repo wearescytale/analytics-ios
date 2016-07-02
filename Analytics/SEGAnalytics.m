@@ -9,6 +9,7 @@
 #import "SEGMigration.h"
 #import "SEGUtils.h"
 #import "SEGUser.h"
+#import "SEGDispatchQueue.h"
 #import "Analytics.h"
 
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
@@ -16,7 +17,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 @interface SEGAnalytics ()
 
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
-@property (nonatomic, strong) dispatch_queue_t serialQueue;
+@property (nonnull, nonatomic, strong) SEGDispatchQueue *dispatchQueue;
 @property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL debugMode;
 @property (nonatomic, strong) SEGUser *user;
@@ -40,7 +41,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         _user = [[SEGUser alloc] init];
         
         _transporter = [[SEGNetworkTransporter alloc] initWithWriteKey:configuration.writeKey flushAfter:30];
-        _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics", DISPATCH_QUEUE_SERIAL);
+        _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.analytics"];
         
         if (configuration.recordScreenViews) {
             [UIViewController seg_swizzleViewDidAppear];
@@ -55,19 +56,11 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
             [self.lifecycle trackApplicationLifecycleEvents];
         }
         // Check for previous queue/track data in NSUserDefaults and remove if present
-        [self dispatchBackground:^{
+        [self.dispatchQueue async:^{
             [SEGMigration migrateToLatest];
         }];
     }
     return self;
-}
-
-- (void)dispatchBackground:(void (^)(void))block {
-    seg_dispatch_specific_async(self.serialQueue, block);
-}
-
-- (void)dispatchBackgroundAndWait:(void (^)(void))block {
-    seg_dispatch_specific_sync(self.serialQueue, block);
 }
 
 - (NSString *)description {
@@ -79,7 +72,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options {
     if (!self.enabled) { return; }
     NSCParameterAssert(userId.length > 0 || traits.count > 0);
-    [self dispatchBackground:^{
+    [self.dispatchQueue async:^{
         NSString *anonymousId = [options objectForKey:@"anonymousId"];
         self.user.userId = userId;
         [self.user addTraits:traits];
@@ -147,7 +140,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 
 - (void)reset {
     if (!self.enabled) { return; }
-    [self dispatchBackgroundAndWait:^{
+    [self.dispatchQueue sync:^{
         [self.user reset];
         [self.transporter reset];
         [self.integrations reset];
@@ -155,7 +148,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 }
 
 - (void)flush {
-    [self dispatchBackground:^{
+    [self.dispatchQueue async:^{
         [self.transporter flush:nil];
         [self.integrations flush];
     }];
@@ -187,7 +180,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     payload[@"timestamp"] = iso8601FormattedString([NSDate date]);
     payload[@"messageId"] = [SEGUtils generateUUIDString];
     
-    [self dispatchBackground:^{
+    [self.dispatchQueue async:^{
         // attach userId and anonymousId inside the dispatch_async in case
         // they've changed (see identify function)
         

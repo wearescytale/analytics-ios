@@ -13,6 +13,7 @@
 #import "SEGAnalyticsConfiguration.h"
 #import "SEGIntegration.h"
 #import "SEGIntegrationFactory.h"
+#import "SEGDispatchQueue.h"
 #import "SEGIntegrationsManager.h"
 
 @interface SEGIntegrationsManager ()
@@ -24,7 +25,7 @@
 @property (nonatomic, strong) NSArray *factories;
 @property (nonatomic, strong) NSMutableDictionary *integrations;
 @property (nonatomic, strong) NSMutableDictionary *registeredIntegrations;
-@property (nonatomic, strong) dispatch_queue_t serialQueue;
+@property (nonatomic, strong) SEGDispatchQueue *dispatchQueue;
 @property (nonatomic) volatile BOOL initialized;
 
 @end
@@ -44,7 +45,7 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
         _integrations = [NSMutableDictionary dictionaryWithCapacity:self.factories.count];
         _registeredIntegrations = [NSMutableDictionary dictionaryWithCapacity:self.factories.count];
         _messageQueue = [[NSMutableArray alloc] init];
-        _serialQueue = seg_dispatch_queue_create_specific("com.segment.analytics.integrations", DISPATCH_QUEUE_SERIAL);
+        _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.analytics.integrations"];
         
         // Refresh setings upon entering foreground
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -102,11 +103,11 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
         }
     }
     
-    seg_dispatch_specific_async(_serialQueue, ^{
+    [self.dispatchQueue async:^{
         self.initialized = true;
         [self flushMessageQueue];
         if (block) { block(); }
-    });
+    }];
 }
 
 - (void)refreshSettings {
@@ -123,14 +124,14 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     
     self.settingsRequest = [SEGHTTPRequest startWithURLRequest:urlRequest
                                                      completion:^{
-        seg_dispatch_specific_async(self.serialQueue, ^{
+        [self.dispatchQueue async:^{
             SEGLog(@"%@ Received API settings response: %@", self, self.settingsRequest.responseJSON);
-
+            
             if (self.settingsRequest.error == nil) {
                 [self setCachedSettings:self.settingsRequest.responseJSON];
             }
             self.settingsRequest = nil;
-        });
+        }];
     }];
 }
 
