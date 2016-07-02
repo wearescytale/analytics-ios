@@ -57,7 +57,7 @@ class DispatchQueueSpec : QuickSpec {
       queue.sync { blockDidRun = true }
       expect(blockDidRun) == true
     }
-    it("should run async asynchronously") {
+    xit("should run async asynchronously") {
       expect(queue.isCurrentQueue()) == false
       var didBlockRun = false
       queue.async {

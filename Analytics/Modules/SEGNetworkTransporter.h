@@ -14,7 +14,9 @@
 @property (nonnull, nonatomic, strong) NSString *writeKey;
 @property (nonatomic, assign) NSInteger flushAt;
 @property (nonatomic, assign) NSInteger batchSize;
+
 @property (nonnull, nonatomic, readonly) NSURL *cacheURL;
+@property (nonnull, nonatomic, readonly) NSMutableArray *queue;
 
 - (instancetype _Nonnull)initWithWriteKey:(NSString * _Nonnull)writeKey flushAfter:(NSTimeInterval)flushAfter;
 

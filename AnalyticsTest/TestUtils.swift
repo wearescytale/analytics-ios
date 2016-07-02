@@ -7,3 +7,5 @@
 //
 
 import Foundation
+
+let SegmentWriteKey = "XMTBm9QGhfkLKaevI50GYdD4mOcVDD83"

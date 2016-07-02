@@ -39,8 +39,8 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         _writeKey = writeKey;
         _flushAt = 20;
         _batchSize = 100;
-        _flushTimer = [NSTimer scheduledTimerWithTimeInterval:flushAfter
-                                                       target:self selector:@selector(flush) userInfo:nil repeats:YES];
+        _flushTimer = [NSTimer scheduledTimerWithTimeInterval:flushAfter target:self
+                                                     selector:@selector(flushInBackground) userInfo:nil repeats:YES];
         _queue = [NSMutableArray arrayWithContentsOfURL:self.cacheURL] ?: [[NSMutableArray alloc] init];
         _backgroundFlushTaskID = UIBackgroundTaskInvalid;
         _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.transporter"];
@@ -104,9 +104,13 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 }
 
 - (void)flush:(void (^ _Nullable)(NSError * _Nullable error))completion {
+    completion = [completion copy];
     [self.dispatchQueue async:^{
         if (self.queue.count == 0) {
-            completion ?: completion(nil);
+            if (completion) {
+                completion(nil);
+            }
+
             SEGLog(@"%@ No queued API calls to flush.", self);
             return;
         }
