@@ -24,11 +24,11 @@
 
 @interface SEGIntegrationsManager (SEGIntegration)
 
-- (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options;
-- (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options;
-- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options;
-- (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options;
-- (void)alias:(NSString *)newId options:(NSDictionary *)options;
+- (void)identify:(NSString *)userId anonymousId:(NSString *)anonymousId traits:(NSDictionary *)traits context:(NSDictionary *)context integrations:(NSDictionary *)integrations;
+- (void)track:(NSString *)event properties:(NSDictionary *)properties context:(NSDictionary *)context integrations:(NSDictionary *)integrations;
+- (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties context:(NSDictionary *)context integrations:(NSDictionary *)integrations;
+- (void)group:(NSString *)groupId traits:(NSDictionary *)traits context:(NSDictionary *)context integrations:(NSDictionary *)integrations;
+- (void)alias:(NSString *)newId context:(NSDictionary *)context integrations:(NSDictionary *)integrations;
 
 // Reset is invoked when the user logs out, and any data saved about the user should be cleared.
 - (void)reset;

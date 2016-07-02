@@ -8,13 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
+// Logging
+
+void SEGSetShowDebugLogs(BOOL showDebugLogs);
+void SEGLog(NSString * _Nonnull format, ...);
+
 @interface SEGUtils : NSObject
 
++ (NSDictionary * _Nonnull)coerceDictionary:(NSDictionary * _Nullable)dict;
 + (NSData * _Nullable)encodeJSON:(id _Nonnull)jsonObject error:(NSError * __autoreleasing _Nullable * _Nullable)error;
+
 + (NSURL * _Nonnull)urlForName:(NSString * _Nonnull)name writeKey:(NSString * _Nonnull)writeKey extension:(NSString * _Nonnull)extension;
 + (NSString * _Nonnull)convertPushTokenToString:(NSData * _Nonnull)pushToken;
 + (NSString * _Nonnull)generateUUIDString;
++ (NSString * _Nonnull)formatISO8601:(NSDate * _Nonnull)date;
+
 + (NSString * _Nonnull)getDeviceModel;
++ (NSString * _Nullable)getIdentifierForAdvertiser;
 + (BOOL)getAdTrackingEnabled;
 
 @end
@@ -22,18 +32,3 @@
 
 NSURL *SEGAnalyticsURLForFilename(NSString *filename);
 
-// Date Utils
-NSString *iso8601FormattedString(NSDate *date);
-
-// Logging
-
-void SEGSetShowDebugLogs(BOOL showDebugLogs);
-void SEGLog(NSString *format, ...);
-
-// JSON Utils
-
-NSDictionary *SEGCoerceDictionary(NSDictionary *dict);
-
-NSString *SEGIDFA(void);
-
-NSString *SEGEventNameForScreenTitle(NSString *title);

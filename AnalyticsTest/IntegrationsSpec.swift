@@ -43,7 +43,7 @@ class IntegrationsSpec: QuickSpec {
     }
     
     it("calls track on integration") {
-      integrations.track("My Event", properties: nil, options: nil)
+      integrations.track("My Event", properties: nil, context: nil, integrations: nil)
       expect(integrations) != nil
       expect(mockIntegration.created).toEventually(beTrue())
       expect(mockIntegration.lastTrackedEvent).toEventually(equal("My Event"))

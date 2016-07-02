@@ -122,7 +122,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
             ? [self.queue subarrayWithRange:NSMakeRange(0, self.batchSize)] : [self.queue copy];
         
         NSDictionary *payload = @{
-            @"sentAt": iso8601FormattedString([NSDate date]),
+            @"sentAt": [SEGUtils formatISO8601:[NSDate date]],
             @"writeKey": self.writeKey ?: [NSNull null],
             @"batch": batch
         };

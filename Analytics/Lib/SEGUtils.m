@@ -6,12 +6,30 @@
 //  Copyright © 2016 Segment. All rights reserved.
 //
 
+#import <AdSupport/ASIdentifierManager.h>
 #import <sys/sysctl.h>
 #import "SEGUtils.h"
 
+// Logging
+static BOOL kAnalyticsLoggerShowLogs = NO;
+
+void SEGSetShowDebugLogs(BOOL showDebugLogs) {
+    kAnalyticsLoggerShowLogs = showDebugLogs;
+}
+
+void SEGLog(NSString *format, ...) {
+    if (!kAnalyticsLoggerShowLogs)
+        return;
+    
+    va_list args;
+    va_start(args, format);
+    NSLogv(format, args);
+    va_end(args);
+}
+
 @implementation SEGUtils
 
-+ (NSError *)errorFromException:(NSException *)exception {
++ (NSError *)_errorFromException:(NSException *)exception {
     NSMutableDictionary * info = [NSMutableDictionary dictionary];
     [info setValue:exception.name forKey:@"ExceptionName"];
     [info setValue:exception.reason forKey:@"ExceptionReason"];
@@ -22,12 +40,74 @@
     return [[NSError alloc] initWithDomain:@"NSException" code:0 userInfo:info];
 }
 
++ (id)_coerceJSONObject:(id)obj {
+    // if the object is a NSString, NSNumber or NSNull
+    // then we're good
+    if ([obj isKindOfClass:[NSString class]] ||
+        [obj isKindOfClass:[NSNumber class]] ||
+        [obj isKindOfClass:[NSNull class]]) {
+        return obj;
+    }
+    
+    if ([obj isKindOfClass:[NSArray class]]) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (id i in obj)
+            [array addObject:[self _coerceJSONObject:i]];
+        return array;
+    }
+    
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        for (NSString *key in obj) {
+            if (![key isKindOfClass:[NSString class]])
+                SEGLog(@"warning: dictionary keys should be strings. got: %@. coercing "
+                       @"to: %@",
+                       [key class], [key description]);
+            dict[key.description] = [self _coerceJSONObject:obj[key]];
+        }
+        return dict;
+    }
+    
+    if ([obj isKindOfClass:[NSDate class]])
+        return [self formatISO8601:obj];
+    
+    if ([obj isKindOfClass:[NSURL class]])
+        return [obj absoluteString];
+    
+    // default to sending the object's description
+    SEGLog(@"warning: dictionary values should be valid json types. got: %@. "
+           @"coercing to: %@",
+           [obj class], [obj description]);
+    return [obj description];
+}
+
++ (NSDictionary *)coerceDictionary:(NSDictionary *)dict {
+    // make sure that a new dictionary exists even if the input is null
+    dict = dict ?: @{};
+    // assert that the proper types are in the dictionary
+    assert([dict isKindOfClass:[NSDictionary class]]);
+    for (id key in dict) {
+        assert([key isKindOfClass:[NSString class]]);
+        id value = dict[key];
+        assert([value isKindOfClass:[NSString class]] ||
+               [value isKindOfClass:[NSNumber class]] ||
+               [value isKindOfClass:[NSNull class]] ||
+               [value isKindOfClass:[NSArray class]] ||
+               [value isKindOfClass:[NSDictionary class]] ||
+               [value isKindOfClass:[NSDate class]] ||
+               [value isKindOfClass:[NSURL class]]);
+    }
+    
+    // coerce urls, and dates to the proper format
+    return [self _coerceJSONObject:dict];
+}
+
 + (NSData *)encodeJSON:(id)jsonObject error:(NSError *__autoreleasing *)error {
     NSData *data = nil;
     @try {
         data = [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:error];
     } @catch (NSException *exc) {
-        *error = [self errorFromException:exc];
+        *error = [self _errorFromException:exc];
     }
     if (error) {
         SEGLog(@"Error serializing JSON: %@", error);
@@ -71,52 +151,7 @@
     return UUIDString;
 }
 
-+ (NSString *)getDeviceModel {
-    size_t size;
-    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-    char result[size];
-    sysctlbyname("hw.machine", result, &size, NULL, 0);
-    NSString *results = [NSString stringWithCString:result encoding:NSUTF8StringEncoding];
-    return results;
-}
-
-+ (BOOL)getAdTrackingEnabled {
-    BOOL result = NO;
-    Class advertisingManager = NSClassFromString(@"ASIdentifierManager");
-    SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
-    id sharedManager = ((id (*)(id, SEL))[advertisingManager methodForSelector:sharedManagerSelector])(advertisingManager, sharedManagerSelector);
-    SEL adTrackingEnabledSEL = NSSelectorFromString(@"isAdvertisingTrackingEnabled");
-    result = ((BOOL (*)(id, SEL))[sharedManager methodForSelector:adTrackingEnabledSEL])(sharedManager, adTrackingEnabledSEL);
-    return result;
-}
-
-@end
-
-#import <AdSupport/ASIdentifierManager.h>
-
-static BOOL kAnalyticsLoggerShowLogs = NO;
-
-NSURL *SEGAnalyticsURLForFilename(NSString *filename)
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(
-                                                         NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *supportPath = [paths firstObject];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:supportPath
-                                              isDirectory:NULL]) {
-        NSError *error = nil;
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:supportPath
-                                       withIntermediateDirectories:YES
-                                                        attributes:nil
-                                                             error:&error]) {
-            SEGLog(@"error: %@", error.localizedDescription);
-        }
-    }
-    return [[NSURL alloc] initFileURLWithPath:[supportPath stringByAppendingPathComponent:filename]];
-}
-
-// Date Utils
-NSString *iso8601FormattedString(NSDate *date)
-{
++ (NSString *)formatISO8601:(NSDate *)date {
     static NSDateFormatter *dateFormatter;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -127,97 +162,16 @@ NSString *iso8601FormattedString(NSDate *date)
     return [dateFormatter stringFromDate:date];
 }
 
-// Logging
-
-void SEGSetShowDebugLogs(BOOL showDebugLogs)
-{
-    kAnalyticsLoggerShowLogs = showDebugLogs;
++ (NSString *)getDeviceModel {
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char result[size];
+    sysctlbyname("hw.machine", result, &size, NULL, 0);
+    NSString *results = [NSString stringWithCString:result encoding:NSUTF8StringEncoding];
+    return results;
 }
 
-void SEGLog(NSString *format, ...)
-{
-    if (!kAnalyticsLoggerShowLogs)
-        return;
-    
-    va_list args;
-    va_start(args, format);
-    NSLogv(format, args);
-    va_end(args);
-}
-
-// JSON Utils
-
-static id SEGCoerceJSONObject(id obj)
-{
-    // if the object is a NSString, NSNumber or NSNull
-    // then we're good
-    if ([obj isKindOfClass:[NSString class]] ||
-        [obj isKindOfClass:[NSNumber class]] ||
-        [obj isKindOfClass:[NSNull class]]) {
-        return obj;
-    }
-    
-    if ([obj isKindOfClass:[NSArray class]]) {
-        NSMutableArray *array = [NSMutableArray array];
-        for (id i in obj)
-            [array addObject:SEGCoerceJSONObject(i)];
-        return array;
-    }
-    
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        for (NSString *key in obj) {
-            if (![key isKindOfClass:[NSString class]])
-                SEGLog(@"warning: dictionary keys should be strings. got: %@. coercing "
-                       @"to: %@",
-                       [key class], [key description]);
-            dict[key.description] = SEGCoerceJSONObject(obj[key]);
-        }
-        return dict;
-    }
-    
-    if ([obj isKindOfClass:[NSDate class]])
-        return iso8601FormattedString(obj);
-    
-    if ([obj isKindOfClass:[NSURL class]])
-        return [obj absoluteString];
-    
-    // default to sending the object's description
-    SEGLog(@"warning: dictionary values should be valid json types. got: %@. "
-           @"coercing to: %@",
-           [obj class], [obj description]);
-    return [obj description];
-}
-
-static void AssertDictionaryTypes(id dict)
-{
-    assert([dict isKindOfClass:[NSDictionary class]]);
-    for (id key in dict) {
-        assert([key isKindOfClass:[NSString class]]);
-        id value = dict[key];
-        
-        assert([value isKindOfClass:[NSString class]] ||
-               [value isKindOfClass:[NSNumber class]] ||
-               [value isKindOfClass:[NSNull class]] ||
-               [value isKindOfClass:[NSArray class]] ||
-               [value isKindOfClass:[NSDictionary class]] ||
-               [value isKindOfClass:[NSDate class]] ||
-               [value isKindOfClass:[NSURL class]]);
-    }
-}
-
-NSDictionary *SEGCoerceDictionary(NSDictionary *dict)
-{
-    // make sure that a new dictionary exists even if the input is null
-    dict = dict ?: @{};
-    // assert that the proper types are in the dictionary
-    AssertDictionaryTypes(dict);
-    // coerce urls, and dates to the proper format
-    return SEGCoerceJSONObject(dict);
-}
-
-NSString *SEGIDFA()
-{
++ (NSString *)getIdentifierForAdvertiser {
     NSString *idForAdvertiser = nil;
     Class identifierManager = NSClassFromString(@"ASIdentifierManager");
     if (identifierManager) {
@@ -237,7 +191,32 @@ NSString *SEGIDFA()
     return idForAdvertiser;
 }
 
-NSString *SEGEventNameForScreenTitle(NSString *title)
++ (BOOL)getAdTrackingEnabled {
+    BOOL result = NO;
+    Class advertisingManager = NSClassFromString(@"ASIdentifierManager");
+    SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
+    id sharedManager = ((id (*)(id, SEL))[advertisingManager methodForSelector:sharedManagerSelector])(advertisingManager, sharedManagerSelector);
+    SEL adTrackingEnabledSEL = NSSelectorFromString(@"isAdvertisingTrackingEnabled");
+    result = ((BOOL (*)(id, SEL))[sharedManager methodForSelector:adTrackingEnabledSEL])(sharedManager, adTrackingEnabledSEL);
+    return result;
+}
+
+@end
+
+NSURL *SEGAnalyticsURLForFilename(NSString *filename)
 {
-    return [[NSString alloc] initWithFormat:@"Viewed %@ Screen", title];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(
+                                                         NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *supportPath = [paths firstObject];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:supportPath
+                                              isDirectory:NULL]) {
+        NSError *error = nil;
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:supportPath
+                                       withIntermediateDirectories:YES
+                                                        attributes:nil
+                                                             error:&error]) {
+            SEGLog(@"error: %@", error.localizedDescription);
+        }
+    }
+    return [[NSURL alloc] initFileURLWithPath:[supportPath stringByAppendingPathComponent:filename]];
 }

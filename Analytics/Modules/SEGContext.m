@@ -83,7 +83,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
             dict[@"adTrackingEnabled"] = @([SEGUtils getAdTrackingEnabled]);
         }
         if (self.configuration.enableAdvertisingTracking) {
-            NSString *idfa = SEGIDFA();
+            NSString *idfa = [SEGUtils getIdentifierForAdvertiser];
             if (idfa.length) dict[@"advertisingId"] = idfa;
         }
         // TODO: This is not exactly static...

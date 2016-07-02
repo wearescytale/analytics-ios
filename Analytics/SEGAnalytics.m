@@ -72,70 +72,72 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 - (void)identify:(NSString *)userId traits:(NSDictionary *)traits options:(NSDictionary *)options {
     if (!self.enabled) { return; }
     NSCParameterAssert(userId.length > 0 || traits.count > 0);
+    NSString *anonymousId = options[@"anonymousId"];
     [self.dispatchQueue async:^{
-        NSString *anonymousId = [options objectForKey:@"anonymousId"];
         self.user.userId = userId;
         [self.user addTraits:traits];
         if (anonymousId) {
             self.user.anonymousId = anonymousId;
         }
     }];
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [dictionary setValue:traits forKey:@"traits"];
+    traits = [SEGUtils coerceDictionary:traits];
+    NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
+    NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"identify"
-             dictionary:@{@"traits": SEGCoerceDictionary(traits)}
-                context:SEGCoerceDictionary([options objectForKey:@"context"])
-           integrations:[options objectForKey:@"integrations"]];
-    [self.integrations identify:userId traits:traits options:options];
+             dictionary:@{@"traits": traits}
+                context:context
+           integrations:options];
+    [self.integrations identify:userId anonymousId:anonymousId traits:traits context:context integrations:integrations];
 }
 
 - (void)track:(NSString *)event properties:(NSDictionary *)properties options:(NSDictionary *)options {
     if (!self.enabled) { return; }
     NSCParameterAssert(event.length > 0);
+    properties = [SEGUtils coerceDictionary:properties];
+    NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
+    NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"track"
-             dictionary:@{
-                          @"event": event,
-                          @"properties": SEGCoerceDictionary(properties)
-                          }
-                context:SEGCoerceDictionary([options objectForKey:@"context"])
-           integrations:[options objectForKey:@"integrations"]];
-    [self.integrations track:event properties:properties options:options];
+             dictionary:@{@"event": event, @"properties": properties}
+                context:context
+           integrations:integrations];
+    [self.integrations track:event properties:properties context:context integrations:integrations];
 }
 
 - (void)screen:(NSString *)screenTitle properties:(NSDictionary *)properties options:(NSDictionary *)options {
     if (!self.enabled) { return; }
     NSCParameterAssert(screenTitle.length > 0);
+    properties = [SEGUtils coerceDictionary:properties];
+    NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
+    NSDictionary *integrations = options[@"integrations"];
     [self enqueueAction:@"screen"
-             dictionary:@{
-                          @"name": screenTitle,
-                          @"properties": SEGCoerceDictionary(properties)
-                          }
-                context:SEGCoerceDictionary([options objectForKey:@"context"])
-           integrations:[options objectForKey:@"integrations"]];
-    [self.integrations screen:screenTitle properties:properties options:options];
+             dictionary:@{@"name": screenTitle, @"properties": properties}
+                context:context
+           integrations:integrations];
+    [self.integrations screen:screenTitle properties:properties context:context integrations:integrations];
 }
 
 - (void)group:(NSString *)groupId traits:(NSDictionary *)traits options:(NSDictionary *)options {
     if (!self.enabled) { return; }
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [dictionary setValue:groupId forKey:@"groupId"];
-    [dictionary setValue:SEGCoerceDictionary(traits) forKey:@"traits"];
-    NSDictionary *context = SEGCoerceDictionary([options objectForKey:@"context"]);
-    NSDictionary *integrations = [options objectForKey:@"integrations"];
-    [self enqueueAction:@"group" dictionary:dictionary context:context integrations:integrations];
-    [self.integrations group:groupId traits:traits options:options];
+    traits = [SEGUtils coerceDictionary:traits];
+    NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
+    NSDictionary *integrations = options[@"integrations"];
+    [self enqueueAction:@"group"
+             dictionary:@{@"groupId": groupId, @"traits": traits}
+                context:context
+           integrations:integrations];
+    [self.integrations group:groupId traits:traits context:context integrations:integrations];
 }
 
 - (void)alias:(NSString *)newId options:(NSDictionary *)options {
     if (!self.enabled) { return; }
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [dictionary setValue:newId forKey:@"userId"];
-    [dictionary setValue:self.user.userId ?: self.user.anonymousId forKey:@"previousId"];
-    NSDictionary *context = SEGCoerceDictionary([options objectForKey:@"context"]);
-    NSDictionary *integrations = [options objectForKey:@"integrations"];
-    
-    [self enqueueAction:@"alias" dictionary:dictionary context:context integrations:integrations];
-    [self.integrations alias:newId options:options];
+    NSString *previousId = self.user.userId ?: self.user.anonymousId;
+    NSDictionary *context = [SEGUtils coerceDictionary:options[@"context"]];
+    NSDictionary *integrations = options[@"integrations"];
+    [self enqueueAction:@"alias"
+             dictionary:@{@"userId": newId, @"previousId": previousId}
+                context:context
+           integrations:integrations];
+    [self.integrations alias:newId context:context integrations:integrations];
 }
 
 - (void)reset {
@@ -177,7 +179,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     // and the timestamp will be more accurate.
     NSMutableDictionary *payload = [origPayload mutableCopy];
     payload[@"type"] = action;
-    payload[@"timestamp"] = iso8601FormattedString([NSDate date]);
+    payload[@"timestamp"] = [SEGUtils formatISO8601:[NSDate date]];
     payload[@"messageId"] = [SEGUtils generateUUIDString];
     
     [self.dispatchQueue async:^{
