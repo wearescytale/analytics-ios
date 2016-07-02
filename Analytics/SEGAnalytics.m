@@ -35,23 +35,22 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
     NSCParameterAssert(configuration != nil);
     
     if (self = [self init]) {
-        _configuration = configuration;
         _enabled = YES;
+        _configuration = configuration;
+        _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.analytics"];
         _ctx = [[SEGContext alloc] initWithConfiguration:_configuration];
         _user = [[SEGUser alloc] init];
-        
         _transporter = [[SEGNetworkTransporter alloc] initWithWriteKey:configuration.writeKey flushAfter:30];
-        _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.analytics"];
+        // TODO: Not fully initialized yet
+        _integrations = [[SEGIntegrationsManager alloc] initWithAnalytics:self];
+        _lifecycle = [[SEGLifecycleTracker alloc] initWithAnalytics:self];
         
         if (configuration.recordScreenViews) {
             _screenTracker = [[SEGScreenTracker alloc] initWithAnalytics:self];
         }
         if (configuration.trackInAppPurchases) {
-            _storeKitTracker = [SEGStoreKitTracker trackTransactionsForAnalytics:self];
+            _storeKitTracker = [[SEGStoreKitTracker alloc] initWithAnalytics:self];
         }
-        // TODO: Not fully initialized yet
-        _integrations = [[SEGIntegrationsManager alloc] initWithAnalytics:self];
-        _lifecycle = [[SEGLifecycleTracker alloc] initWithAnalytics:self];
         if (configuration.trackApplicationLifecycleEvents) {
             [self.lifecycle trackApplicationLifecycleEvents];
         }

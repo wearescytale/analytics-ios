@@ -37,8 +37,7 @@ return result;                                            \
 
 @implementation SEGLocation
 
-- (id)init
-{
+- (id)init {
     if (![CLLocationManager locationServicesEnabled]) return nil;
     
     if (self = [super init]) {
@@ -62,8 +61,7 @@ LOCATION_NUMBER_PROPERTY(latitude, location.coordinate.latitude);
 LOCATION_NUMBER_PROPERTY(longitude, location.coordinate.longitude);
 LOCATION_NUMBER_PROPERTY(speed, location.speed);
 
-- (void)startUpdatingLocation
-{
+- (void)startUpdatingLocation {
     if (self.locationManager && self.currentPlacemark) {
         CLLocation *location = self.currentPlacemark.location;
         NSDate *eventDate = location.timestamp;
@@ -76,8 +74,7 @@ LOCATION_NUMBER_PROPERTY(speed, location.speed);
     }
 }
 
-- (BOOL)hasKnownLocation
-{
+- (BOOL)hasKnownLocation {
     __block BOOL result = NO;
     dispatch_sync(self.syncQueue, ^{
         result = self.currentPlacemark != nil;
@@ -85,20 +82,17 @@ LOCATION_NUMBER_PROPERTY(speed, location.speed);
     return result;
 }
 
-- (NSDictionary *)locationDictionary
-{
+- (NSDictionary *)locationDictionary {
     return [self dictionaryWithValuesForKeys:@[ @"city", @"country", @"latitude", @"longitude", @"speed" ]];
 }
 
-- (NSDictionary *)addressDictionary
-{
+- (NSDictionary *)addressDictionary {
     return [self dictionaryWithValuesForKeys:@[ @"city", @"country", @"postalCode", @"state", @"street" ]];
 }
 
 #pragma mark - CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     if (!locations.count) return;
     
     //https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/LocationAwarenessPG/CoreLocation/CoreLocation.html
@@ -123,8 +117,7 @@ LOCATION_NUMBER_PROPERTY(speed, location.speed);
     }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     SEGLog(@"error: %@", error);
 }
 

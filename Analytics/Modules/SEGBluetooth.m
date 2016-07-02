@@ -1,8 +1,7 @@
-#import "SEGBluetooth.h"
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "SEGBluetooth.h"
 
-const NSString *SEGCentralManagerClass = @"CBCentralManager";
-
+static const NSString *SEGCentralManagerClass = @"CBCentralManager";
 
 @interface SEGBluetooth () <CBCentralManagerDelegate>
 
@@ -14,26 +13,24 @@ const NSString *SEGCentralManagerClass = @"CBCentralManager";
 
 @implementation SEGBluetooth
 
-- (id)init
-{
+- (id)init {
     if (self = [super init]) {
         _queue = dispatch_queue_create("io.segment.bluetooth.queue", NULL);
         _manager = [[CBCentralManager alloc] initWithDelegate:self
                                                         queue:_queue
-                                                      options:@{ CBCentralManagerOptionShowPowerAlertKey : @NO }];
+                                                      options:@{CBCentralManagerOptionShowPowerAlertKey : @NO}];
     }
     return self;
 }
 
-- (BOOL)hasKnownState
-{
-    return _manager && (_manager.state != CBCentralManagerStateUnknown);
+- (BOOL)hasKnownState {
+    return self.manager && (self.manager.state != CBCentralManagerStateUnknown);
 }
 
-- (BOOL)isEnabled
-{
-    return _manager.state == CBCentralManagerStatePoweredOn;
+- (BOOL)isEnabled {
+    return self.manager.state == CBCentralManagerStatePoweredOn;
 }
 
 - (void)centralManagerDidUpdateState:(id)central {}
+
 @end

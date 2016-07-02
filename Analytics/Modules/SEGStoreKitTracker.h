@@ -3,6 +3,6 @@
 
 @interface SEGStoreKitTracker : NSObject
 
-+ (instancetype)trackTransactionsForAnalytics:(SEGAnalytics *)analytics;
+- (instancetype)initWithAnalytics:(SEGAnalytics *)analytics;
 
 @end
