@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 
-typedef void (^SEGAnalyticsRequestCompletionBlock)(void);
+typedef void (^SEGHTTPRequestCompletionBlock)(void);
 
-@interface SEGAnalyticsRequest : NSObject
+@interface SEGHTTPRequest : NSObject
 
-@property (nonatomic, copy) SEGAnalyticsRequestCompletionBlock completion;
+@property (nonatomic, copy) SEGHTTPRequestCompletionBlock completion;
 @property (nonatomic, readonly) NSURLRequest *urlRequest;
 @property (nonatomic, readonly) NSHTTPURLResponse *response;
 @property (nonatomic, readonly) NSData *responseData;
@@ -12,6 +12,6 @@ typedef void (^SEGAnalyticsRequestCompletionBlock)(void);
 @property (nonatomic, readonly) NSError *error;
 
 + (instancetype)startWithURLRequest:(NSURLRequest *)urlRequest
-                         completion:(SEGAnalyticsRequestCompletionBlock)completion;
+                         completion:(SEGHTTPRequestCompletionBlock)completion;
 
 @end

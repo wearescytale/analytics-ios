@@ -1,5 +1,5 @@
 #import "SEGAnalyticsUtils.h"
-#import "SEGAnalyticsRequest.h"
+#import "SEGHTTPRequest.h"
 #import "SEGStoreKitTracker.h"
 #import "SEGIntegrationsManager.h"
 #import "UIViewController+SEGScreen.h"

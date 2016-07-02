@@ -13,7 +13,7 @@
 #import "SEGUtils.h"
 #import "SEGAnalytics.h"
 #import "SEGAnalyticsUtils.h"
-#import "SEGAnalyticsRequest.h"
+#import "SEGHTTPRequest.h"
 #import "SEGAnalyticsConfiguration.h"
 #import "SEGBluetooth.h"
 #import "SEGReachability.h"

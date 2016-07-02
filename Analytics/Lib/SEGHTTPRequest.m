@@ -1,9 +1,9 @@
 #define AssertMainThread() NSCParameterAssert([NSThread isMainThread])
 
-#import "SEGAnalyticsRequest.h"
+#import "SEGHTTPRequest.h"
 
 
-@interface SEGAnalyticsRequest () <NSURLConnectionDataDelegate>
+@interface SEGHTTPRequest () <NSURLConnectionDataDelegate>
 
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSURLRequest *urlRequest;
@@ -16,7 +16,7 @@
 @end
 
 
-@implementation SEGAnalyticsRequest
+@implementation SEGHTTPRequest
 
 - (id)initWithURLRequest:(NSURLRequest *)urlRequest {
     if (self = [super init]) {
@@ -76,8 +76,8 @@
 #pragma mark - Class Methods
 
 + (instancetype)startWithURLRequest:(NSURLRequest *)urlRequest
-                         completion:(SEGAnalyticsRequestCompletionBlock)completion {
-    SEGAnalyticsRequest *request = [[self alloc] initWithURLRequest:urlRequest];
+                         completion:(SEGHTTPRequestCompletionBlock)completion {
+    SEGHTTPRequest *request = [[self alloc] initWithURLRequest:urlRequest];
     request.completion = completion;
     [request start];
     return request;

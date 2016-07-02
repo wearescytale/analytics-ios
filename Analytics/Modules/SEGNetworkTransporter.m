@@ -10,7 +10,7 @@
 #import "NSData+GZIP.h"
 #import "SEGUtils.h"
 #import "SEGAnalyticsUtils.h"
-#import "SEGAnalyticsRequest.h"
+#import "SEGHTTPRequest.h"
 #import "SEGNetworkTransporter.h"
 #import "SEGAnalyticsConfiguration.h"
 #import "SEGDispatchQueue.h"
@@ -24,7 +24,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 @property (nonnull, nonatomic, strong) NSMutableArray *queue;
 @property (nonatomic, strong) NSArray *batch;
-@property (nonatomic, strong) SEGAnalyticsRequest *request;
+@property (nonatomic, strong) SEGHTTPRequest *request;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier flushTaskID;
 @property (nonnull, nonatomic, strong) NSTimer *flushTimer;
 @property (nonnull, nonatomic, strong) dispatch_source_t writeToDiskSource;
@@ -164,7 +164,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
     [urlRequest setHTTPBody:[data seg_gzippedData]];
     
     SEGLog(@"%@ Sending batch API request.", self);
-    self.request = [SEGAnalyticsRequest startWithURLRequest:urlRequest
+    self.request = [SEGHTTPRequest startWithURLRequest:urlRequest
                                                  completion:^{
         [self.dispatchQueue async:^{
             if (self.request.error) {

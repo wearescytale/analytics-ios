@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SEGAnalytics.h"
 #import "SEGAnalyticsUtils.h"
-#import "SEGAnalyticsRequest.h"
+#import "SEGHTTPRequest.h"
 #import "SEGAnalyticsConfiguration.h"
 #import "SEGIntegration.h"
 #import "SEGIntegrationFactory.h"
@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSDictionary *cachedSettings;
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 @property (nonatomic, strong) NSMutableArray *messageQueue;
-@property (nonatomic, strong) SEGAnalyticsRequest *settingsRequest;
+@property (nonatomic, strong) SEGHTTPRequest *settingsRequest;
 @property (nonatomic, strong) NSArray *factories;
 @property (nonatomic, strong) NSMutableDictionary *integrations;
 @property (nonatomic, strong) NSMutableDictionary *registeredIntegrations;
@@ -121,7 +121,7 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     
     SEGLog(@"%@ Sending API settings request: %@", self, urlRequest);
     
-    self.settingsRequest = [SEGAnalyticsRequest startWithURLRequest:urlRequest
+    self.settingsRequest = [SEGHTTPRequest startWithURLRequest:urlRequest
                                                      completion:^{
         seg_dispatch_specific_async(self.serialQueue, ^{
             SEGLog(@"%@ Received API settings response: %@", self, self.settingsRequest.responseJSON);
