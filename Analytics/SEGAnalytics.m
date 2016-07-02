@@ -157,7 +157,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 
 - (void)flush {
     [self dispatchBackground:^{
-        [self.transporter flush];
+        [self.transporter flush:nil];
         [self.integrations flush];
     }];
 }

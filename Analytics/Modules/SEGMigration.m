@@ -14,6 +14,8 @@ NSString *const SEGTraitsKey = @"SEGTraits";
 @implementation SEGMigration
 
 + (void)migrateToLatest {
+    // TODO: Migrate local files over
+//    return SEGAnalyticsURLForFilename(@"segmentio.queue.plist");
     // Check for previous queue/track data in NSUserDefaults and remove if present
     if ([[NSUserDefaults standardUserDefaults] objectForKey:SEGQueueKey]) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:SEGQueueKey];

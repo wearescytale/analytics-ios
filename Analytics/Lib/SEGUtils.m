@@ -7,9 +7,51 @@
 //
 
 #import <sys/sysctl.h>
+#import "SEGAnalyticsUtils.h"
 #import "SEGUtils.h"
 
 @implementation SEGUtils
+
++ (NSError *)errorFromException:(NSException *)exception {
+    NSMutableDictionary * info = [NSMutableDictionary dictionary];
+    [info setValue:exception.name forKey:@"ExceptionName"];
+    [info setValue:exception.reason forKey:@"ExceptionReason"];
+    [info setValue:exception.callStackReturnAddresses forKey:@"ExceptionCallStackReturnAddresses"];
+    [info setValue:exception.callStackSymbols forKey:@"ExceptionCallStackSymbols"];
+    [info setValue:exception.userInfo forKey:@"ExceptionUserInfo"];
+    
+    return [[NSError alloc] initWithDomain:@"NSException" code:0 userInfo:info];
+}
+
++ (NSData *)encodeJSON:(id)jsonObject error:(NSError *__autoreleasing *)error {
+    NSData *data = nil;
+    @try {
+        data = [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:error];
+    } @catch (NSException *exc) {
+        *error = [self errorFromException:exc];
+    }
+    if (error) {
+        SEGLog(@"Error serializing JSON: %@", error);
+    }
+    return data;
+}
+
++ (NSURL * _Nonnull)urlForName:(NSString * _Nonnull)name writeKey:(NSString * _Nonnull)writeKey extension:(NSString * _Nonnull)extension {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *supportPath = [paths firstObject];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:supportPath
+                                              isDirectory:NULL]) {
+        NSError *error = nil;
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:supportPath
+                                       withIntermediateDirectories:YES
+                                                        attributes:nil
+                                                             error:&error]) {
+            SEGLog(@"error: %@", error.localizedDescription);
+        }
+    }
+    NSString *filename = [NSString stringWithFormat:@"%@-%@.%@", name, writeKey, extension];
+    return [[NSURL alloc] initFileURLWithPath:[supportPath stringByAppendingPathComponent:filename]];
+}
 
 + (NSString *)convertPushTokenToString:(NSData *)pushToken {
     const unsigned char *buffer = (const unsigned char *)[pushToken bytes];

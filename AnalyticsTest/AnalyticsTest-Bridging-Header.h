@@ -5,7 +5,7 @@
 #import "Analytics.h"
 #import "SEGNetworkTransporter.h"
 #import "SEGDispatchQueue.h"
-#import "SEGAnalyticsRequest.h"
+#import "SEGHTTPRequest.h"
 #import "SEGIntegrationsManager.h"
 #import "SEGIntegration.h"
 #import "SEGIntegrationFactory.h"
