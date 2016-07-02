@@ -40,7 +40,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         _ctx = [[SEGContext alloc] initWithConfiguration:_configuration];
         _user = [[SEGUser alloc] init];
         
-        _transporter = [[SEGNetworkTransporter alloc] initWithConfiguration:_configuration];
+        _transporter = [[SEGNetworkTransporter alloc] initWithWriteKey:configuration.writeKey flushAfter:30];
         _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics", DISPATCH_QUEUE_SERIAL);
         
         if (configuration.recordScreenViews) {

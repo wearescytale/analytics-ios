@@ -13,6 +13,7 @@
 #import "SEGAnalyticsRequest.h"
 #import "SEGNetworkTransporter.h"
 #import "SEGAnalyticsConfiguration.h"
+#import "SEGDispatchQueue.h"
 
 
 NSString *const SEGSegmentDidSendRequestNotification = @"SegmentDidSendRequest";
@@ -21,27 +22,31 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 @interface SEGNetworkTransporter ()
 
-@property (nonnull, nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 @property (nonnull, nonatomic, strong) NSMutableArray *queue;
 @property (nonatomic, strong) NSArray *batch;
 @property (nonatomic, strong) SEGAnalyticsRequest *request;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier flushTaskID;
 @property (nonnull, nonatomic, strong) NSTimer *flushTimer;
-@property (nonnull, nonatomic, strong) dispatch_queue_t serialQueue;
 @property (nonnull, nonatomic, strong) dispatch_source_t writeToDiskSource;
+@property (nonnull, nonatomic, strong) SEGDispatchQueue *dispatchQueue;
 
 @end
 
 @implementation SEGNetworkTransporter
 
-- (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration {
+- (instancetype)initWithWriteKey:(NSString *)writeKey flushAfter:(NSTimeInterval)flushAfter {
     if (self = [super init]) {
-        _configuration = configuration;
         _apiURL = [NSURL URLWithString:@"https://api.segment.io/v1/import"];
-        _flushTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(flush) userInfo:nil repeats:YES];
-        _serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics.segmentio", DISPATCH_QUEUE_SERIAL);
+        _writeKey = writeKey;
+        _flushAt = 20;
+        _batchSize = 100;
+        _flushTimer = [NSTimer scheduledTimerWithTimeInterval:flushAfter
+                                                       target:self selector:@selector(flush) userInfo:nil repeats:YES];
+        _queue = [NSMutableArray arrayWithContentsOfURL:self.queueURL] ?: [[NSMutableArray alloc] init];
         _flushTaskID = UIBackgroundTaskInvalid;
-        _writeToDiskSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_DATA_ADD, 0, 0, _serialQueue);
+        _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.transporter"];
+        _writeToDiskSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_DATA_ADD, 0, 0, _dispatchQueue.queue);
+        
         __weak SEGNetworkTransporter *this = self;
         dispatch_source_set_event_handler(_writeToDiskSource, ^{
             SEGLog(@"Will Write to Disk and Flush queueLength=%ld", this.queue.count);
@@ -54,7 +59,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         // TODO: Figure
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(flushInBackground)
-                   name:UIApplicationWillEnterForegroundNotification object:nil];
+                   name:UIApplicationDidEnterBackgroundNotification object:nil];
         [nc addObserver:self selector:@selector(applicationWillTerminate)
                    name:UIApplicationWillTerminateNotification object:nil];
 
@@ -66,14 +71,6 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)dispatchBackground:(void (^)(void))block {
-    seg_dispatch_specific_async(self.serialQueue, block);
-}
-
-- (void)dispatchBackgroundAndWait:(void (^)(void))block {
-    seg_dispatch_specific_sync(self.serialQueue, block);
-}
-
 - (void)beginBackgroundTask {
     [self endBackgroundTask];
     
@@ -83,7 +80,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 }
 
 - (void)endBackgroundTask {
-    [self dispatchBackgroundAndWait:^{
+    [self.dispatchQueue sync:^{
         if (self.flushTaskID != UIBackgroundTaskInvalid) {
             [[UIApplication sharedApplication] endBackgroundTask:self.flushTaskID];
             self.flushTaskID = UIBackgroundTaskInvalid;
@@ -91,32 +88,27 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
     }];
 }
 
-- (NSMutableArray *)queue {
-    if (!_queue) {
-        _queue = [NSMutableArray arrayWithContentsOfURL:self.queueURL] ?: [[NSMutableArray alloc] init];
-    }
-    return _queue;
-}
-
 - (NSURL *)queueURL {
     return SEGAnalyticsURLForFilename(@"segmentio.queue.plist");
 }
 
 - (void)queuePayload:(NSDictionary *)payload {
-    @try {
-        [self.queue addObject:payload];
-        dispatch_source_merge_data(self.writeToDiskSource, 1);
-    } @catch (NSException *exception) {
-        SEGLog(@"%@ Error writing payload: %@", self, exception);
-    }
+    [self.dispatchQueue async:^{
+        @try {
+            [self.queue addObject:payload];
+            dispatch_source_merge_data(self.writeToDiskSource, 1);
+        } @catch (NSException *exception) {
+            SEGLog(@"%@ Error writing payload: %@", self, exception);
+        }
+    }];
 }
 
 - (void)flush {
-    [self flushWithMaxSize:self.maxBatchSize];
+    [self flushWithMaxSize:self.batchSize];
 }
 
 - (void)flushWithMaxSize:(NSUInteger)maxBatchSize {
-    [self dispatchBackground:^{
+    [self.dispatchQueue async:^{
         if ([self.queue count] == 0) {
             SEGLog(@"%@ No queued API calls to flush.", self);
             return;
@@ -132,8 +124,8 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         SEGLog(@"%@ Flushing %lu of %lu queued API calls.", self, (unsigned long)self.batch.count, (unsigned long)self.queue.count);
         
         NSMutableDictionary *payloadDictionary = [[NSMutableDictionary alloc] init];
-        [payloadDictionary setObject:self.configuration.writeKey forKey:@"writeKey"];
         [payloadDictionary setObject:iso8601FormattedString([NSDate date]) forKey:@"sentAt"];
+        [payloadDictionary setObject:self.writeKey forKey:@"writeKey"];
         [payloadDictionary setObject:self.batch forKey:@"batch"];
         
         SEGLog(@"Flushing payload %@", payloadDictionary);
@@ -155,9 +147,9 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 }
 
 - (void)flushQueueByLength {
-    [self dispatchBackground:^{
+    [self.dispatchQueue async:^{
         SEGLog(@"%@ Length is %lu.", self, (unsigned long)self.queue.count);
-        if (self.request == nil && [self.queue count] >= self.configuration.flushAt) {
+        if (self.request == nil && self.queue.count >= self.flushAt) {
             [self flush];
         }
     }];
@@ -174,7 +166,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
     SEGLog(@"%@ Sending batch API request.", self);
     self.request = [SEGAnalyticsRequest startWithURLRequest:urlRequest
                                                  completion:^{
-        [self dispatchBackground:^{
+        [self.dispatchQueue async:^{
             if (self.request.error) {
                 SEGLog(@"%@ API request had an error: %@", self, self.request.error);
                 [self notifyForName:SEGSegmentRequestDidFailNotification userInfo:self.batch];
@@ -202,16 +194,12 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 }
 
 - (void)reset {
-    [self dispatchBackgroundAndWait:^{
+    [self.dispatchQueue sync:^{
         [[NSFileManager defaultManager] removeItemAtURL:self.queueURL error:NULL];
         self.queue = [NSMutableArray array];
         self.request.completion = nil;
         self.request = nil;
     }];
-}
-
-- (NSUInteger)maxBatchSize {
-    return 100;
 }
 
 - (void)flushInBackground {
@@ -220,7 +208,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 }
 
 - (void)applicationWillTerminate {
-    [self dispatchBackgroundAndWait:^{
+    [self.dispatchQueue sync:^{
         if (self.queue.count)
             [[self.queue copy] writeToURL:self.queueURL atomically:YES];
     }];

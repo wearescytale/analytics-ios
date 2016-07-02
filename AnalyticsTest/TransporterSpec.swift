@@ -14,8 +14,7 @@ class TransporterSpec : QuickSpec {
   override func spec() {
     var transporter : SEGNetworkTransporter!
     beforeEach {
-      let config = SEGAnalyticsConfiguration(writeKey: "XMTBm9QGhfkLKaevI50GYdD4mOcVDD83")
-      transporter = SEGNetworkTransporter(configuration: config)
+      transporter = SEGNetworkTransporter(writeKey: "XMTBm9QGhfkLKaevI50GYdD4mOcVDD83", flushAfter: 30)
     }
     it("has correct API url") {
       expect(transporter.apiURL.absoluteString) == "https://api.segment.io/v1/import"

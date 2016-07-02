@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class SEGAnalyticsConfiguration;
 @interface SEGNetworkTransporter : NSObject
 
-@property (nonatomic, strong) NSURL *apiURL;
+@property (nonnull, nonatomic, strong) NSURL *apiURL;
+@property (nonnull, nonatomic, strong) NSString *writeKey;
+@property (nonatomic, assign) NSInteger flushAt;
+@property (nonatomic, assign) NSInteger batchSize;
 
-- (instancetype)initWithConfiguration:(SEGAnalyticsConfiguration *)configuration;
+- (instancetype _Nonnull)initWithWriteKey:(NSString * _Nonnull)writeKey flushAfter:(NSTimeInterval)flushAfter;
 
-- (void)queuePayload:(NSDictionary *)payload;
+- (void)queuePayload:(NSDictionary * _Nonnull)payload;
 - (void)flush;
 - (void)reset;
 

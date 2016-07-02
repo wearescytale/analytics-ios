@@ -10,6 +10,8 @@
 
 @interface SEGDispatchQueue : NSObject
 
+@property (nonnull, nonatomic, readonly) dispatch_queue_t queue;
+
 - (instancetype _Nonnull)initWithLabel:(NSString * _Nonnull)label;
 
 - (BOOL)isCurrentQueue;
