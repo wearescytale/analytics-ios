@@ -9,3 +9,4 @@
 #import "SEGIntegrationsManager.h"
 #import "SEGIntegration.h"
 #import "SEGIntegrationFactory.h"
+#import "SEGScreenTracker.h"

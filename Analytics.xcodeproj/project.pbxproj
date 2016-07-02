@@ -27,6 +27,7 @@
 		EA7E7DD21D20F1020002889C /* SEGMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DD11D20F1020002889C /* SEGMigration.m */; };
 		EA9708401D27276400A1D38C /* DispatchQueueSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */; };
 		EA9708421D27298700A1D38C /* TransporterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9708411D27298700A1D38C /* TransporterSpec.swift */; };
+		EA9708441D286EE400A1D38C /* ScreenTrackerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9708431D286EE400A1D38C /* ScreenTrackerSpec.swift */; };
 		EAAC785D1D1C4B65009E3AFC /* SEGHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783B1D1C4B65009E3AFC /* SEGHTTPRequest.m */; };
 		EAAC78601D1C4B65009E3AFC /* SEGBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78421D1C4B65009E3AFC /* SEGBluetooth.m */; };
 		EAAC78611D1C4B65009E3AFC /* SEGLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78441D1C4B65009E3AFC /* SEGLocation.m */; };
@@ -120,6 +121,7 @@
 		EA7E7DD11D20F1020002889C /* SEGMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGMigration.m; sourceTree = "<group>"; };
 		EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueSpec.swift; sourceTree = "<group>"; };
 		EA9708411D27298700A1D38C /* TransporterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransporterSpec.swift; sourceTree = "<group>"; };
+		EA9708431D286EE400A1D38C /* ScreenTrackerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTrackerSpec.swift; sourceTree = "<group>"; };
 		EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegration.h; sourceTree = "<group>"; };
 		EAAC783A1D1C4B65009E3AFC /* SEGHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGHTTPRequest.h; sourceTree = "<group>"; };
 		EAAC783B1D1C4B65009E3AFC /* SEGHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGHTTPRequest.m; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 		EA08DBAD1D22414A00A2B68A /* AnalyticsTest */ = {
 			isa = PBXGroup;
 			children = (
+				EA9708431D286EE400A1D38C /* ScreenTrackerSpec.swift */,
 				EA5DF2C11D266580008E68FA /* IntegrationsSpec.swift */,
 				EA5DF2C31D266580008E68FA /* NetworkSpec.swift */,
 				EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */,
@@ -496,6 +499,7 @@
 				EA5DF2CA1D266580008E68FA /* TestUtils.swift in Sources */,
 				EA9708421D27298700A1D38C /* TransporterSpec.swift in Sources */,
 				EA9708401D27276400A1D38C /* DispatchQueueSpec.swift in Sources */,
+				EA9708441D286EE400A1D38C /* ScreenTrackerSpec.swift in Sources */,
 				EA5DF2C81D266580008E68FA /* NetworkSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -45,7 +45,7 @@ static NSString *SEGViewDidAppearNotification = @"SEGViewDidAppearNotification";
 }
 
 - (void)handleViewDidAppear:(NSNotification *)notification {
-    UIViewController *top = [self topViewController];
+    UIViewController *top = [self topViewController] ?: notification.object;
     if (!top) {
         return;
     }
@@ -59,7 +59,7 @@ static NSString *SEGViewDidAppearNotification = @"SEGViewDidAppearNotification";
             name = @"Unknown";
         }
     }
-    [[SEGAnalytics sharedAnalytics] screen:name properties:nil options:nil];
+    [self.analytics screen:name properties:nil options:nil];
 }
 
 - (UIViewController *)topViewController {
