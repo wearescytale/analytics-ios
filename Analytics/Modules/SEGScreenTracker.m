@@ -49,17 +49,19 @@ static NSString *SEGViewDidAppearNotification = @"SEGViewDidAppearNotification";
     if (!top) {
         return;
     }
-    
-    NSString *name = [top title];
-    if (name.length == 0) {
-        name = [[[top class] description] stringByReplacingOccurrencesOfString:@"ViewController" withString:@""];
-        // Class name could be just "ViewController".
-        if (name.length == 0) {
-            SEGLog(@"Could not infer screen name.");
-            name = @"Unknown";
-        }
-    }
+    NSString *name = [top title] ?: [self inferScreenTitle:top];
     [self.analytics screen:name properties:nil options:nil];
+}
+
+- (NSString *)inferScreenTitle:(UIViewController *)vc {
+    NSString *className = [[vc class] description];
+    if ([className isEqualToString:@"ViewController"]) {
+        return @"ViewController";
+    } else if ([className containsString:@"ViewController"]) {
+        return [className stringByReplacingOccurrencesOfString:@"ViewController" withString:@""];
+    }
+    SEGLog(@"Could not infer screen name. Try specifying a title for %@", vc);
+    return @"Unknown";
 }
 
 - (UIViewController *)topViewController {
