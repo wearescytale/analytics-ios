@@ -14,7 +14,4 @@
 @property (nonatomic, strong) NSString *anonymousId;
 @property (nonatomic, readonly) NSDictionary *traits;
 
-- (void)addTraits:(NSDictionary *)traits;
-- (void)reset;
-
 @end

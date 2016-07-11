@@ -2,6 +2,7 @@
 #import "SEGMigration.h"
 #import "SEGContext.h"
 #import "SEGUser.h"
+#import "SEGUser+Internal.h"
 #import "SEGNetworkTransporter.h"
 #import "SEGIntegrationsManager.h"
 #import "SEGStoreKitTracker.h"

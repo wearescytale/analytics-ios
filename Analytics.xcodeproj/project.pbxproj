@@ -20,6 +20,7 @@
 		EA5DF2C81D266580008E68FA /* NetworkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2C31D266580008E68FA /* NetworkSpec.swift */; };
 		EA5DF2CA1D266580008E68FA /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5DF2C51D266580008E68FA /* TestUtils.swift */; };
 		EA6DC7551D3374A400422E5A /* CoreSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6DC7541D3374A400422E5A /* CoreSpec.swift */; };
+		EA6DC7571D337C7900422E5A /* SEGUser.h in Headers */ = {isa = PBXBuildFile; fileRef = EA08DBC01D22565100A2B68A /* SEGUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */; };
 		EA7E7D9F1D1D19DA0002889C /* SEGLifecycleTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */; };
 		EA7E7DA51D1D96A30002889C /* SEGNetworkTransporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */; };
@@ -112,6 +113,7 @@
 		EA5DF2C31D266580008E68FA /* NetworkSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSpec.swift; sourceTree = "<group>"; };
 		EA5DF2C51D266580008E68FA /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		EA6DC7541D3374A400422E5A /* CoreSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreSpec.swift; sourceTree = "<group>"; };
+		EA6DC7561D337C6D00422E5A /* SEGUser+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SEGUser+Internal.h"; sourceTree = "<group>"; };
 		EA7E7D971D1D11910002889C /* SEGIntegrationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegrationsManager.h; sourceTree = "<group>"; };
 		EA7E7D981D1D11910002889C /* SEGIntegrationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGIntegrationsManager.m; sourceTree = "<group>"; };
 		EA7E7D9D1D1D19DA0002889C /* SEGLifecycleTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGLifecycleTracker.h; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
 				EA7E7DD11D20F1020002889C /* SEGMigration.m */,
 				EA08DBC01D22565100A2B68A /* SEGUser.h */,
+				EA6DC7561D337C6D00422E5A /* SEGUser+Internal.h */,
 				EA08DBC11D22565100A2B68A /* SEGUser.m */,
 				EA7E7DA61D1DE6F80002889C /* SEGContext.h */,
 				EA7E7DA71D1DE6F80002889C /* SEGContext.m */,
@@ -334,6 +337,7 @@
 				EAACFE461D25BDB800668199 /* SEGAnalytics.h in Headers */,
 				EAACFE471D25BDB800668199 /* SEGAnalytics+Convenience.h in Headers */,
 				EAACFE481D25BDB800668199 /* SEGAnalyticsConfiguration.h in Headers */,
+				EA6DC7571D337C7900422E5A /* SEGUser.h in Headers */,
 				EAACFE491D25BDB800668199 /* Analytics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

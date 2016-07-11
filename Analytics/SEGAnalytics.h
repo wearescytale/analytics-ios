@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "SEGAnalyticsConfiguration.h"
+#import "SEGUser.h"
 
 /**
  * NSNotification name, that is posted after integrations are loaded.
@@ -20,6 +21,8 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
 @property (nonnull, nonatomic, readonly) SEGAnalyticsConfiguration *configuration;
 
 @property (nullable, nonatomic, readwrite, weak) id<SEGAnalyticsDelegate>delegate;
+
+@property (nonnull, nonatomic, readonly) SEGUser *user;
 
 /**
  * Setup this analytics client instance.

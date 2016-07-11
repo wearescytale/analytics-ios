@@ -7,6 +7,7 @@
 //
 
 #import "SEGUser.h"
+#import "SEGUser+Internal.h"
 #import "SEGUtils.h"
 
 NSString *const SEGUserIdKey = @"SEGUserId";
@@ -74,6 +75,24 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     return _traits;
 }
 
+#pragma mark -
+
+- (NSURL *)userIDURL {
+    return SEGAnalyticsURLForFilename(@"segmentio.userId");
+}
+
+- (NSURL *)anonymousIDURL {
+    return SEGAnalyticsURLForFilename(@"segment.anonymousId");
+}
+
+- (NSURL *)traitsURL {
+    return SEGAnalyticsURLForFilename(@"segmentio.traits.plist");
+}
+
+@end
+
+@implementation SEGUser (Internal)
+
 - (void)addTraits:(NSDictionary *)traits {
     // Better way around the compiler check here?
     [(NSMutableDictionary *)self.traits addEntriesFromDictionary:traits];
@@ -92,20 +111,6 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     
     // TODO: Is generation of new ID actually desired?
     self.anonymousId = [SEGUtils generateUUIDString];
-}
-
-#pragma mark -
-
-- (NSURL *)userIDURL {
-    return SEGAnalyticsURLForFilename(@"segmentio.userId");
-}
-
-- (NSURL *)anonymousIDURL {
-    return SEGAnalyticsURLForFilename(@"segment.anonymousId");
-}
-
-- (NSURL *)traitsURL {
-    return SEGAnalyticsURLForFilename(@"segmentio.traits.plist");
 }
 
 @end

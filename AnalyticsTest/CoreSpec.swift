@@ -33,9 +33,14 @@ class CoreSpec: QuickSpec {
     afterEach { 
       analytics.reset()
     }
-//    it("initial has anonymousId but not userId") { 
-//      
-//    }
+    it("initial has anonymousId but not userId") { 
+      expect(analytics.user.anonymousId).toNot(beNil())
+      expect(analytics.user.userId).to(beNil())
+      analytics.identify("tswift")
+      expect(analytics.user.userId).toEventually(equal("tswift"))
+      analytics.reset()
+      expect(analytics.user.userId).to(beNil())
+    }
     it("queues payload properly") {
       analytics.track("App Open")
       expect(delegate.lastPayload).toEventuallyNot(beNil())
