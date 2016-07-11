@@ -14,6 +14,6 @@ dependencies:
 
 test:
   override:
-    - xcodebuild test -workspace Analytics.xcworkspace -scheme libAnalytics -sdk iphonesimulator | xcpretty --report junit
+    - make test-pretty
   post:
     - mv build/reports $CIRCLE_TEST_REPORTS/xcode

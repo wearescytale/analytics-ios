@@ -1,7 +1,7 @@
 SDK ?= "iphonesimulator"
 DESTINATION ?= "platform=iOS Simulator,name=iPhone 6"
-PROJECT := Analytics
-XC_ARGS := -scheme Analytics -project $(PROJECT).xcodeproj -sdk $(SDK) -destination $(DESTINATION) ONLY_ACTIVE_ARCH=NO
+WORKSPACE := Analytics
+XC_ARGS := -scheme libAnalytics -workspace $(WORKSPACE).xcworkspace -sdk $(SDK) -destination $(DESTINATION) ONLY_ACTIVE_ARCH=NO
 
 bootstrap:
 	.buildscript/bootstrap.sh
@@ -47,7 +47,10 @@ build-pretty:
 	set -o pipefail && xcodebuild $(XC_ARGS) | xcpretty
 
 test-pretty:
-	set -o pipefail && xcodebuild test $(XC_ARGS) | xcpretty
+	set -o pipefail && xcodebuild test $(XC_ARGS) | xcpretty --report junit
+	
+test-pretty-travis:
+	set -o pipefail && xcodebuild test $(XC_ARGS) | xcpretty --report junit -f `xcpretty-travis-formatter`
 
 xcbuild:
 	xctool $(XC_ARGS)
