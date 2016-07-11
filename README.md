@@ -1,4 +1,6 @@
-# Analytics
+# Analytics [![CircleCI](https://circleci.com/gh/segmentio/analytics-ios/tree/redux.svg?style=svg)](https://circleci.com/gh/segmentio/analytics-ios/tree/redux)
+
+// TODO: Update CI badge to reflect master branch
 
 [![Version](https://img.shields.io/cocoapods/v/Analytics.svg?style=flat)](https://cocoapods.org//pods/Analytics)
 [![License](https://img.shields.io/cocoapods/l/Analytics.svg?style=flat)](http://cocoapods.org/pods/Analytics)
