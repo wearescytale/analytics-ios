@@ -6,7 +6,6 @@
 //  Copyright © 2016 Segment. All rights reserved.
 //
 
-#import <AdSupport/ASIdentifierManager.h>
 #import <sys/sysctl.h>
 #import "SEGUtils.h"
 
@@ -169,36 +168,6 @@ void SEGLog(NSString *format, ...) {
     sysctlbyname("hw.machine", result, &size, NULL, 0);
     NSString *results = [NSString stringWithCString:result encoding:NSUTF8StringEncoding];
     return results;
-}
-
-+ (NSString *)getIdentifierForAdvertiser {
-    NSString *idForAdvertiser = nil;
-    Class identifierManager = NSClassFromString(@"ASIdentifierManager");
-    if (identifierManager) {
-        SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
-        id sharedManager =
-        ((id (*)(id, SEL))
-         [identifierManager methodForSelector:sharedManagerSelector])(
-                                                                      identifierManager, sharedManagerSelector);
-        SEL advertisingIdentifierSelector =
-        NSSelectorFromString(@"advertisingIdentifier");
-        NSUUID *uuid =
-        ((NSUUID * (*)(id, SEL))
-         [sharedManager methodForSelector:advertisingIdentifierSelector])(
-                                                                          sharedManager, advertisingIdentifierSelector);
-        idForAdvertiser = [uuid UUIDString];
-    }
-    return idForAdvertiser;
-}
-
-+ (BOOL)getAdTrackingEnabled {
-    BOOL result = NO;
-    Class advertisingManager = NSClassFromString(@"ASIdentifierManager");
-    SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
-    id sharedManager = ((id (*)(id, SEL))[advertisingManager methodForSelector:sharedManagerSelector])(advertisingManager, sharedManagerSelector);
-    SEL adTrackingEnabledSEL = NSSelectorFromString(@"isAdvertisingTrackingEnabled");
-    result = ((BOOL (*)(id, SEL))[sharedManager methodForSelector:adTrackingEnabledSEL])(sharedManager, adTrackingEnabledSEL);
-    return result;
 }
 
 @end

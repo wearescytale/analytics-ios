@@ -24,8 +24,6 @@ void SEGLog(NSString * _Nonnull format, ...);
 + (NSString * _Nonnull)formatISO8601:(NSDate * _Nonnull)date;
 
 + (NSString * _Nonnull)getDeviceModel;
-+ (NSString * _Nullable)getIdentifierForAdvertiser;
-+ (BOOL)getAdTrackingEnabled;
 
 @end
 

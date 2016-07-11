@@ -28,6 +28,9 @@
 		EA9708401D27276400A1D38C /* DispatchQueueSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */; };
 		EA9708421D27298700A1D38C /* TransporterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9708411D27298700A1D38C /* TransporterSpec.swift */; };
 		EA9708441D286EE400A1D38C /* ScreenTrackerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9708431D286EE400A1D38C /* ScreenTrackerSpec.swift */; };
+		EA9708491D28844900A1D38C /* SEGAdSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = EA9708471D28844900A1D38C /* SEGAdSupport.h */; };
+		EA97084A1D28844900A1D38C /* SEGAdSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9708481D28844900A1D38C /* SEGAdSupport.m */; };
+		EA97084B1D28844900A1D38C /* SEGAdSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9708481D28844900A1D38C /* SEGAdSupport.m */; };
 		EAAC785D1D1C4B65009E3AFC /* SEGHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC783B1D1C4B65009E3AFC /* SEGHTTPRequest.m */; };
 		EAAC78601D1C4B65009E3AFC /* SEGBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78421D1C4B65009E3AFC /* SEGBluetooth.m */; };
 		EAAC78611D1C4B65009E3AFC /* SEGLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAC78441D1C4B65009E3AFC /* SEGLocation.m */; };
@@ -122,6 +125,8 @@
 		EA97083F1D27276400A1D38C /* DispatchQueueSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueSpec.swift; sourceTree = "<group>"; };
 		EA9708411D27298700A1D38C /* TransporterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransporterSpec.swift; sourceTree = "<group>"; };
 		EA9708431D286EE400A1D38C /* ScreenTrackerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTrackerSpec.swift; sourceTree = "<group>"; };
+		EA9708471D28844900A1D38C /* SEGAdSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAdSupport.h; sourceTree = "<group>"; };
+		EA9708481D28844900A1D38C /* SEGAdSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAdSupport.m; sourceTree = "<group>"; };
 		EAAC78351D1C4B65009E3AFC /* SEGIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGIntegration.h; sourceTree = "<group>"; };
 		EAAC783A1D1C4B65009E3AFC /* SEGHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGHTTPRequest.h; sourceTree = "<group>"; };
 		EAAC783B1D1C4B65009E3AFC /* SEGHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGHTTPRequest.m; sourceTree = "<group>"; };
@@ -277,6 +282,8 @@
 				EAAC78421D1C4B65009E3AFC /* SEGBluetooth.m */,
 				EAAC78431D1C4B65009E3AFC /* SEGLocation.h */,
 				EAAC78441D1C4B65009E3AFC /* SEGLocation.m */,
+				EA9708471D28844900A1D38C /* SEGAdSupport.h */,
+				EA9708481D28844900A1D38C /* SEGAdSupport.m */,
 				EA7E7D9D1D1D19DA0002889C /* SEGLifecycleTracker.h */,
 				EA7E7D9E1D1D19DA0002889C /* SEGLifecycleTracker.m */,
 				EAAC78451D1C4B65009E3AFC /* SEGStoreKitTracker.h */,
@@ -318,6 +325,7 @@
 				EA04DE2B1D25E8A500DB4B89 /* SEGDispatchQueue.h in Headers */,
 				EAACFE421D25BDB800668199 /* SEGIntegrationsManager.h in Headers */,
 				EAACFE431D25BDB800668199 /* SEGIntegrationFactory.h in Headers */,
+				EA9708491D28844900A1D38C /* SEGAdSupport.h in Headers */,
 				EAACFE441D25BDB800668199 /* SEGIntegration.h in Headers */,
 				EAACFE451D25BDB800668199 /* SEGPayload.h in Headers */,
 				EAACFE461D25BDB800668199 /* SEGAnalytics.h in Headers */,
@@ -526,6 +534,7 @@
 				EAACFE3E1D25BD5A00668199 /* SEGPayload.m in Sources */,
 				EAACFE3F1D25BD5A00668199 /* SEGAnalytics.m in Sources */,
 				EAACFE401D25BD5A00668199 /* SEGAnalytics+Convenience.m in Sources */,
+				EA97084A1D28844900A1D38C /* SEGAdSupport.m in Sources */,
 				EAACFE411D25BD5A00668199 /* SEGAnalyticsConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,6 +561,7 @@
 				EAAC78621D1C4B65009E3AFC /* SEGStoreKitTracker.m in Sources */,
 				EA08DBBD1D2246B000A2B68A /* SEGReachability.m in Sources */,
 				EAAC786A1D1C4B65009E3AFC /* SEGAnalytics.m in Sources */,
+				EA97084B1D28844900A1D38C /* SEGAdSupport.m in Sources */,
 				EAAC78751D1C9957009E3AFC /* SEGAnalyticsConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

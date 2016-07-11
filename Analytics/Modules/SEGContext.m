@@ -16,10 +16,8 @@
 #import "SEGAnalyticsConfiguration.h"
 #import "SEGBluetooth.h"
 #import "SEGReachability.h"
+#import "SEGAdSupport.h"
 #import "SEGLocation.h"
-
-static NSString *const SEGAdvertisingClassIdentifier = @"ASIdentifierManager";
-static NSString *const SEGADClientClass = @"ADClient";
 
 @interface SEGContext ()
 
@@ -79,11 +77,11 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
         dict[@"manufacturer"] = @"Apple";
         dict[@"model"] = [SEGUtils getDeviceModel];
         dict[@"id"] = [[device identifierForVendor] UUIDString];
-        if (NSClassFromString(SEGAdvertisingClassIdentifier)) {
-            dict[@"adTrackingEnabled"] = @([SEGUtils getAdTrackingEnabled]);
+        if ([SEGAdSupport adSupportFrameworkLinked]) {
+            dict[@"adTrackingEnabled"] = @([SEGAdSupport getAdTrackingEnabled]);
         }
         if (self.configuration.enableAdvertisingTracking) {
-            NSString *idfa = [SEGUtils getIdentifierForAdvertiser];
+            NSString *idfa = [SEGAdSupport getIdentifierForAdvertiser];
             if (idfa.length) dict[@"advertisingId"] = idfa;
         }
         // TODO: This is not exactly static...
@@ -113,26 +111,9 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
         @"height" : @(screenSize.height)
     };
     
-#if !(TARGET_IPHONE_SIMULATOR)
-    Class adClient = NSClassFromString(SEGADClientClass);
-    if (adClient) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        id sharedClient = [adClient performSelector:NSSelectorFromString(@"sharedClient")];
-#pragma clang diagnostic pop
-        void (^completionHandler)(BOOL iad) = ^(BOOL iad) {
-            if (iad) {
-                dict[@"referrer"] = @{ @"type" : @"iad" };
-            }
-        };
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [sharedClient performSelector:NSSelectorFromString(@"determineAppInstallationAttributionWithCompletionHandler:")
-                           withObject:completionHandler];
-#pragma clang diagnostic pop
+    if ([SEGAdSupport isReferredByIAd]) {
+        dict[@"referrer"] = @{ @"type" : @"iad" };
     }
-#endif
-    
     return dict;
 }
 
