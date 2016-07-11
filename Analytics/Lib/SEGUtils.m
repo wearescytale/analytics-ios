@@ -10,7 +10,7 @@
 #import "SEGUtils.h"
 
 // Logging
-static BOOL kAnalyticsLoggerShowLogs = NO;
+BOOL kAnalyticsLoggerShowLogs = NO;
 
 void SEGSetShowDebugLogs(BOOL showDebugLogs) {
     kAnalyticsLoggerShowLogs = showDebugLogs;

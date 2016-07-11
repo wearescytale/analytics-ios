@@ -24,6 +24,8 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
 
 @property (nonnull, nonatomic, readonly) SEGUser *user;
 
+@property (nonatomic, assign) BOOL debugMode;
+
 /**
  * Setup this analytics client instance.
  *
@@ -172,7 +174,6 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
  * Version of the library.
  */
 + (NSString * _Nonnull)version;
-
 
 /**
  * Enabled/disables debug logging to trace your data going through the SDK.

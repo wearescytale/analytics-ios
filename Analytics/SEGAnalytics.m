@@ -19,7 +19,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 @property (nonatomic, strong) SEGAnalyticsConfiguration *configuration;
 @property (nonnull, nonatomic, strong) SEGDispatchQueue *dispatchQueue;
 @property (nonatomic, assign) BOOL enabled;
-@property (nonatomic, assign) BOOL debugMode;
 @property (nonatomic, strong) SEGUser *user;
 @property (nonatomic, strong) SEGContext *ctx;
 @property (nonatomic, strong) SEGNetworkTransporter *transporter;
@@ -45,6 +44,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         // TODO: Not fully initialized yet
         _integrations = [[SEGIntegrationsManager alloc] initWithAnalytics:self];
         _lifecycle = [[SEGLifecycleTracker alloc] initWithAnalytics:self];
+        _debugMode = kAnalyticsLoggerShowLogs; // Default value
         
         if (configuration.recordScreenViews) {
             _screenTracker = [[SEGScreenTracker alloc] initWithAnalytics:self];
@@ -209,8 +209,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 #pragma mark - Class Methods
 
 + (void)debug:(BOOL)showDebugLogs {
-    // TODO: Should be callable without first initializing SEGAnalytics
-    [SEGAnalytics sharedAnalytics].debugMode = showDebugLogs;
     SEGSetShowDebugLogs(showDebugLogs);
 }
 

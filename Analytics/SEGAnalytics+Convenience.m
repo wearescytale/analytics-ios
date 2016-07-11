@@ -6,6 +6,7 @@
 //  Copyright © 2016 Segment. All rights reserved.
 //
 
+#import "SEGUtils.h"
 #import "SEGAnalytics+Convenience.h"
 
 static SEGAnalytics *__sharedAnalytics = nil;

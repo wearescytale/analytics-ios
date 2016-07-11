@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 // Logging
-
-void SEGSetShowDebugLogs(BOOL showDebugLogs);
-void SEGLog(NSString * _Nonnull format, ...);
+extern BOOL kAnalyticsLoggerShowLogs;
+extern void SEGSetShowDebugLogs(BOOL showDebugLogs);
+extern void SEGLog(NSString * _Nonnull format, ...);
 
 @interface SEGUtils : NSObject
 

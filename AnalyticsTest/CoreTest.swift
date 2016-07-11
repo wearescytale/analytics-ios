@@ -45,5 +45,17 @@ class CoreTest: QuickSpec {
       analytics.track("App Open")
       expect(delegate.lastPayload).toEventuallyNot(beNil())
     }
+    it("should be able to set debug mode and auto set flush immediately") {
+      var flushed = false
+      self.stub({ req in
+        flushed = http(.POST, uri: "https://api.segment.io/v1/import")(request: req)
+        return flushed
+        }, builder: http(200))
+      SEGAnalytics.debug(true)
+      analytics.debugMode = true
+      analytics.track("Debug Mode Set")
+      expect(flushed).toEventually(beTrue(), timeout: 0.1, description: "Expected flush to happen immediately")
+      SEGAnalytics.debug(false)
+    }
   }
 }
