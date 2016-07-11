@@ -209,6 +209,7 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
 #pragma mark - Class Methods
 
 + (void)debug:(BOOL)showDebugLogs {
+    // TODO: Should be callable without first initializing SEGAnalytics
     [SEGAnalytics sharedAnalytics].debugMode = showDebugLogs;
     SEGSetShowDebugLogs(showDebugLogs);
 }

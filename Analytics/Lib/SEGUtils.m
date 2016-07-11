@@ -108,7 +108,7 @@ void SEGLog(NSString *format, ...) {
     } @catch (NSException *exc) {
         *error = [self _errorFromException:exc];
     }
-    if (error) {
+    if (*error) {
         SEGLog(@"Error serializing JSON: %@", error);
     }
     return data;
