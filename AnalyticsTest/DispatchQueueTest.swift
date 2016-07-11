@@ -1,5 +1,5 @@
 //
-//  DispatchQueueSpec.swift
+//  DispatchQueueTest.swift
 //  Analytics
 //
 //  Created by Tony Xiao on 6/30/16.
@@ -9,7 +9,7 @@
 import Quick
 import Nimble
 
-class DispatchQueueSpec : QuickSpec {
+class DispatchQueueTest : QuickSpec {
   override func spec() {
     var queue : SEGDispatchQueue!
     beforeEach { 

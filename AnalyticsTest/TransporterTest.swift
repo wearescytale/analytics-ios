@@ -1,5 +1,5 @@
 //
-//  TransporterSpec.swift
+//  TransporterTest.swift
 //  Analytics
 //
 //  Created by Tony Xiao on 6/30/16.
@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Mockingjay
 
-class TransporterSpec : QuickSpec {
+class TransporterTest : QuickSpec {
   override func spec() {
     var transporter : SEGNetworkTransporter!
     beforeEach {

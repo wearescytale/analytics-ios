@@ -1,5 +1,5 @@
 //
-//  CoreSpec.swift
+//  CoreTest.swift
 //  Analytics
 //
 //  Created by Tony Xiao on 6/30/16.
@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Mockingjay
 
-class CoreSpec: QuickSpec {
+class CoreTest: QuickSpec {
   
   class MockDelegate : NSObject, SEGAnalyticsDelegate {
     var lastPayload: [NSString: AnyObject]?

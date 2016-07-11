@@ -1,5 +1,5 @@
 //
-//  IntegrationsSpec.swift
+//  IntegrationsTest.swift
 //  Analytics
 //
 //  Created by Tony Xiao on 6/30/16.
@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Mockingjay
 
-class IntegrationsSpec: QuickSpec {
+class IntegrationsTest: QuickSpec {
   
   class MockIntegration : NSObject, SEGIntegration, SEGIntegrationFactory {
     var lastTrackedEvent: String?

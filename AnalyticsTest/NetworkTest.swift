@@ -1,5 +1,5 @@
 //
-//  NetworkSpec.swift
+//  NetworkTest.swift
 //  Analytics
 //
 //  Created by Tony Xiao on 6/30/16.
@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Mockingjay
 
-class NetworkSpec: QuickSpec {
+class NetworkTest: QuickSpec {
   override func spec() {
     let urlReq = NSURLRequest(URL: NSURL(string: "http://google.com")!)
     it("inits properly") {

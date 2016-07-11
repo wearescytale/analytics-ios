@@ -1,5 +1,5 @@
 //
-//  ScreenTrackerSpec.swift
+//  ScreenTrackerTest.swift
 //  Analytics
 //
 //  Created by Tony Xiao on 7/2/16.
@@ -9,7 +9,7 @@
 import Quick
 import Nimble
 
-class ScreenTrackerSpec : QuickSpec {
+class ScreenTrackerTest : QuickSpec {
   class MockAnalytics : SEGAnalytics {
     var screenCalled = false
     var lastTrackedScreenName: String?
