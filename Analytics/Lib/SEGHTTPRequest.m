@@ -46,7 +46,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [_responseData appendData:data];
+    [(NSMutableData *)self.responseData appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
