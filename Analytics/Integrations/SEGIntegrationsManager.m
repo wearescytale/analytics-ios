@@ -92,7 +92,7 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
         if (integrationSettings) {
             id<SEGIntegration> integration = [factory createWithSettings:integrationSettings forAnalytics:self.analytics];
             if (integration != nil) {
-                _integrations[key] = integration;
+                ((NSMutableDictionary *)self.integrations)[key] = integration;
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:SEGAnalyticsIntegrationDidStart object:key userInfo:nil];
         } else {

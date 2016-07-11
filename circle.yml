@@ -5,7 +5,7 @@ machine:
 dependencies:
   pre:
     # TODO: only install cocoapods if the right version is not found
-    - sudo gem install cocoapods -v $(var=$(tail -1 ios/Podfile.lock); echo ${var##COCOAPODS:})
+    - sudo gem install cocoapods -v $(var=$(tail -1 Podfile.lock); echo ${var##COCOAPODS:})
     - sudo gem install xcpretty
   override:
     - pod install

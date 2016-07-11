@@ -44,7 +44,6 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         // TODO: Not fully initialized yet
         _integrations = [[SEGIntegrationsManager alloc] initWithAnalytics:self];
         _lifecycle = [[SEGLifecycleTracker alloc] initWithAnalytics:self];
-        _debugMode = kAnalyticsLoggerShowLogs; // Default value
         
         if (configuration.recordScreenViews) {
             _screenTracker = [[SEGScreenTracker alloc] initWithAnalytics:self];
