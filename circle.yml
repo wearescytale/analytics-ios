@@ -1,0 +1,19 @@
+machine:
+  xcode:
+    version: "7.3.1"
+
+dependencies:
+  pre:
+    # TODO: only install cocoapods if the right version is not found
+    - sudo gem install cocoapods -v $(var=$(tail -1 ios/Podfile.lock); echo ${var##COCOAPODS:})
+    - sudo gem install xcpretty
+  override:
+    - pod install
+  cache_directories:
+    - Pods
+
+test:
+  override:
+    - xcodebuild test -workspace Analytics.xcworkspace -scheme libAnalytics -sdk iphonesimulator | xcpretty --report junit
+  post:
+    - mv build/reports $CIRCLE_TEST_REPORTS/xcode
