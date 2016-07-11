@@ -21,6 +21,9 @@ class ScreenTrackerTest : QuickSpec {
   @objc(ObjcViewController)
   class ObjcViewController: UIViewController {
   }
+  @objc(Objc2Controller)
+  class Objc2Controller: UIViewController {
+  }
   class SwiftViewController: UIViewController {
   }
   
@@ -45,9 +48,29 @@ class ScreenTrackerTest : QuickSpec {
       swiftVC.viewDidAppear(true)
       expect(analytics.lastTrackedScreenName) == "Shopping"
     }
+    it("tracks tabbar controller selected tab") {
+      let tab = UITabBarController()
+      swiftVC.title = "taylor"
+      tab.viewControllers = [swiftVC]
+//      tab.selectedViewController = swiftVC
+      // TODO: Try mocking UIApplication.window topViewController
+//      swiftVC.viewDidAppear(true)
+      tab.viewDidAppear(true)
+      expect(analytics.lastTrackedScreenName) == "taylor"
+
+      swiftVC.title = "swift"
+      let nav = UINavigationController(rootViewController: swiftVC)
+      nav.viewDidAppear(true)
+      expect(analytics.lastTrackedScreenName) == "swift"
+    }
+    // TODO: should we even track non-top level view controllers at all?
+    // Aren't there gonna be multiple viewDidAppear calls?
     it("tracks using inferred screen name") {
       objcVC.viewDidAppear(true)
       expect(analytics.lastTrackedScreenName) == "Objc"
+      let objcC2 = Objc2Controller()
+      objcC2.viewDidAppear(true)
+      expect(analytics.lastTrackedScreenName) == "Objc2"
     }
     it("tracks unknown screens") {
       @objc(CrazyVC)

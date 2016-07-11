@@ -45,7 +45,7 @@ static NSString *SEGViewDidAppearNotification = @"SEGViewDidAppearNotification";
 }
 
 - (void)handleViewDidAppear:(NSNotification *)notification {
-    UIViewController *top = [self topViewController] ?: notification.object;
+    UIViewController *top = [self topViewController] ?: [self topViewController:notification.object];
     if (!top) {
         return;
     }
@@ -59,6 +59,8 @@ static NSString *SEGViewDidAppearNotification = @"SEGViewDidAppearNotification";
         return @"ViewController";
     } else if ([className containsString:@"ViewController"]) {
         return [className stringByReplacingOccurrencesOfString:@"ViewController" withString:@""];
+    } else if ([className containsString:@"Controller"]) {
+        return [className stringByReplacingOccurrencesOfString:@"Controller" withString:@""];
     }
     SEGLog(@"Could not infer screen name. Try specifying a title for %@", vc);
     return @"Unknown";
@@ -71,6 +73,12 @@ static NSString *SEGViewDidAppearNotification = @"SEGViewDidAppearNotification";
 
 - (UIViewController *)topViewController:(UIViewController *)rootViewController {
     if (rootViewController.presentedViewController == nil) {
+        if ([rootViewController isKindOfClass:[UITabBarController class]]) {
+            return [self topViewController:[(UITabBarController *)rootViewController selectedViewController]];
+        }
+        if ([rootViewController isKindOfClass:[UINavigationController class]]) {
+            return [self topViewController:[(UINavigationController *)rootViewController topViewController]];
+        }
         return rootViewController;
     }
     
