@@ -172,10 +172,8 @@ void SEGLog(NSString *format, ...) {
 
 @end
 
-NSURL *SEGAnalyticsURLForFilename(NSString *filename)
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(
-                                                         NSApplicationSupportDirectory, NSUserDomainMask, YES);
+NSURL *SEGAnalyticsURLForFilename(NSString *filename) {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *supportPath = [paths firstObject];
     if (![[NSFileManager defaultManager] fileExistsAtPath:supportPath
                                               isDirectory:NULL]) {

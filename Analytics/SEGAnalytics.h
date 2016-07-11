@@ -7,6 +7,7 @@
 extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
 
 #define JSON_DICT NSDictionary<NSString *, id> *
+@protocol SEGAnalyticsDelegate;
 
 /**
  * This object provides an API for recording analytics.
@@ -17,6 +18,8 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
  * Used by the analytics client to configure various options.
  */
 @property (nonnull, nonatomic, readonly) SEGAnalyticsConfiguration *configuration;
+
+@property (nullable, nonatomic, readwrite, weak) id<SEGAnalyticsDelegate>delegate;
 
 /**
  * Setup this analytics client instance.
@@ -200,5 +203,15 @@ extern NSString * _Nonnull SEGAnalyticsIntegrationDidStart;
 - (void)applicationWillTerminate;
 - (void)applicationWillResignActive;
 - (void)applicationDidBecomeActive;
+
+@end
+
+@protocol SEGAnalyticsDelegate <NSObject>
+@optional
+/*
+ * Give you the opportunity to modify the payload that will be queued as part of batch request to Segment.
+ * Just `return payload` if you simply want to be notified when analytics queues a particular payload.
+ */
+- (JSON_DICT _Nonnull)analytics:(SEGAnalytics * _Nonnull)analytics newPayloadForPayload:(JSON_DICT _Nonnull)payload;
 
 @end

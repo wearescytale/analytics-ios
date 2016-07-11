@@ -19,6 +19,7 @@ void SEGLog(NSString * _Nonnull format, ...);
 + (NSData * _Nullable)encodeJSON:(id _Nonnull)jsonObject error:(NSError * __autoreleasing _Nullable * _Nullable)error;
 
 + (NSURL * _Nonnull)urlForName:(NSString * _Nonnull)name writeKey:(NSString * _Nonnull)writeKey extension:(NSString * _Nonnull)extension;
+
 + (NSString * _Nonnull)convertPushTokenToString:(NSData * _Nonnull)pushToken;
 + (NSString * _Nonnull)generateUUIDString;
 + (NSString * _Nonnull)formatISO8601:(NSDate * _Nonnull)date;
@@ -28,5 +29,5 @@ void SEGLog(NSString * _Nonnull format, ...);
 @end
 
 
-NSURL *SEGAnalyticsURLForFilename(NSString *filename);
+NSURL * _Nonnull SEGAnalyticsURLForFilename(NSString * _Nonnull filename);
 

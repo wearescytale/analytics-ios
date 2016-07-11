@@ -58,7 +58,7 @@ class ScreenTrackerSpec : QuickSpec {
       expect(analytics.screenCalled) == true
       expect(analytics.lastTrackedScreenName) == "Unknown"
     }
-    fit("works with multiple instances") {
+    it("works with multiple instances") {
       let analytics2 = MockAnalytics()
       let tracker2 = SEGScreenTracker(analytics: analytics2); tracker2 // surpress unused var warning
       objcVC.beginAppearanceTransition(true, animated: true)

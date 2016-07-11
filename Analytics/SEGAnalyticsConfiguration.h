@@ -15,13 +15,6 @@
 @interface SEGAnalyticsConfiguration : NSObject
 
 /**
- * Creates and returns a configuration with default settings and the given write key.
- *
- * @param writeKey Your project's write key from segment.io.
- */
-+ (instancetype _Nonnull)configurationWithWriteKey:(NSString * _Nonnull)writeKey;
-
-/**
  * Your project's write key from segment.io.
  *
  * @see +configurationWithWriteKey:
@@ -68,5 +61,13 @@
  * PRIVATE: Do not use
  */
 @property (nonnull, nonatomic, strong, readonly) NSMutableArray *factories;
+
+/**
+ * Creates and returns a configuration with default settings and the given write key.
+ *
+ * @param writeKey Your project's write key from segment.io.
+ */
+- (instancetype _Nonnull)initWithWriteKey:(NSString * _Nonnull)writeKey;
++ (instancetype _Nonnull)configurationWithWriteKey:(NSString * _Nonnull)writeKey;
 
 @end

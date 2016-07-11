@@ -193,8 +193,12 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         [combinedContext addEntriesFromDictionary:context];
         [payload setValue:combinedContext forKey:@"context"];
         
-        SEGLog(@"%@ Enqueueing action: %@", self, payload);
-        [self.transporter queuePayload:payload];
+        NSDictionary *finalPayload = payload;
+        if ([self.delegate respondsToSelector:@selector(analytics:newPayloadForPayload:)]) {
+            finalPayload = [self.delegate analytics:self newPayloadForPayload:payload];
+        }
+        SEGLog(@"%@ Enqueueing action: %@", self, finalPayload);
+        [self.transporter queuePayload:finalPayload];
     }];
     if (self.debugMode) {
         [self flush];
