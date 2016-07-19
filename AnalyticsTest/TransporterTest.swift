@@ -20,10 +20,10 @@ class TransporterTest : QuickSpec {
       transporter.reset()
     }
     it("has correct API url") {
-      expect(transporter.apiURL.absoluteString) == "https://api.segment.io/v1/import"
+      expect(transporter.apiURL.absoluteString) == "https://api.segment.io/v1/batch"
     }
     it("performs well under load") {
-      self.stub(http(.POST, uri: "https://api.segment.io/v1/import"), builder: http(200))
+      self.stub(http(.POST, uri: "https://api.segment.io/v1/batch"), builder: http(200))
       self.measureBlock {
         for i in 1...1000 {
           transporter.queuePayload(["EXPENSIVE": "PAYLOAD" + String(i)])
@@ -34,7 +34,7 @@ class TransporterTest : QuickSpec {
     it("flushes whhen we hit flushAt") {
       var flushed = false
       self.stub({ req in
-        flushed = http(.POST, uri: "https://api.segment.io/v1/import")(request: req)
+        flushed = http(.POST, uri: "https://api.segment.io/v1/batch")(request: req)
         return flushed
       }, builder: http(200))
       expect(flushed) == false
@@ -57,7 +57,7 @@ class TransporterTest : QuickSpec {
     it("flushes after timeout") {
       var flushed = false
       self.stub({ req in
-        flushed = http(.POST, uri: "https://api.segment.io/v1/import")(request: req)
+        flushed = http(.POST, uri: "https://api.segment.io/v1/batch")(request: req)
         return flushed
         }, builder: http(200))
       transporter = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 0.5)

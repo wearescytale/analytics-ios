@@ -48,7 +48,7 @@ class CoreTest: QuickSpec {
     it("should be able to set debug mode and auto set flush immediately") {
       var flushed = false
       self.stub({ req in
-        flushed = http(.POST, uri: "https://api.segment.io/v1/import")(request: req)
+        flushed = http(.POST, uri: "https://api.segment.io/v1/batch")(request: req)
         return flushed
         }, builder: http(200))
       SEGAnalytics.debug(true)
