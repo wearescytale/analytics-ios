@@ -123,7 +123,6 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         
         NSDictionary *payload = @{
             @"sentAt": [SEGUtils formatISO8601:[NSDate date]],
-            @"writeKey": self.writeKey ?: [NSNull null],
             @"batch": batch
         };
         SEGLog(@"%@ Flushing %lu of %lu queued API calls. Payload %@", self, batch.count, self.queue.count, payload);
@@ -138,6 +137,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
         
         NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:self.apiURL];
         urlRequest.HTTPMethod = @"POST";
+        [urlRequest setValue:[SEGHTTPRequest basicAuthHeader:self.writeKey password:@""] forHTTPHeaderField:@"Authorization"];
         [urlRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
         [urlRequest setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
         [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

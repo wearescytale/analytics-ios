@@ -83,6 +83,14 @@
     return request;
 }
 
++ (NSString *)basicAuthHeader:(NSString *)username password:(NSString *)password {
+    // Courtesy of http://stackoverflow.com/questions/1973325/nsurlconnection-and-basic-http-authentication-in-ios
+    NSString *authenticationString = [NSString stringWithFormat:@"%@:%@", username, password];
+    NSData *authenticationData = [authenticationString dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *authenticationValue = [authenticationData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    return [NSString stringWithFormat:@"Basic %@", authenticationValue];
+}
+
 + (NSOperationQueue *)networkQueue {
     static dispatch_once_t onceToken;
     static NSOperationQueue *networkQueue;

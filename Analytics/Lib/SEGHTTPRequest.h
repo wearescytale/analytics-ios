@@ -14,4 +14,6 @@ typedef void (^SEGHTTPRequestCompletionBlock)(void);
 + (instancetype)startWithURLRequest:(NSURLRequest *)urlRequest
                          completion:(SEGHTTPRequestCompletionBlock)completion;
 
++ (NSString *)basicAuthHeader:(NSString *)username password:(NSString *)password;
+
 @end
