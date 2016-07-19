@@ -34,7 +34,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 - (instancetype)initWithWriteKey:(NSString *)writeKey flushAfter:(NSTimeInterval)flushAfter {
     if (self = [super init]) {
-        _apiURL = [NSURL URLWithString:@"https://api.segment.io/v1/import"];
+        _apiURL = [NSURL URLWithString:@"https://api.segment.io/v1/batch"];
         _writeKey = writeKey;
         _flushAt = 20;
         _batchSize = 100;
