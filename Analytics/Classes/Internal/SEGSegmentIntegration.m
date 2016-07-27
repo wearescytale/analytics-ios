@@ -74,6 +74,7 @@ static BOOL GetAdTrackingEnabled()
 @property (nonatomic, strong) NSURL *apiURL;
 @property (nonatomic, strong) SEGHTTPClient *httpClient;
 @property (nonatomic, strong) NSURLSessionDataTask *attributionRequest;
+@property (nonatomic, strong) dispatch_source_t writeToDiskSource;
 
 @end
 
@@ -100,6 +101,13 @@ static BOOL GetAdTrackingEnabled()
         self.cachedStaticContext = [self staticContext];
         self.serialQueue = seg_dispatch_queue_create_specific("io.segment.analytics.segmentio", DISPATCH_QUEUE_SERIAL);
         self.flushTaskID = UIBackgroundTaskInvalid;
+        self.writeToDiskSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_DATA_ADD, 0, 0, self.serialQueue);
+        __weak SEGSegmentIntegration *this = self;
+        dispatch_source_set_event_handler(self.writeToDiskSource, ^{
+            [this persistQueue];
+            [this flushQueueByLength];
+        });
+        dispatch_resume(self.writeToDiskSource);
 
 #if !TARGET_OS_TV
         // Check for previous queue/track data in NSUserDefaults and remove if present
@@ -452,8 +460,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
             [self.queue removeObjectAtIndex:0];
         }
         [self.queue addObject:payload];
-        [self persistQueue];
-        [self flushQueueByLength];
+        dispatch_source_merge_data(self.writeToDiskSource, 1);
     }
     @catch (NSException *exception) {
         SEGLog(@"%@ Error writing payload: %@", self, exception);
@@ -547,6 +554,7 @@ static CTTelephonyNetworkInfo *_telephonyNetworkInfo;
         [self.queue removeObjectsInArray:batch];
         [self persistQueue];
         [self notifyForName:SEGSegmentRequestDidSucceedNotification userInfo:batch];
+        [self endBackgroundTask];
         self.batchRequest = nil;
     }];
 
