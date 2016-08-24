@@ -10,3 +10,8 @@
 #import "SEGIntegration.h"
 #import "SEGIntegrationFactory.h"
 #import "SEGScreenTracker.h"
+#import "SEGStorage.h"
+#import "SEGCrypto.h"
+#import "SEGFileStorage.h"
+#import "SEGAES256Crypto.h"
+

@@ -67,6 +67,15 @@
 		EAACFE471D25BDB800668199 /* SEGAnalytics+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = EA08DBC31D22608800A2B68A /* SEGAnalytics+Convenience.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EAACFE481D25BDB800668199 /* SEGAnalyticsConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = EAAC78731D1C9957009E3AFC /* SEGAnalyticsConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EAACFE491D25BDB800668199 /* Analytics.h in Headers */ = {isa = PBXBuildFile; fileRef = EA08DBC81D22617700A2B68A /* Analytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EAE98A6C1D6E4A50005DE5EC /* SEGStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE98A6A1D6E4A50005DE5EC /* SEGStorage.h */; };
+		EAE98A701D6E4A5C005DE5EC /* SEGCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE98A6E1D6E4A5C005DE5EC /* SEGCrypto.h */; };
+		EAE98A761D6E4B97005DE5EC /* SEGFileStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE98A741D6E4B97005DE5EC /* SEGFileStorage.h */; };
+		EAE98A771D6E4B97005DE5EC /* SEGFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A751D6E4B97005DE5EC /* SEGFileStorage.m */; };
+		EAE98A781D6E4B97005DE5EC /* SEGFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A751D6E4B97005DE5EC /* SEGFileStorage.m */; };
+		EAE98A7B1D6E4BA4005DE5EC /* SEGAES256Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE98A791D6E4BA4005DE5EC /* SEGAES256Crypto.h */; };
+		EAE98A7C1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */; };
+		EAE98A7D1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */; };
+		EAE98A7F1D6E51EC005DE5EC /* StorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +161,13 @@
 		EAACFE271D25BCED00668199 /* Analytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Analytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAACFE2B1D25BCED00668199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAB16EE81D15D50C001221B5 /* libAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAE98A6A1D6E4A50005DE5EC /* SEGStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGStorage.h; sourceTree = "<group>"; };
+		EAE98A6E1D6E4A5C005DE5EC /* SEGCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGCrypto.h; sourceTree = "<group>"; };
+		EAE98A741D6E4B97005DE5EC /* SEGFileStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGFileStorage.h; sourceTree = "<group>"; };
+		EAE98A751D6E4B97005DE5EC /* SEGFileStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGFileStorage.m; sourceTree = "<group>"; };
+		EAE98A791D6E4BA4005DE5EC /* SEGAES256Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAES256Crypto.h; sourceTree = "<group>"; };
+		EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAES256Crypto.m; sourceTree = "<group>"; };
+		EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +222,7 @@
 				EA5DF2C11D266580008E68FA /* IntegrationsTest.swift */,
 				EA5DF2C31D266580008E68FA /* NetworkTest.swift */,
 				EA9708411D27298700A1D38C /* TransporterTest.swift */,
+				EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */,
 				EA6DC7541D3374A400422E5A /* CoreTest.swift */,
 				EA5DF2C51D266580008E68FA /* TestUtils.swift */,
 				EA04DE1F1D25DA2500DB4B89 /* AnalyticsTest-Bridging-Header.h */,
@@ -275,6 +292,12 @@
 		EAAC78401D1C4B65009E3AFC /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EAE98A6E1D6E4A5C005DE5EC /* SEGCrypto.h */,
+				EAE98A6A1D6E4A50005DE5EC /* SEGStorage.h */,
+				EAE98A791D6E4BA4005DE5EC /* SEGAES256Crypto.h */,
+				EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */,
+				EAE98A741D6E4B97005DE5EC /* SEGFileStorage.h */,
+				EAE98A751D6E4B97005DE5EC /* SEGFileStorage.m */,
 				EA7E7DA31D1D96A30002889C /* SEGNetworkTransporter.h */,
 				EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */,
 				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
@@ -328,14 +351,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAE98A701D6E4A5C005DE5EC /* SEGCrypto.h in Headers */,
 				EA04DE2B1D25E8A500DB4B89 /* SEGDispatchQueue.h in Headers */,
+				EAE98A7B1D6E4BA4005DE5EC /* SEGAES256Crypto.h in Headers */,
 				EAACFE421D25BDB800668199 /* SEGIntegrationsManager.h in Headers */,
 				EAACFE431D25BDB800668199 /* SEGIntegrationFactory.h in Headers */,
 				EA9708491D28844900A1D38C /* SEGAdSupport.h in Headers */,
 				EAACFE441D25BDB800668199 /* SEGIntegration.h in Headers */,
 				EAACFE451D25BDB800668199 /* SEGPayload.h in Headers */,
+				EAE98A6C1D6E4A50005DE5EC /* SEGStorage.h in Headers */,
 				EAACFE461D25BDB800668199 /* SEGAnalytics.h in Headers */,
 				EAACFE471D25BDB800668199 /* SEGAnalytics+Convenience.h in Headers */,
+				EAE98A761D6E4B97005DE5EC /* SEGFileStorage.h in Headers */,
 				EAACFE481D25BDB800668199 /* SEGAnalyticsConfiguration.h in Headers */,
 				EA6DC7571D337C7900422E5A /* SEGUser.h in Headers */,
 				EAACFE491D25BDB800668199 /* Analytics.h in Headers */,
@@ -511,6 +538,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA5DF2C61D266580008E68FA /* IntegrationsTest.swift in Sources */,
+				EAE98A7F1D6E51EC005DE5EC /* StorageTest.swift in Sources */,
 				EA5DF2CA1D266580008E68FA /* TestUtils.swift in Sources */,
 				EA6DC7551D3374A400422E5A /* CoreTest.swift in Sources */,
 				EA9708421D27298700A1D38C /* TransporterTest.swift in Sources */,
@@ -526,9 +554,11 @@
 			files = (
 				EAACFE2F1D25BD5A00668199 /* NSData+GZIP.m in Sources */,
 				EAACFE301D25BD5A00668199 /* SEGReachability.m in Sources */,
+				EAE98A7C1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */,
 				EAACFE311D25BD5A00668199 /* SEGHTTPRequest.m in Sources */,
 				EAACFE331D25BD5A00668199 /* SEGUtils.m in Sources */,
 				EAACFE341D25BD5A00668199 /* SEGMigration.m in Sources */,
+				EAE98A771D6E4B97005DE5EC /* SEGFileStorage.m in Sources */,
 				EAACFE351D25BD5A00668199 /* SEGUser.m in Sources */,
 				EAACFE361D25BD5A00668199 /* SEGContext.m in Sources */,
 				EAACFE371D25BD5A00668199 /* SEGNetworkTransporter.m in Sources */,
@@ -553,7 +583,9 @@
 			files = (
 				EA08DBC51D22608800A2B68A /* SEGAnalytics+Convenience.m in Sources */,
 				EA7E7DA51D1D96A30002889C /* SEGNetworkTransporter.m in Sources */,
+				EAE98A7D1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */,
 				EAAC785D1D1C4B65009E3AFC /* SEGHTTPRequest.m in Sources */,
+				EAE98A781D6E4B97005DE5EC /* SEGFileStorage.m in Sources */,
 				EA7E7DD21D20F1020002889C /* SEGMigration.m in Sources */,
 				EA7E7D991D1D11910002889C /* SEGIntegrationsManager.m in Sources */,
 				EAAC78611D1C4B65009E3AFC /* SEGLocation.m in Sources */,
