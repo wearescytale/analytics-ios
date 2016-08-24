@@ -19,6 +19,19 @@ class StorageTest : QuickSpec {
       storage = SEGFileStorage(folder: url!, crypto: nil)
     }
     
+    it("creates folder if none exists") {
+      let tempDir = NSURL(fileURLWithPath: NSTemporaryDirectory())
+      let url = tempDir.URLByAppendingPathComponent(NSUUID().UUIDString)
+      expect(url.checkResourceIsReachableAndReturnError(nil)) == false
+      _ = SEGFileStorage(folder: url, crypto: nil)
+      
+      var isDir: ObjCBool = false
+      let exists = NSFileManager.defaultManager().fileExistsAtPath(url.path!, isDirectory: &isDir)
+      
+      expect(exists) == true
+      expect(Bool(isDir)) == true
+    }
+    
     it("saves file to disk and reads back from it") {
 //      let input = [
 //        "key": "value",

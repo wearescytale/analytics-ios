@@ -20,6 +20,7 @@
     if (self = [super init]) {
         _folderURL = folderURL;
         _crypto = crypto;
+        [self createDirectoryAtURLIfNeeded:folderURL];
         return self;
     }
     return nil;
