@@ -14,7 +14,7 @@
 
 - (instancetype _Nonnull)initWithFolder:(NSURL * _Nonnull)folderURL crypto:(id<SEGCrypto> _Nullable)crypto;
 
-- (NSURL *)urlForKey:(NSString *)key;
+- (NSURL * _Nonnull)urlForKey:(NSString * _Nonnull)key;
 
 + (NSURL * _Nullable)applicationSupportDirectoryURL;
 

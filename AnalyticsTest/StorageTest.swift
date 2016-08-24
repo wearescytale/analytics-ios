@@ -47,6 +47,9 @@ class StorageTest : QuickSpec {
       let str = "san francisco"
       storage.setString(str, forKey: "city")
       expect(storage.stringForKey("city")) == str
+      
+      storage.removeKey("city")
+      expect(storage.stringForKey("city")).to(beNil())
     }
     
     it("persists and loads array") {
@@ -57,6 +60,9 @@ class StorageTest : QuickSpec {
       ]
       storage.setArray(array, forKey: "cities")
       expect(storage.arrayForKey("cities") as? Array<String>) == array
+      
+      storage.removeKey("cities")
+      expect(storage.arrayForKey("cities")).to(beNil())
     }
     
     it("persists and loads dictionary") {
@@ -67,18 +73,23 @@ class StorageTest : QuickSpec {
       ]
       storage.setDictionary(dict, forKey: "cityMap")
       expect(storage.dictionaryForKey("cityMap") as? Dictionary<String, String>) == dict
+      
+      storage.removeKey("cityMap")
+      expect(storage.dictionaryForKey("cityMap")).to(beNil())
     }
     
-    it("saves file to disk") {
+    it("saves file to disk and removes from disk") {
       let key = "input.txt"
       let url = storage.urlForKey(key)
       expect(url.checkResourceIsReachableAndReturnError(nil)) == false
       storage.setString("sloth", forKey: key)
       expect(url.checkResourceIsReachableAndReturnError(nil)) == true
+      storage.removeKey(key)
+      expect(url.checkResourceIsReachableAndReturnError(nil)) == false
     }
     
     afterEach {
-      storage.removeKey("input.txt")
+      storage.resetAll()
     }
   }
 }

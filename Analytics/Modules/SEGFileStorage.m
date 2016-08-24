@@ -34,6 +34,14 @@
     }
 }
 
+- (void)resetAll {
+    NSError *error = nil;
+    if (![[NSFileManager defaultManager] removeItemAtURL:self.folderURL error:&error]) {
+        SEGLog(@"ERROR: Unable to reset file storage. Path cannot be removed - %@", self.folderURL.path);
+    }
+    [self createDirectoryAtURLIfNeeded:self.folderURL];
+}
+
 - (void)setData:(NSData *)data forKey:(NSString *)key {
     NSURL *url = [self urlForKey:key];
     if (self.crypto) {

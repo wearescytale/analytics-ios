@@ -13,6 +13,7 @@
 @property (nonatomic, strong, nullable) id<SEGCrypto> crypto;
 
 - (void)removeKey:(NSString *_Nonnull)key;
+- (void)resetAll;
 
 - (void)setData:(NSData * _Nonnull)data forKey:(NSString * _Nonnull)key;
 - (NSData * _Nullable)dataForKey:(NSString * _Nonnull)key;
