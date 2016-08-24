@@ -32,26 +32,53 @@ class StorageTest : QuickSpec {
       expect(Bool(isDir)) == true
     }
     
-    it("saves file to disk and reads back from it") {
-//      let input = [
-//        "key": "value",
-//        "peter": "reinhardt",
-//      ]
-      let key = "input.plist"
-      let url = storage.urlForKey(key)
-      expect(url.checkResourceIsReachableAndReturnError(nil)) == false
-      
+    it("persists and loads data") {
       let dataIn = "segment".dataUsingEncoding(NSUTF8StringEncoding)!
-      storage.setData(dataIn, forKey: key)
-      let dataOut = storage.dataForKey(key)
-      expect(dataOut).toNot(beNil())
+      storage.setData(dataIn, forKey: "mydata")
+      
+      let dataOut = storage.dataForKey("mydata")
+      expect(dataOut) == dataIn
       
       let strOut = String(data: dataOut!, encoding: NSUTF8StringEncoding)
       expect(strOut) == "segment"
     }
     
+    it("persists and loads string") {
+      let str = "san francisco"
+      storage.setString(str, forKey: "city")
+      expect(storage.stringForKey("city")) == str
+    }
+    
+    it("persists and loads array") {
+      let array = [
+        "san francisco",
+        "new york",
+        "tallinn",
+      ]
+      storage.setArray(array, forKey: "cities")
+      expect(storage.arrayForKey("cities") as? Array<String>) == array
+    }
+    
+    it("persists and loads dictionary") {
+      let dict = [
+        "san francisco": "tech",
+        "new york": "finance",
+        "paris": "fashion",
+      ]
+      storage.setDictionary(dict, forKey: "cityMap")
+      expect(storage.dictionaryForKey("cityMap") as? Dictionary<String, String>) == dict
+    }
+    
+    it("saves file to disk") {
+      let key = "input.txt"
+      let url = storage.urlForKey(key)
+      expect(url.checkResourceIsReachableAndReturnError(nil)) == false
+      storage.setString("sloth", forKey: key)
+      expect(url.checkResourceIsReachableAndReturnError(nil)) == true
+    }
+    
     afterEach {
-      storage.removeKey("input.plist")
+      storage.removeKey("input.txt")
     }
   }
 }
