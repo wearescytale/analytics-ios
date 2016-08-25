@@ -75,8 +75,12 @@
 		EAE98A7B1D6E4BA4005DE5EC /* SEGAES256Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE98A791D6E4BA4005DE5EC /* SEGAES256Crypto.h */; };
 		EAE98A7C1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */; };
 		EAE98A7D1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */; };
-		EAE98A7F1D6E51EC005DE5EC /* StorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */; };
+		EAE98A7F1D6E51EC005DE5EC /* FileStorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7E1D6E51EC005DE5EC /* FileStorageTest.swift */; };
 		EAE98A821D6E7449005DE5EC /* CryptoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A811D6E7449005DE5EC /* CryptoTest.swift */; };
+		EAE98A851D6EB826005DE5EC /* SEGUserDefaultsStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE98A831D6EB826005DE5EC /* SEGUserDefaultsStorage.h */; };
+		EAE98A861D6EB826005DE5EC /* SEGUserDefaultsStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A841D6EB826005DE5EC /* SEGUserDefaultsStorage.m */; };
+		EAE98A871D6EBB3C005DE5EC /* SEGUserDefaultsStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A841D6EB826005DE5EC /* SEGUserDefaultsStorage.m */; };
+		EAE98A891D6EBE0A005DE5EC /* UserDefaultsStorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A881D6EBE0A005DE5EC /* UserDefaultsStorageTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,9 +172,12 @@
 		EAE98A751D6E4B97005DE5EC /* SEGFileStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGFileStorage.m; sourceTree = "<group>"; };
 		EAE98A791D6E4BA4005DE5EC /* SEGAES256Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAES256Crypto.h; sourceTree = "<group>"; };
 		EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAES256Crypto.m; sourceTree = "<group>"; };
-		EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageTest.swift; sourceTree = "<group>"; };
+		EAE98A7E1D6E51EC005DE5EC /* FileStorageTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStorageTest.swift; sourceTree = "<group>"; };
 		EAE98A801D6E6E44005DE5EC /* Analytics.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Analytics.podspec; sourceTree = "<group>"; };
 		EAE98A811D6E7449005DE5EC /* CryptoTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoTest.swift; sourceTree = "<group>"; };
+		EAE98A831D6EB826005DE5EC /* SEGUserDefaultsStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGUserDefaultsStorage.h; sourceTree = "<group>"; };
+		EAE98A841D6EB826005DE5EC /* SEGUserDefaultsStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGUserDefaultsStorage.m; sourceTree = "<group>"; };
+		EAE98A881D6EBE0A005DE5EC /* UserDefaultsStorageTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorageTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,7 +232,8 @@
 				EA5DF2C11D266580008E68FA /* IntegrationsTest.swift */,
 				EA5DF2C31D266580008E68FA /* NetworkTest.swift */,
 				EA9708411D27298700A1D38C /* TransporterTest.swift */,
-				EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */,
+				EAE98A7E1D6E51EC005DE5EC /* FileStorageTest.swift */,
+				EAE98A881D6EBE0A005DE5EC /* UserDefaultsStorageTest.swift */,
 				EAE98A811D6E7449005DE5EC /* CryptoTest.swift */,
 				EA6DC7541D3374A400422E5A /* CoreTest.swift */,
 				EA5DF2C51D266580008E68FA /* TestUtils.swift */,
@@ -302,6 +310,8 @@
 				EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */,
 				EAE98A741D6E4B97005DE5EC /* SEGFileStorage.h */,
 				EAE98A751D6E4B97005DE5EC /* SEGFileStorage.m */,
+				EAE98A831D6EB826005DE5EC /* SEGUserDefaultsStorage.h */,
+				EAE98A841D6EB826005DE5EC /* SEGUserDefaultsStorage.m */,
 				EA7E7DA31D1D96A30002889C /* SEGNetworkTransporter.h */,
 				EA7E7DA41D1D96A30002889C /* SEGNetworkTransporter.m */,
 				EA7E7DD01D20F1020002889C /* SEGMigration.h */,
@@ -365,6 +375,7 @@
 				EAACFE441D25BDB800668199 /* SEGIntegration.h in Headers */,
 				EAACFE451D25BDB800668199 /* SEGPayload.h in Headers */,
 				EAE98A6C1D6E4A50005DE5EC /* SEGStorage.h in Headers */,
+				EAE98A851D6EB826005DE5EC /* SEGUserDefaultsStorage.h in Headers */,
 				EAACFE461D25BDB800668199 /* SEGAnalytics.h in Headers */,
 				EAACFE471D25BDB800668199 /* SEGAnalytics+Convenience.h in Headers */,
 				EAE98A761D6E4B97005DE5EC /* SEGFileStorage.h in Headers */,
@@ -544,7 +555,8 @@
 			files = (
 				EAE98A821D6E7449005DE5EC /* CryptoTest.swift in Sources */,
 				EA5DF2C61D266580008E68FA /* IntegrationsTest.swift in Sources */,
-				EAE98A7F1D6E51EC005DE5EC /* StorageTest.swift in Sources */,
+				EAE98A891D6EBE0A005DE5EC /* UserDefaultsStorageTest.swift in Sources */,
+				EAE98A7F1D6E51EC005DE5EC /* FileStorageTest.swift in Sources */,
 				EA5DF2CA1D266580008E68FA /* TestUtils.swift in Sources */,
 				EA6DC7551D3374A400422E5A /* CoreTest.swift in Sources */,
 				EA9708421D27298700A1D38C /* TransporterTest.swift in Sources */,
@@ -561,6 +573,7 @@
 				EAACFE2F1D25BD5A00668199 /* NSData+GZIP.m in Sources */,
 				EAACFE301D25BD5A00668199 /* SEGReachability.m in Sources */,
 				EAE98A7C1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */,
+				EAE98A861D6EB826005DE5EC /* SEGUserDefaultsStorage.m in Sources */,
 				EAACFE311D25BD5A00668199 /* SEGHTTPRequest.m in Sources */,
 				EAACFE331D25BD5A00668199 /* SEGUtils.m in Sources */,
 				EAACFE341D25BD5A00668199 /* SEGMigration.m in Sources */,
@@ -590,6 +603,7 @@
 				EA08DBC51D22608800A2B68A /* SEGAnalytics+Convenience.m in Sources */,
 				EA7E7DA51D1D96A30002889C /* SEGNetworkTransporter.m in Sources */,
 				EAE98A7D1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */,
+				EAE98A871D6EBB3C005DE5EC /* SEGUserDefaultsStorage.m in Sources */,
 				EAAC785D1D1C4B65009E3AFC /* SEGHTTPRequest.m in Sources */,
 				EAE98A781D6E4B97005DE5EC /* SEGFileStorage.m in Sources */,
 				EA7E7DD21D20F1020002889C /* SEGMigration.m in Sources */,

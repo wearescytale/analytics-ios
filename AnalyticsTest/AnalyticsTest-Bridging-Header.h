@@ -13,5 +13,5 @@
 #import "SEGStorage.h"
 #import "SEGCrypto.h"
 #import "SEGFileStorage.h"
+#import "SEGUserDefaultsStorage.h"
 #import "SEGAES256Crypto.h"
-

@@ -107,38 +107,14 @@
 
 - (id _Nullable)plistForKey:(NSString *)key {
     NSData *data = [self dataForKey:key];
-    return data ? [self plistFromData:data] : nil;
+    return data ? [SEGUtils plistFromData:data] : nil;
 }
 
 - (void)setPlist:(id _Nonnull)plist forKey:(NSString *)key {
-    NSData *data = [self dataFromPlist:plist];
+    NSData *data = [SEGUtils dataFromPlist:plist];
     if (data) {
         [self setData:data forKey:key];
     }
-}
-
-- (NSData * _Nullable)dataFromPlist:(nonnull id)plist {
-    NSError *error = nil;
-    NSData *data = [NSPropertyListSerialization dataWithPropertyList:plist
-                                                              format:NSPropertyListXMLFormat_v1_0
-                                                             options:0
-                                                               error:&error];
-    if (error) {
-        SEGLog(@"Unable to serialize data from plist object", error, plist);
-    }
-    return data;
-}
-
-- (id _Nullable)plistFromData:(NSData * _Nonnull)data {
-    NSError *error = nil;
-    id plist = [NSPropertyListSerialization propertyListWithData:data
-                                                         options:0
-                                                          format:nil
-                                                           error:&error];
-    if (error) {
-        SEGLog(@"Unable to parse plist from data %@", error);
-    }
-    return plist;
 }
 
 - (void)createDirectoryAtURLIfNeeded:(NSURL *)url {

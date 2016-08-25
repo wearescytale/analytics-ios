@@ -170,20 +170,29 @@ void SEGLog(NSString *format, ...) {
     return results;
 }
 
-@end
 
-NSURL *SEGAnalyticsURLForFilename(NSString *filename) {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *supportPath = [paths firstObject];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:supportPath
-                                              isDirectory:NULL]) {
-        NSError *error = nil;
-        if (![[NSFileManager defaultManager] createDirectoryAtPath:supportPath
-                                       withIntermediateDirectories:YES
-                                                        attributes:nil
-                                                             error:&error]) {
-            SEGLog(@"error: %@", error.localizedDescription);
-        }
++ (NSData * _Nullable)dataFromPlist:(nonnull id)plist {
+    NSError *error = nil;
+    NSData *data = [NSPropertyListSerialization dataWithPropertyList:plist
+                                                              format:NSPropertyListXMLFormat_v1_0
+                                                             options:0
+                                                               error:&error];
+    if (error) {
+        SEGLog(@"Unable to serialize data from plist object", error, plist);
     }
-    return [[NSURL alloc] initFileURLWithPath:[supportPath stringByAppendingPathComponent:filename]];
+    return data;
 }
+
++ (id _Nullable)plistFromData:(NSData * _Nonnull)data {
+    NSError *error = nil;
+    id plist = [NSPropertyListSerialization propertyListWithData:data
+                                                         options:0
+                                                          format:nil
+                                                           error:&error];
+    if (error) {
+        SEGLog(@"Unable to parse plist from data %@", error);
+    }
+    return plist;
+}
+
+@end

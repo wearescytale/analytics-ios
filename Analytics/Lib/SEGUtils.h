@@ -26,8 +26,9 @@ extern void SEGLog(NSString * _Nonnull format, ...);
 
 + (NSString * _Nonnull)getDeviceModel;
 
++ (NSData * _Nullable)dataFromPlist:(nonnull id)plist;
++ (id _Nullable)plistFromData:(NSData * _Nonnull)data;
+
 @end
 
-
-NSURL * _Nonnull SEGAnalyticsURLForFilename(NSString * _Nonnull filename);
 

@@ -1,5 +1,5 @@
 //
-//  StorageTest.swift
+//  UserDefaultsStorageTest.swift
 //  Analytics
 //
 //  Copyright © 2016 Segment. All rights reserved.
@@ -8,27 +8,14 @@
 import Quick
 import Nimble
 
-class StorageTest : QuickSpec {
+class UserDefaultsStorageTest : QuickSpec {
   override func spec() {
-    var storage : SEGFileStorage!
+    var storage : SEGUserDefaultsStorage!
     beforeEach {
-      let url = SEGFileStorage.applicationSupportDirectoryURL()
-      expect(url).toNot(beNil())
-      expect(url?.lastPathComponent) == "Application Support"
-      storage = SEGFileStorage(folder: url!, crypto: nil)
-    }
-    
-    it("creates folder if none exists") {
-      let tempDir = NSURL(fileURLWithPath: NSTemporaryDirectory())
-      let url = tempDir.URLByAppendingPathComponent(NSUUID().UUIDString)
-      expect(url.checkResourceIsReachableAndReturnError(nil)) == false
-      _ = SEGFileStorage(folder: url, crypto: nil)
-      
-      var isDir: ObjCBool = false
-      let exists = NSFileManager.defaultManager().fileExistsAtPath(url.path!, isDirectory: &isDir)
-      
-      expect(exists) == true
-      expect(Bool(isDir)) == true
+//      let crypto = SEGAES256Crypto(password: "thetrees")
+//      storage = SEGUserDefaultsStorage(defaults: NSUserDefaults.standardUserDefaults(), namespacePrefix: "segment", crypto: crypto)
+//      storage = SEGUserDefaultsStorage(defaults: NSUserDefaults.standardUserDefaults(), namespacePrefix: nil, crypto: crypto)
+      storage = SEGUserDefaultsStorage(defaults: NSUserDefaults.standardUserDefaults(), namespacePrefix: nil, crypto: nil)
     }
     
     it("persists and loads data") {
@@ -77,32 +64,25 @@ class StorageTest : QuickSpec {
       expect(storage.dictionaryForKey("cityMap")).to(beNil())
     }
     
-    it("saves file to disk and removes from disk") {
-      let key = "input.txt"
-      let url = storage.urlForKey(key)
-      expect(url.checkResourceIsReachableAndReturnError(nil)) == false
-      storage.setString("sloth", forKey: key)
-      expect(url.checkResourceIsReachableAndReturnError(nil)) == true
-      storage.removeKey(key)
-      expect(url.checkResourceIsReachableAndReturnError(nil)) == false
-    }
-    
-    it("should be binary compatible with old SDKs") {
-      let key = "traits.plist"
-      let dictIn = [
+    it("should work with crypto") {
+      let crypto = SEGAES256Crypto(password: "thetrees")
+      let s = SEGUserDefaultsStorage(defaults: NSUserDefaults.standardUserDefaults(), namespacePrefix: nil, crypto: crypto)
+      let dict = [
         "san francisco": "tech",
         "new york": "finance",
         "paris": "fashion",
       ]
-      (dictIn as NSDictionary).writeToURL(storage.urlForKey(key), atomically: true)
-      let dictOut = storage.dictionaryForKey(key)
-      expect(dictOut as? [String: String]) == dictIn
+      s.setDictionary(dict, forKey: "cityMap")
+      expect(s.dictionaryForKey("cityMap") as? Dictionary<String, String>) == dict
+      
+      s.removeKey("cityMap")
+      expect(s.dictionaryForKey("cityMap")).to(beNil())
     }
     
-    it("should work with crypto") {
-      let url = SEGFileStorage.applicationSupportDirectoryURL()
+    
+    it("should work with namespace") {
       let crypto = SEGAES256Crypto(password: "thetrees")
-      let s = SEGFileStorage(folder: url!, crypto: crypto)
+      let s = SEGUserDefaultsStorage(defaults: NSUserDefaults.standardUserDefaults(), namespacePrefix: "segment", crypto: crypto)
       let dict = [
         "san francisco": "tech",
         "new york": "finance",
