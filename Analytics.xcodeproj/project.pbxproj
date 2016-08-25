@@ -76,6 +76,7 @@
 		EAE98A7C1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */; };
 		EAE98A7D1D6E4BA4005DE5EC /* SEGAES256Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */; };
 		EAE98A7F1D6E51EC005DE5EC /* StorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */; };
+		EAE98A821D6E7449005DE5EC /* CryptoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE98A811D6E7449005DE5EC /* CryptoTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,6 +169,8 @@
 		EAE98A791D6E4BA4005DE5EC /* SEGAES256Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEGAES256Crypto.h; sourceTree = "<group>"; };
 		EAE98A7A1D6E4BA4005DE5EC /* SEGAES256Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEGAES256Crypto.m; sourceTree = "<group>"; };
 		EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageTest.swift; sourceTree = "<group>"; };
+		EAE98A801D6E6E44005DE5EC /* Analytics.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Analytics.podspec; sourceTree = "<group>"; };
+		EAE98A811D6E7449005DE5EC /* CryptoTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +226,7 @@
 				EA5DF2C31D266580008E68FA /* NetworkTest.swift */,
 				EA9708411D27298700A1D38C /* TransporterTest.swift */,
 				EAE98A7E1D6E51EC005DE5EC /* StorageTest.swift */,
+				EAE98A811D6E7449005DE5EC /* CryptoTest.swift */,
 				EA6DC7541D3374A400422E5A /* CoreTest.swift */,
 				EA5DF2C51D266580008E68FA /* TestUtils.swift */,
 				EA04DE1F1D25DA2500DB4B89 /* AnalyticsTest-Bridging-Header.h */,
@@ -331,6 +335,7 @@
 				EAB16EE91D15D50C001221B5 /* Products */,
 				BF411D1358C415361FA58C93 /* Pods */,
 				821E9517A5D6A7AEFD50DB78 /* Frameworks */,
+				EAE98A801D6E6E44005DE5EC /* Analytics.podspec */,
 			);
 			sourceTree = "<group>";
 		};
@@ -537,6 +542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAE98A821D6E7449005DE5EC /* CryptoTest.swift in Sources */,
 				EA5DF2C61D266580008E68FA /* IntegrationsTest.swift in Sources */,
 				EAE98A7F1D6E51EC005DE5EC /* StorageTest.swift in Sources */,
 				EA5DF2CA1D266580008E68FA /* TestUtils.swift in Sources */,

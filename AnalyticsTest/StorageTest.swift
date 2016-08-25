@@ -2,7 +2,6 @@
 //  StorageTest.swift
 //  Analytics
 //
-//  Created by Tony Xiao on 8/24/16.
 //  Copyright © 2016 Segment. All rights reserved.
 //
 
