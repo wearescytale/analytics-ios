@@ -88,6 +88,18 @@ class StorageTest : QuickSpec {
       expect(url.checkResourceIsReachableAndReturnError(nil)) == false
     }
     
+    it("should be binary compatible with old SDKs") {
+      let key = "traits.plist"
+      let dictIn = [
+        "san francisco": "tech",
+        "new york": "finance",
+        "paris": "fashion",
+      ]
+      (dictIn as NSDictionary).writeToURL(storage.urlForKey(key), atomically: true)
+      let dictOut = storage.dictionaryForKey(key)
+      expect(dictOut as? [String: String]) == dictIn
+    }
+    
     afterEach {
       storage.resetAll()
     }
