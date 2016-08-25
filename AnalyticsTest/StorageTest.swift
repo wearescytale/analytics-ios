@@ -99,6 +99,22 @@ class StorageTest : QuickSpec {
       expect(dictOut as? [String: String]) == dictIn
     }
     
+    it("should work with crypto") {
+      let url = SEGFileStorage.applicationSupportDirectoryURL()
+      let crypto = SEGAES256Crypto(password: "thetrees")
+      let s = SEGFileStorage(folder: url!, crypto: crypto)
+      let dict = [
+        "san francisco": "tech",
+        "new york": "finance",
+        "paris": "fashion",
+      ]
+      s.setDictionary(dict, forKey: "cityMap")
+      expect(s.dictionaryForKey("cityMap") as? Dictionary<String, String>) == dict
+      
+      s.removeKey("cityMap")
+      expect(s.dictionaryForKey("cityMap")).to(beNil())
+    }
+    
     afterEach {
       storage.resetAll()
     }
