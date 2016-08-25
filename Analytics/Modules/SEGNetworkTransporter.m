@@ -19,6 +19,8 @@ NSString *const SEGSegmentDidSendRequestNotification = @"SegmentDidSendRequest";
 NSString *const SEGSegmentRequestDidSucceedNotification = @"SegmentRequestDidSucceed";
 NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
+NSString *const kSEGCacheFilename = @"segment.transporter.queue.plist";
+
 @interface SEGNetworkTransporter ()
 
 @property (nonnull, nonatomic, strong) NSMutableArray *queue;
@@ -32,15 +34,16 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 @implementation SEGNetworkTransporter
 
-- (instancetype)initWithWriteKey:(NSString *)writeKey flushAfter:(NSTimeInterval)flushAfter {
+- (instancetype)initWithWriteKey:(NSString *)writeKey flushAfter:(NSTimeInterval)flushAfter storage:(id<SEGStorage>)storage {
     if (self = [super init]) {
         _apiURL = [NSURL URLWithString:@"https://api.segment.io/v1/batch"];
         _writeKey = writeKey;
         _flushAt = 20;
+        _storage = storage;
         _batchSize = 100;
         _flushTimer = [NSTimer scheduledTimerWithTimeInterval:flushAfter target:self
                                                      selector:@selector(flushInBackground) userInfo:nil repeats:YES];
-        _queue = [NSMutableArray arrayWithContentsOfURL:self.cacheURL] ?: [[NSMutableArray alloc] init];
+        _queue = [[storage arrayForKey:kSEGCacheFilename] ?: @[] mutableCopy];
         _backgroundFlushTaskID = UIBackgroundTaskInvalid;
         _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.transporter"];
         _writeToDiskSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_DATA_ADD, 0, 0, _dispatchQueue.queue);
@@ -67,14 +70,10 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSURL *)cacheURL {
-    return [SEGUtils urlForName:@"segment.transporter.queue" writeKey:self.writeKey extension:@"plist"];
-}
-
 - (void)writeToDisk {
     SEGLog(@"Will Write to Disk and Flush queueLength=%ld", self.queue.count);
     @try {
-        [[self.queue copy] writeToURL:self.cacheURL atomically:YES];
+        [self.storage setArray:[self.queue copy] forKey:kSEGCacheFilename];
     } @catch (NSException *exception) {
         SEGLog(@"%@ Error writing payload: %@", self, exception);
     }
@@ -168,7 +167,7 @@ NSString *const SEGSegmentRequestDidFailNotification = @"SegmentRequestDidFail";
 
 - (void)reset {
     [self.dispatchQueue sync:^{
-        [[NSFileManager defaultManager] removeItemAtURL:self.cacheURL error:NULL];
+        [self.storage removeKey:kSEGCacheFilename];
         self.queue = [NSMutableArray array];
         self.request.completion = nil;
         self.request = nil;

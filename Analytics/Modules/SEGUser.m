@@ -13,11 +13,16 @@
 NSString *const SEGUserIdKey = @"SEGUserId";
 NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 
+NSString *const kSEGAnonymousIdFilename = @"segment.anonymousId";
+NSString *const kSEGUserIdFilename = @"segmentio.userId";
+NSString *const kSEGTraitsFilename = @"segmentio.traits.plist";
+
 @interface SEGUser ()
 
 @property (nonatomic, strong) NSMutableDictionary *traits;
 @property (nonatomic, strong) NSUserDefaults *ud;
 @property (nonatomic, strong) NSFileManager *fm;
+@property (nonnull, nonatomic, readonly) id<SEGStorage>storage;
 
 @end
 
@@ -26,18 +31,9 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     NSString *_userId;
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _ud = [NSUserDefaults standardUserDefaults];
-        _fm = [NSFileManager defaultManager];
-    }
-    return self;
-}
-
 - (NSString *)anonymousId {
     if (!_anonymousId) {
-        _anonymousId = [self.ud valueForKey:SEGAnonymousIdKey]
-            ?: [[NSString alloc] initWithContentsOfURL:self.anonymousIDURL encoding:NSUTF8StringEncoding error:NULL];
+        _anonymousId = [self.ud valueForKey:SEGAnonymousIdKey] ?: [self.storage stringForKey:kSEGAnonymousIdFilename];
     }
     if (!_anonymousId) {
         // We've chosen to generate a UUID rather than use the UDID (deprecated in iOS 5),
@@ -52,51 +48,46 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
 - (void)setAnonymousId:(NSString *)anonymousId {
     _anonymousId = anonymousId;
     [self.ud setValue:anonymousId forKey:SEGAnonymousIdKey];
-    [anonymousId writeToURL:self.anonymousIDURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+    [self.storage setString:anonymousId forKey:kSEGAnonymousIdFilename];
 }
 
 - (NSString *)userId {
     if (!_userId) {
-        _userId =  [self.ud valueForKey:SEGUserIdKey]
-            ?: [[NSString alloc] initWithContentsOfURL:self.userIDURL encoding:NSUTF8StringEncoding error:NULL];
+        _userId =  [self.ud valueForKey:SEGUserIdKey] ?: [self.storage stringForKey:kSEGUserIdFilename];
     }
     return _userId;
 }
 
 - (void)setUserId:(NSString *)userId {
     _userId = userId;
-    [userId writeToURL:self.userIDURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+    [self.ud setValue:userId forKey:SEGUserIdKey];
+    [self.storage setString:userId forKey:kSEGUserIdFilename];
 }
 
 - (NSMutableDictionary *)traits {
     if (!_traits) {
-        _traits = [NSMutableDictionary dictionaryWithContentsOfURL:self.traitsURL] ?: [[NSMutableDictionary alloc] init];
+        _traits = [[self.storage dictionaryForKey:kSEGTraitsFilename] mutableCopy];
     }
     return _traits;
-}
-
-#pragma mark -
-
-- (NSURL *)userIDURL {
-    return SEGAnalyticsURLForFilename(@"segmentio.userId");
-}
-
-- (NSURL *)anonymousIDURL {
-    return SEGAnalyticsURLForFilename(@"segment.anonymousId");
-}
-
-- (NSURL *)traitsURL {
-    return SEGAnalyticsURLForFilename(@"segmentio.traits.plist");
 }
 
 @end
 
 @implementation SEGUser (Internal)
 
+- (instancetype)initWithStorage:(id<SEGStorage>)storage {
+    if (self = [super init]) {
+        _ud = [NSUserDefaults standardUserDefaults];
+        _fm = [NSFileManager defaultManager];
+        _storage = storage;
+    }
+    return self;
+}
+
 - (void)addTraits:(NSDictionary *)traits {
     // Better way around the compiler check here?
     [(NSMutableDictionary *)self.traits addEntriesFromDictionary:traits];
-    [[self.traits copy] writeToURL:self.traitsURL atomically:YES];
+    [self.storage setDictionary:[self.traits copy] forKey:@"segmentio.traits.plist"];
 }
 
 - (void)reset {
@@ -105,9 +96,9 @@ NSString *const SEGAnonymousIdKey = @"SEGAnonymousId";
     self.traits = nil;
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:SEGUserIdKey];
     [[NSUserDefaults standardUserDefaults] setValue:nil forKey:SEGAnonymousIdKey];
-    [[NSFileManager defaultManager] removeItemAtURL:self.userIDURL error:NULL];
-    [[NSFileManager defaultManager] removeItemAtURL:self.anonymousIDURL error:NULL];
-    [[NSFileManager defaultManager] removeItemAtURL:self.traitsURL error:NULL];
+    [self.storage removeKey:kSEGAnonymousIdFilename];
+    [self.storage removeKey:kSEGUserIdFilename];
+    [self.storage removeKey:kSEGTraitsFilename];
     
     // TODO: Is generation of new ID actually desired?
     self.anonymousId = [SEGUtils generateUUIDString];

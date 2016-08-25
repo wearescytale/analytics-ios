@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong, nullable) id<SEGCrypto> crypto;
 
+- (instancetype _Nonnull)init;
 - (instancetype _Nonnull)initWithFolder:(NSURL * _Nonnull)folderURL crypto:(id<SEGCrypto> _Nullable)crypto;
 
 - (NSURL * _Nonnull)urlForKey:(NSString * _Nonnull)key;

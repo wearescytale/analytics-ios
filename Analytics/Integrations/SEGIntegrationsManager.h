@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SEGIntegration.h"
+#import "SEGStorage.h"
 
 @class SEGAnalytics;
 

@@ -7,8 +7,11 @@
 //
 
 #import "SEGUser.h"
+#import "SEGStorage.h"
 
 @interface SEGUser (Internal)
+
+- (instancetype)initWithStorage:(id<SEGStorage>)storage;
 
 - (void)addTraits:(NSDictionary *)traits;
 - (void)reset;

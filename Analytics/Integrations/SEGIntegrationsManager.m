@@ -16,6 +16,8 @@
 #import "SEGDispatchQueue.h"
 #import "SEGIntegrationsManager.h"
 
+NSString *const kSEGSettingsFilename = @"analytics.settings.v2.plist";
+
 @interface SEGIntegrationsManager ()
 
 @property (nonatomic, strong) NSDictionary *cachedSettings;
@@ -59,25 +61,20 @@ typedef void (^IntegrationBlock)(NSString * _Nonnull key, id<SEGIntegration> _No
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSURL *)settingsURL {
-    return SEGAnalyticsURLForFilename(@"analytics.settings.v2.plist");
-}
-
-
 - (NSDictionary *)cachedSettings {
     if (!_cachedSettings)
-        _cachedSettings = [[NSDictionary alloc] initWithContentsOfURL:[self settingsURL]] ?: @{};
+        _cachedSettings = [self.analytics.storage dictionaryForKey:kSEGSettingsFilename] ?: @{};
     return _cachedSettings;
 }
 
 - (void)setCachedSettings:(NSDictionary *)settings {
     _cachedSettings = [settings copy];
-    NSURL *settingsURL = [self settingsURL];
     if (!_cachedSettings) {
+        // TODO: Why is this following line there?
         // [@{} writeToURL:settingsURL atomically:YES];
         return;
     }
-    [_cachedSettings writeToURL:settingsURL atomically:YES];
+    [self.analytics.storage setDictionary:_cachedSettings forKey:kSEGSettingsFilename];
     
     static dispatch_once_t once;
     dispatch_once(&once, ^{

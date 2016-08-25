@@ -16,6 +16,10 @@
 
 @implementation SEGFileStorage
 
+- (instancetype)init {
+    return [self initWithFolder:[SEGFileStorage applicationSupportDirectoryURL] crypto:nil];
+}
+
 - (instancetype)initWithFolder:(NSURL *)folderURL crypto:(id<SEGCrypto>)crypto {
     if (self = [super init]) {
         _folderURL = folderURL;

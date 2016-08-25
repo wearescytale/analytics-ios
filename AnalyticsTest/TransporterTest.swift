@@ -13,8 +13,10 @@ import Mockingjay
 class TransporterTest : QuickSpec {
   override func spec() {
     var transporter : SEGNetworkTransporter!
+    var storage : SEGFileStorage!
     beforeEach {
-      transporter = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 30)
+      storage = SEGFileStorage()
+      transporter = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 30, storage: storage)
     }
     afterEach { 
       transporter.reset()
@@ -60,15 +62,16 @@ class TransporterTest : QuickSpec {
         flushed = http(.POST, uri: "https://api.segment.io/v1/batch")(request: req)
         return flushed
         }, builder: http(200))
-      transporter = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 0.5)
+      transporter = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 0.5, storage: SEGFileStorage())
       transporter.queuePayload(["My Payload": "123"])
       expect(flushed).toEventually(beTrue())
     }
     it("persists queue to and load from disk") {
-      expect(transporter.cacheURL.checkResourceIsReachableAndReturnError(nil)) == false
+      let cacheURL = storage.urlForKey(kSEGCacheFilename)
+      expect(cacheURL.checkResourceIsReachableAndReturnError(nil)) == false
       transporter.queuePayload(["Hi": "There"])
-      expect(transporter.cacheURL.checkResourceIsReachableAndReturnError(nil)).toEventually(beTrue())
-      let transporter2 = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 30)
+      expect(cacheURL.checkResourceIsReachableAndReturnError(nil)).toEventually(beTrue())
+      let transporter2 = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 30, storage: storage)
       expect(transporter2.queue) == [["Hi": "There"]]
     }
     it("reset clears queue") {
@@ -76,7 +79,7 @@ class TransporterTest : QuickSpec {
       expect(transporter.queue).toEventually(equal([["Hello": "World"]]))
       transporter.reset()
       expect(transporter.queue) == []
-      let transporter2 = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 30)
+      let transporter2 = SEGNetworkTransporter(writeKey: SegmentWriteKey, flushAfter: 30, storage: SEGFileStorage())
       expect(transporter2.queue) == []
     }
   }

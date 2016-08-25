@@ -10,6 +10,9 @@
 #import "SEGLifecycleTracker.h"
 #import "SEGUtils.h"
 #import "SEGAnalytics.h"
+#import "SEGStorage.h"
+#import "SEGCrypto.h"
+#import "SEGFileStorage.h"
 #import "Analytics.h"
 
 NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.did.start";
@@ -38,9 +41,12 @@ NSString *SEGAnalyticsIntegrationDidStart = @"io.segment.analytics.integration.d
         _enabled = YES;
         _configuration = configuration;
         _dispatchQueue = [[SEGDispatchQueue alloc] initWithLabel:@"com.segment.analytics"];
+        NSURL *namespacedFolder = [[SEGFileStorage applicationSupportDirectoryURL]
+                                   URLByAppendingPathComponent:configuration.writeKey];
+        _storage = [[SEGFileStorage alloc] initWithFolder:namespacedFolder crypto:nil];
         _ctx = [[SEGContext alloc] initWithConfiguration:_configuration];
         _user = [[SEGUser alloc] init];
-        _transporter = [[SEGNetworkTransporter alloc] initWithWriteKey:configuration.writeKey flushAfter:30];
+        _transporter = [[SEGNetworkTransporter alloc] initWithWriteKey:configuration.writeKey flushAfter:30 storage:_storage];
         // TODO: Not fully initialized yet
         _integrations = [[SEGIntegrationsManager alloc] initWithAnalytics:self];
         _lifecycle = [[SEGLifecycleTracker alloc] initWithAnalytics:self];
