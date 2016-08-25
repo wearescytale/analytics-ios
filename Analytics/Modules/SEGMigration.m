@@ -16,7 +16,7 @@ NSString *const SEGTraitsKey = @"SEGTraits";
 + (void)migrateToLatest {
     // TODO: Migrate non-writekey-namespaced file path to namespaced ones
     // TODO: Migrate potentially unencrypted files to encrypted ones
-//    return SEGAnalyticsURLForFilename(@"segmentio.queue.plist");
+//    TODO: @"segmentio.queue.plist" -> @"segment.transporter.queue.plist";
     // Check for previous queue/track data in NSUserDefaults and remove if present
     if ([[NSUserDefaults standardUserDefaults] objectForKey:SEGQueueKey]) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:SEGQueueKey];

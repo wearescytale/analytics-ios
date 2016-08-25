@@ -54,6 +54,12 @@
     } else {
         [data writeToURL:url atomically:YES];
     }
+    NSError *error = nil;
+    if (![url setResourceValue:@YES
+                        forKey:NSURLIsExcludedFromBackupKey
+                         error:&error]) {
+        SEGLog(@"Error excluding %@ from backup %@", [url lastPathComponent], error);
+    }
 }
 
 - (NSData *)dataForKey:(NSString *)key {
