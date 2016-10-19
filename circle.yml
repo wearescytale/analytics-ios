@@ -8,10 +8,8 @@ dependencies:
     - sudo gem install xcpretty
     # TODO: only install cocoapods if the right version is not found
     - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
-    # - pod repo remove master
-    - git clone https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master
-    - pod setup --verbose:
-        timeout: 3600
+    - if cd ~/.cocoapods/repos/master; then git pull; else git clone https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master; fi
+    - pod setup --verbose
   override:
     - cd Example && pod install --verbose
   cache_directories:
