@@ -18,9 +18,12 @@ dependencies:
 
 test:
   override:
-    - make build-pretty test-pretty lint carthage
+    - make build-pretty
+    - make test-pretty
+    - make lint 
+    - make carthage
   post:
-    - mv build/reports $CIRCLE_TEST_REPORTS/xcode
+    # - mv build/reports $CIRCLE_TEST_REPORTS/xcode # TODO: Turn me back on
     - bash <(curl -s https://codecov.io/bash)
 
 # from .travis.yml
