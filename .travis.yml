@@ -3,7 +3,11 @@ language: objective-c
 osx_image: xcode8
 
 before_install:
-  - make bootstrap
+  - brew install xctool
+  - sudo gem install xcpretty
+  - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
+  - pod setup
+  - cd Example && pod install --verbose
 
 script:
   - make build-pretty test-pretty lint carthage

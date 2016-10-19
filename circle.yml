@@ -4,12 +4,13 @@ machine:
 
 dependencies:
   pre:
+    - brew install xctool
+    - sudo gem install xcpretty
     # TODO: only install cocoapods if the right version is not found
     - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
-    - sudo gem install xcpretty
-    - brew install xctool
+    - pod setup
   override:
-    - cd Example && pod install
+    - cd Example && pod install --verbose
   cache_directories:
     - Example/Pods
 
