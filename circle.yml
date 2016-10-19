@@ -3,14 +3,14 @@ machine:
     version: "8.0"
 
 dependencies:
-  pre:
-    - brew install xctool
-    - sudo gem install xcpretty
+  # pre:
+    # - brew install xctool
+    # - sudo gem install xcpretty
     # TODO: only install cocoapods if the right version is not found
-    - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
-    - pod repo remove master
-    - git clone https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master
-    - pod setup --verbose
+    # - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
+    # - pod repo remove master
+    # - git clone https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master
+    # - pod setup --verbose
   override:
     - cd Example && pod install --verbose
   cache_directories:
