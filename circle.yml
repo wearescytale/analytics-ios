@@ -1,0 +1,44 @@
+machine:
+  xcode:
+    version: "7.3.1"
+
+dependencies:
+  pre:
+    - brew install xctool
+    - sudo gem install xcpretty
+    # TODO: only install cocoapods if the right version is not found
+    - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
+    - if cd ~/.cocoapods/repos/master; then git pull; else git clone https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master; fi
+    - pod setup --verbose
+  override:
+    - cd Example && pod install --verbose
+  cache_directories:
+    - Example/Pods
+    - ~/.cocoapods
+
+test:
+  override:
+    - make build-pretty
+    - make test-pretty
+    - make lint 
+    - make carthage
+  post:
+    # - mv build/reports $CIRCLE_TEST_REPORTS/xcode # TODO: Turn me back on
+    - bash <(curl -s https://codecov.io/bash)
+
+# from .travis.yml
+# before_deploy:
+#   - make archive
+
+# deploy:
+#   provider: releases
+#   api_key:
+#     secure: Y/9IQgi3FaZv4Ev/TmJWR1kWsW6fy5r0I6XtiC9z++wuw+y1C1iiaMIdXHA1YP9oOuSCUv3vpRdak5CltumRR++65ufNq6y3LdsywNPVGBkaSYJLmf4eBIDMBZvy3qFoGjBKyQunErAQwIsnFsk6VZ1KM6vRWqjwXkcqLGuJoUE=
+#   file: Analytics.framework.zip
+#   skip_cleanup: true
+#   on:
+#     repo: segmentio/analytics-ios
+#     tags: true
+
+# notifications:
+#   email: false
