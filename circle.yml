@@ -3,14 +3,15 @@ machine:
     version: "8.0"
 
 dependencies:
-  # pre:
-  #   # TODO: only install cocoapods if the right version is not found
-  #   - sudo gem install cocoapods -v $(var=$(tail -1 Podfile.lock); echo ${var##COCOAPODS:})
-  #   - sudo gem install xcpretty
+  pre:
+    # TODO: only install cocoapods if the right version is not found
+    - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
+    - sudo gem install xcpretty
+    - brew install xctool
   override:
-    - make bootstrap
+    - cd Example && pod install
   cache_directories:
-    - Pods
+    - Example/Pods
 
 test:
   override:
