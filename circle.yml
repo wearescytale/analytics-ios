@@ -10,7 +10,8 @@ dependencies:
     - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
     - pod repo remove master
     - git clone https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master
-    - pod setup --verbose
+    - pod setup --verbose:
+        timeout: 3600
   override:
     - cd Example && pod install --verbose
   cache_directories:
