@@ -1,5 +1,5 @@
 SDK ?= "iphonesimulator"
-DESTINATION ?= "platform=iOS Simulator,name=iPhone 6"
+DESTINATION ?= "platform=iOS Simulator,OS=9.0,name=iPhone 6"
 PROJECT := Analytics
 XC_ARGS := -scheme $(PROJECT)-Example -workspace Example/$(PROJECT).xcworkspace -sdk $(SDK) -destination $(DESTINATION) ONLY_ACTIVE_ARCH=NO
 
