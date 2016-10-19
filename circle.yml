@@ -8,7 +8,7 @@ dependencies:
     - sudo gem install xcpretty
     # TODO: only install cocoapods if the right version is not found
     - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
-    - pod setup
+    - pod setup --verbose
   override:
     - cd Example && pod install --verbose
   cache_directories:

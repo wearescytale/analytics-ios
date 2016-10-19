@@ -6,7 +6,7 @@ before_install:
   - brew install xctool
   - sudo gem install xcpretty
   - sudo gem install cocoapods -v $(var=$(tail -1 Example/Podfile.lock); echo ${var##COCOAPODS:})
-  - pod setup
+  - pod setup --verbose
   - cd Example && pod install --verbose
 
 script:
