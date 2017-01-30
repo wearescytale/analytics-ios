@@ -16,8 +16,7 @@ coverage:
         threshold: 5
     patch:
       default:
-        target: auto
-        threshold: 5
+        enabled: false
     changes: false
 
 comment:
