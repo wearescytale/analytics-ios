@@ -10,7 +10,6 @@
 #import "SEGAnalyticsUtils.h"
 #import "SEGAnalyticsRequest.h"
 #import "SEGSegmentIntegration.h"
-#import "SEGBluetooth.h"
 #import "SEGReachability.h"
 #import "SEGLocation.h"
 #import <iAd/iAd.h>
@@ -64,7 +63,6 @@ static BOOL GetAdTrackingEnabled()
 @property (nonatomic, strong) NSArray *batch;
 @property (nonatomic, strong) SEGAnalyticsRequest *request;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier flushTaskID;
-@property (nonatomic, strong) SEGBluetooth *bluetooth;
 @property (nonatomic, strong) SEGReachability *reachability;
 @property (nonatomic, strong) SEGLocation *location;
 @property (nonatomic, strong) NSTimer *flushTimer;
@@ -85,7 +83,6 @@ static BOOL GetAdTrackingEnabled()
         self.apiURL = [NSURL URLWithString:@"https://api.segment.io/v1/import"];
         self.anonymousId = [self getAnonymousId:NO];
         self.userId = [self getUserId];
-        self.bluetooth = [[SEGBluetooth alloc] init];
         self.reachability = [SEGReachability reachabilityWithHostname:@"google.com"];
         [self.reachability startNotifier];
         self.context = [self staticContext];
@@ -187,9 +184,6 @@ static BOOL GetAdTrackingEnabled()
 
     context[@"network"] = ({
         NSMutableDictionary *network = [[NSMutableDictionary alloc] init];
-
-        if (self.bluetooth.hasKnownState)
-            network[@"bluetooth"] = @(self.bluetooth.isEnabled);
 
         if (self.reachability.isReachable) {
             network[@"wifi"] = @(self.reachability.isReachableViaWiFi);

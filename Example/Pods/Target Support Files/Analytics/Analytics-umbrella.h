@@ -10,7 +10,6 @@
 #import "SEGTrackPayload.h"
 #import "SEGAnalyticsRequest.h"
 #import "SEGAnalyticsUtils.h"
-#import "SEGBluetooth.h"
 #import "SEGLocation.h"
 #import "SEGReachability.h"
 #import "SEGSegmentIntegration.h"
